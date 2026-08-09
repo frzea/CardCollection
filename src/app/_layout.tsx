@@ -1,9 +1,12 @@
-import { Tabs } from "expo-router";
+import { ThemeProvider } from "@/providers/ThemProvider";
+import { Stack } from "expo-router";
 
-export default function TabLayout() {
+export default function RootLayout() {
   return (
-    <Tabs>
-      <Tabs.Screen name="index" />
-    </Tabs>
+    <ThemeProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </ThemeProvider>
   );
 }
