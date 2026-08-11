@@ -10,7 +10,10 @@ export const colors = {
     iconColor: "#9591a5",
     iconColorFocused: "#fd4944",
     uiBackground: "#2f2b3d",
-    tabBar: "#1e1e1e",
+    searchInput: {
+      background: "#1e1e1e",
+      text: "#f2f3ed",
+    },
   },
   light: {
     text: "#625f72",
@@ -20,7 +23,10 @@ export const colors = {
     iconColor: "#686477",
     iconColorFocused: "#fd4944",
     uiBackground: "#d6d5e1",
-    tabBar: "#1e1e1e",
+    searchInput: {
+      background: "#d6d5e1",
+      text: "#201e2b",
+    },
   },
 } as const;
 

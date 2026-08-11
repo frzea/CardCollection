@@ -1,4 +1,11 @@
-export { colors, params, spacing, type Params } from "./theme";
-
-export { createStyles } from "./styles/search-page";
+export {
+    colors,
+    fontSize,
+    fontWeight,
+    gaps,
+    params,
+    radius,
+    spacing,
+    type Params
+} from "./theme";
 

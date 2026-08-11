@@ -16,7 +16,7 @@ export default function TabLayout() {
           },
           headerTintColor: theme.title,
           tabBarStyle: {
-            backgroundColor: theme.tabBar,
+            backgroundColor: theme.uiBackground,
           },
           tabBarActiveTintColor: theme.iconColorFocused,
           tabBarInactiveTintColor: theme.iconColor,

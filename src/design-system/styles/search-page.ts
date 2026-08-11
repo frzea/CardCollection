@@ -1,3 +1,4 @@
+import { fontSize, gaps, spacing } from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 
@@ -8,12 +9,12 @@ export const createStyles = (theme: Theme) =>
       backgroundColor: theme.background,
     },
     content: {
-      paddingHorizontal: 10,
-      paddingTop: 20,
-      gap: 10,
+      paddingHorizontal: spacing.md,
+      paddingTop: spacing.xl,
+      gap: gaps.xm,
     },
     text: {
       color: theme.text,
-      fontSize: 32,
+      fontSize: fontSize.fab,
     },
   });
