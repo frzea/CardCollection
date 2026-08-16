@@ -1,27 +1,50 @@
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
+import { useRouter } from "expo-router";
 
 import { useAnimeList } from "@/hooks/useAnimeList";
 import {
-    ActivityIndicator,
-    FlatList,
-    Image,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
-export function CardTitleList() {
+export function CardTitleList({ query }: { query: string }) {
   const { theme } = useTheme();
   const style = createStyles(theme);
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { anime, loading, error, refetch } = useAnimeList();
 
+  const filterData = anime.filter((item) => {
+    const title = (
+      item.title.english ||
+      item.title.english ||
+      ""
+    ).toLocaleLowerCase();
+    return title.includes(query.trim().toLocaleLowerCase());
+  });
+
   const renderCard = ({ item }: { item: TitleCardItem }) => (
-    <TouchableOpacity style={style.card} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={style.card}
+      activeOpacity={0.8}
+      onPress={() =>
+        router.push({
+          pathname: `/anime/[id]`,
+          params: {
+            id: item.id,
+            name: item.title.english || item.title.romaji,
+          },
+        })
+      }
+    >
       <Image source={{ uri: item.coverImage.large }} style={style.cover} />
       <View style={style.info}>
         <Text style={style.title} numberOfLines={2}>
@@ -64,7 +87,7 @@ export function CardTitleList() {
 
   return (
     <FlatList
-      data={anime}
+      data={filterData}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderCard}
       numColumns={2}

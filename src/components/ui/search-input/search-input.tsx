@@ -1,22 +1,20 @@
 import { fontSize } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import Feather from "@expo/vector-icons/Feather";
-import { useState } from "react";
 import { TextInput, View } from "react-native";
 import { createStyles } from "./styles";
 
-export function SearchInput() {
+type Props = {
+  value: string;
+  onChengeValue: (text: string) => void;
+};
+
+export function SearchInput({ value, onChengeValue }: Props) {
   const { theme } = useTheme();
-  const [serchInput, setSerchInput] = useState("");
   const styles = createStyles(theme);
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: theme.searchInput.background },
-      ]}
-    >
+    <View style={styles.container}>
       <Feather
         name="search"
         size={fontSize.lg}
@@ -24,9 +22,9 @@ export function SearchInput() {
         style={styles.icon}
       />
       <TextInput
-        style={[styles.input, { color: theme.searchInput.text }]}
-        value={serchInput}
-        onChangeText={setSerchInput}
+        style={styles.input}
+        value={value}
+        onChangeText={onChengeValue}
         placeholder="titles, manga, anime"
         placeholderTextColor={theme.iconColor}
         keyboardType="default"

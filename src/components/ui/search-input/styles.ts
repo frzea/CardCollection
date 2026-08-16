@@ -21,6 +21,6 @@ export const createStyles = (theme: Theme) =>
       flex: spacing.one,
       fontSize: fontSize.md,
       padding: spacing.zero,
-      color: theme.text,
+      color: theme.searchInput.text,
     },
   });

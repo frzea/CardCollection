@@ -1,13 +1,16 @@
-import { ANILIST_URL, POPULAR_ANIME_QUERY } from "./queries";
+import { ANILIST_URL } from "./queries";
 
-export async function fetchPopularAnime() {
+export async function aniFetch<T>(
+  query: string,
+  variables?: Record<string, unknown>,
+): Promise<T> {
   const response = await fetch(ANILIST_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({ query: POPULAR_ANIME_QUERY }),
+    body: JSON.stringify({ query, variables }),
   });
 
   const json = await response.json();
@@ -16,5 +19,5 @@ export async function fetchPopularAnime() {
     throw new Error(json.errors[0]?.message || "GraphQL error");
   }
 
-  return json.data.Page.media;
+  return json.data as T;
 }
