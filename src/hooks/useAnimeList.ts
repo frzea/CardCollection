@@ -1,13 +1,6 @@
 import { aniFetch } from "@/api/client";
-import { POPULAR_ANIME_QUERY } from "@/api/queries";
 import { TitleCardItem } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
-
-type apiType = {
-  Page: {
-    media: TitleCardItem[];
-  };
-};
 
 export function useAnimeList() {
   const [loading, setLoading] = useState(true);
@@ -17,9 +10,9 @@ export function useAnimeList() {
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await aniFetch<apiType>(POPULAR_ANIME_QUERY);
-      const media: TitleCardItem[] = data.Page.media;
-      setAnime(media);
+      const data = await aniFetch<TitleCardItem[]>();
+
+      setAnime(data);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");

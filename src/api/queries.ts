@@ -1,4 +1,4 @@
-const ANILIST_URL = "https://graphql.anilist.co";
+const ANILIST_URL = "http://localhost:3001";
 
 const POPULAR_ANIME_QUERY = `
 query {
@@ -20,29 +20,5 @@ query {
 }
 `;
 
-const MEDIA_WITH_SEASONS_QUERY = `
-  query ($id: Int) {
-    Media(id: $id) {
-      id
-      title { romaji english }
-      coverImage { large }
-      description
-      relations {
-        edges {
-          relationType
-          node {
-            id
-            title { romaji english }
-            coverImage { large }
-            episodes
-            seasonYear
-            format
-          }
-        }
-      }
-    }
-  }
-`;
-
-export { ANILIST_URL, MEDIA_WITH_SEASONS_QUERY, POPULAR_ANIME_QUERY };
+export { ANILIST_URL, POPULAR_ANIME_QUERY };
 

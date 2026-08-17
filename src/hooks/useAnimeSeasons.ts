@@ -1,5 +1,4 @@
 import { aniFetch } from "@/api/client";
-import { MEDIA_WITH_SEASONS_QUERY } from "@/api/queries";
 import { TitleCardItem } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 
@@ -11,9 +10,7 @@ export function useAnimeSeasons(id: string) {
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
-      const media = await aniFetch(MEDIA_WITH_SEASONS_QUERY, {
-        id: id,
-      });
+      const media = await aniFetch();
 
       console.log(media);
 
