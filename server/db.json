@@ -13,7 +13,24 @@
       "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
       "episodes": 25,
-      "seasons": []
+      "seasons": [
+        {
+          "animeId": 16498,
+          "seasonId": 1,
+          "title": "Attack on Titan",
+          "description": "",
+          "episodes": 25,
+          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+        },
+        {
+          "animeId": 16498,
+          "seasonId": 2,
+          "title": "Attack on Titan Season 2",
+          "description": "",
+          "episodes": 12,
+          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+        }
+      ]
     },
     {
       "id": 101922,
