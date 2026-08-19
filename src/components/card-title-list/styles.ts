@@ -1,9 +1,9 @@
 import {
-    colors,
-    fontSize,
-    fontWeight,
-    radius,
-    spacing,
+  colors,
+  fontSize,
+  fontWeight,
+  radius,
+  spacing,
 } from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
@@ -12,7 +12,7 @@ export const createStyles = (theme: Theme) =>
   StyleSheet.create({
     list: {
       padding: spacing.sm,
-      backgroundColor: theme.background,
+      backgroundColor: theme.headBackground,
     },
     row: {
       justifyContent: "space-between",
@@ -21,7 +21,7 @@ export const createStyles = (theme: Theme) =>
       width: "48%",
       backgroundColor: theme.background,
       borderRadius: radius.sm,
-      marginBottom: spacing.md,
+      marginBottom: spacing.xl,
       overflow: "hidden",
       elevation: spacing.xs, //тень для android
       shadowColor: theme.shadowColor,

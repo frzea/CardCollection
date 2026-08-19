@@ -6,12 +6,13 @@ export const colors = {
   dark: {
     text: "#f2f3ed",
     title: "#fff",
-    background: "#0b0b0b",
-    navBackground: "#201e2b",
+    background: "#242329",
+    navBackground: "#3f3f42",
     iconColor: "#bebaba",
     iconColorFocused: "#f01d16",
     uiBackground: "#2f2b3d",
     shadowColor: "#ffffff",
+    headBackground: "#242329",
     searchInput: {
       background: "#1e1e1e",
       text: "#f2f3ed",
@@ -26,6 +27,7 @@ export const colors = {
     iconColorFocused: "#f01d16",
     uiBackground: "#2f2b3d",
     shadowColor: "#000",
+    headBackground: "#e8e7ef",
     searchInput: {
       background: "#d6d5e1",
       text: "#201e2b",

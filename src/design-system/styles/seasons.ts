@@ -4,7 +4,12 @@ import { StyleSheet } from "react-native";
 
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
+    searcView: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
     content: {
+      flex: 1,
       paddingHorizontal: spacing.md,
       paddingTop: spacing.xl,
       gap: gaps.xm,

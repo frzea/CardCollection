@@ -12,7 +12,7 @@ export interface Seasons {
   seasonId: string;
   title: string;
   description: string;
-  episode: number;
+  episodes: string;
   image: string;
 }
 

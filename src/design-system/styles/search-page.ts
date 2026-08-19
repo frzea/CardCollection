@@ -6,7 +6,7 @@ export const createStyles = (theme: Theme) =>
   StyleSheet.create({
     searcView: {
       flex: 1,
-      backgroundColor: theme.background,
+      backgroundColor: theme.headBackground,
     },
     content: {
       paddingHorizontal: spacing.md,

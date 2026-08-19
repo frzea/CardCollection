@@ -1,3 +1,10 @@
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  radius,
+  spacing,
+} from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 
@@ -8,23 +15,44 @@ export const createStyles = (theme: Theme) =>
     },
     card: {
       flexDirection: "row",
-      backgroundColor: theme.background,
-
+      backgroundColor: theme.navBackground,
       overflow: "hidden",
-      height: 200,
+      height: 220,
+      padding: 10,
+      borderRadius: radius.sm,
     },
     cover: {
-      width: 150,
       height: "100%",
+      aspectRatio: 2 / 3,
     },
     info: {
       flex: 1,
-      justifyContent: "center",
+      justifyContent: "flex-start",
       paddingHorizontal: 12,
     },
     title: {
-      fontSize: 15,
+      fontSize: fontSize.base,
       fontWeight: "600",
       color: theme.text,
+    },
+    center: {
+      flex: spacing.one,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.background,
+    },
+    errorText: {
+      color: colors.warning,
+      marginBottom: spacing.md,
+    },
+    retryBtn: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.xl,
+      paddingVertical: spacing.md,
+      borderRadius: radius.xs,
+    },
+    retryText: {
+      color: colors.white,
+      fontWeight: fontWeight.semibold,
     },
   });
