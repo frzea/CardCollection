@@ -24,6 +24,7 @@ export const createStyles = (theme: Theme) =>
     cover: {
       height: "100%",
       aspectRatio: 2 / 3,
+      backgroundColor: "#b6b3b3",
     },
     info: {
       flex: 1,

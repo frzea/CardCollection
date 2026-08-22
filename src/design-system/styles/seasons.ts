@@ -14,4 +14,9 @@ export const createStyles = (theme: Theme) =>
       paddingTop: spacing.xl,
       gap: gaps.xm,
     },
+    grid: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      marginHorizontal: 10,
+    },
   });

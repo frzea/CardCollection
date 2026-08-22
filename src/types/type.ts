@@ -9,7 +9,7 @@ interface CoverImage {
 
 export interface Seasons {
   animeId: string;
-  seasonId: string;
+  seasonId: number;
   title: string;
   description: string;
   episodes: string;

@@ -4,11 +4,11 @@
       "id": 16498,
       "title": {
         "romaji": "Shingeki no Kyojin",
-        "english": "Attack on Titan"
+        "english": "Melting Point"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/fc7823b2-70fe-4d91-9554-719eb6d4de0a/original/3d5037bbfb417c8c.webp"
       },
       "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
@@ -17,7 +17,7 @@
         {
           "animeId": 16498,
           "seasonId": 1,
-          "title": "Attack on Titan",
+          "title": "Collection #1",
           "description": "",
           "episodes": 25,
           "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
@@ -25,7 +25,23 @@
         {
           "animeId": 16498,
           "seasonId": 2,
-          "title": "Attack on Titan Season 2",
+          "title": "Collection #2",
+          "description": "",
+          "episodes": 12,
+          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+        },
+        {
+          "animeId": 16498,
+          "seasonId": 3,
+          "title": "Collection #3",
+          "description": "",
+          "episodes": 12,
+          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+        },
+        {
+          "animeId": 16498,
+          "seasonId": 4,
+          "title": "Collection #4",
           "description": "",
           "episodes": 12,
           "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
@@ -35,12 +51,12 @@
     {
       "id": 101922,
       "title": {
-        "romaji": "Kimetsu no Yaiba",
-        "english": "Demon Slayer: Kimetsu no Yaiba"
+        "romaji": "Behind the Scenes",
+        "english": "Behind the Scenes"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101922-WBsBl0ClmgYL.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/2eeb749a-afa8-4ce9-bfe1-d8db0251e296/original/7083df39d541b86a.jpg"
       },
       "genres": ["Action", "Adventure", "Drama", "Fantasy", "Supernatural"],
       "averageScore": 83,
@@ -50,12 +66,12 @@
     {
       "id": 113415,
       "title": {
-        "romaji": "Jujutsu Kaisen",
-        "english": "JUJUTSU KAISEN"
+        "romaji": "Sketch: Side Story",
+        "english": "Sketch: Side Story"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-LHBAeoZDIsnF.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/972d89b0-abb8-560f-8157-e72db6c6efbb/original/66bacf0cb3cf07c0.jpg"
       },
       "genres": ["Action", "Drama", "Supernatural"],
       "averageScore": 84,
@@ -65,12 +81,12 @@
     {
       "id": 1535,
       "title": {
-        "romaji": "DEATH NOTE",
-        "english": "Death Note"
+        "romaji": "Operation: True Love",
+        "english": "Operation: True Love"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1535-kUgkcrfOrkUM.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/b7f8d356-f119-47f8-9fcc-3ea4882945c4/original/2112ec81d0494ae9.jpg"
       },
       "genres": ["Mystery", "Psychological", "Supernatural", "Thriller"],
       "averageScore": 84,
@@ -80,12 +96,12 @@
     {
       "id": 21459,
       "title": {
-        "romaji": "Boku no Hero Academia",
-        "english": "My Hero Academia"
+        "romaji": "The Mating of Elves",
+        "english": "The Mating of Elves"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21459-nYh85uj2Fuwr.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/8e7d8799-dc61-4a0a-be76-e09076248635/original/08850c1a2a63365a.jpg"
       },
       "genres": ["Action", "Adventure", "Comedy"],
       "averageScore": 77,
@@ -95,12 +111,12 @@
     {
       "id": 11061,
       "title": {
-        "romaji": "HUNTER×HUNTER (2011)",
-        "english": "Hunter x Hunter (2011)"
+        "romaji": "Falling For It",
+        "english": "Falling For It"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx11061-y5gsT1hoHuHw.png"
+        "large": "https://cdn.nextchapter.moe/covers/series/dd9ed61c-68e5-44f7-b919-e22cdf2d2767/original/7fb31e9f84e2b1b2.png"
       },
       "genres": ["Action", "Adventure", "Fantasy"],
       "averageScore": 89,
@@ -110,12 +126,12 @@
     {
       "id": 21087,
       "title": {
-        "romaji": "One Punch Man",
-        "english": "One-Punch Man"
+        "romaji": "Undercover Princess",
+        "english": "Undercover Princess"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21087-B5DHjqZ3kW4b.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/5a497ec4-eab8-413f-8577-3887a559f8e7/original/1c38b128d86b2112.jpg"
       },
       "genres": ["Action", "Comedy", "Sci-Fi", "Supernatural"],
       "averageScore": 83,
@@ -125,12 +141,12 @@
     {
       "id": 21,
       "title": {
-        "romaji": "ONE PIECE",
-        "english": "ONE PIECE"
+        "romaji": "Sketch",
+        "english": "Sketch"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21-ELSYx3yMPcKM.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/5d8d5391-1e03-4d89-b73d-8041119a8d09/original/a119a2d74d774dab.jpg"
       },
       "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy"],
       "averageScore": 87,
@@ -140,12 +156,12 @@
     {
       "id": 20605,
       "title": {
-        "romaji": "Tokyo Ghoul",
-        "english": "Tokyo Ghoul"
+        "romaji": "Eighteen's Bed",
+        "english": "Eighteen's Bed"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b20605-k665mVkSug8D.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/9a19c00b-a45f-49e1-b618-fe592ca89afe/original/2c3554de7cba30a5.jpg"
       },
       "genres": [
         "Action",
@@ -162,12 +178,12 @@
     {
       "id": 20958,
       "title": {
-        "romaji": "Shingeki no Kyojin Season 2",
-        "english": "Attack on Titan Season 2"
+        "romaji": "Dreaming Freedom",
+        "english": "Dreaming Freedom"
       },
       "description": "",
       "coverImage": {
-        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx20958-HuFJyr54Mmir.jpg"
+        "large": "https://cdn.nextchapter.moe/covers/series/43ee3ed1-b906-430e-94f5-336bf75c653c/original/3fda9834e7c0518c.jpg"
       },
       "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
