@@ -1,7 +1,8 @@
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/seasons";
-import { useAnimeList } from "@/hooks/useAnimeList";
+import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
+import { Cards } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
@@ -15,12 +16,11 @@ export default function CollectionPage() {
   }>();
   const { theme, colorScheme } = useTheme();
   const style = createStyles(theme);
-  const { anime, loading, error, refetch } = useAnimeList();
+  const { data, loading, error, refetch } = useFetch<Cards[]>("cards");
 
-  const seasons = anime.find((item) => item.id === id)?.seasons;
-  const totalCards = seasons?.find(
-    (item) => item.seasonId === Number(collectionId),
-  )?.episodes;
+  const cards = data.filter(
+    (item) => String(item.collectionId) === collectionId,
+  );
 
   return (
     <>
@@ -37,7 +37,7 @@ export default function CollectionPage() {
       />
       <SafeAreaView style={style.searcView} edges={["bottom"]}>
         <View style={style.grid}>
-          {Array.from({ length: Number(totalCards) }).map((_, index) => (
+          {cards.map((item, index) => (
             <Card key={index} id={index} numColumn={3} />
           ))}
         </View>

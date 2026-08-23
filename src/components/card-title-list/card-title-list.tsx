@@ -3,7 +3,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
 import { useRouter } from "expo-router";
 
-import { useAnimeList } from "@/hooks/useAnimeList";
+import { useFetch } from "@/hooks/useAPI";
 import {
   ActivityIndicator,
   FlatList,
@@ -20,9 +20,9 @@ export function CardTitleList({ query }: { query: string }) {
   const style = createStyles(theme);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { anime, loading, error, refetch } = useAnimeList();
+  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime");
 
-  const filterData = anime.filter((item) => {
+  const filterData = data.filter((item) => {
     const title = (
       item.title.english ||
       item.title.english ||

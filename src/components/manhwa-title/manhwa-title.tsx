@@ -1,15 +1,16 @@
-import { useAnimeList } from "@/hooks/useAnimeList";
+import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
+import { TitleCardItem } from "@/types/type";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Text, View } from "react-native";
 import { createStyles } from "./styles";
 
-export function ManhwaTitle({ id }: { id: string }) {
+export function ManhwaTitle({ id }: { id: number }) {
   const { theme } = useTheme();
   const style = createStyles(theme);
-  const { anime, loading, error, refetch } = useAnimeList();
+  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime");
 
-  const colectTitle = anime.find((item) => item.id === id);
+  const colectTitle = data.find((item) => Number(item.id) === id);
 
   return (
     <>

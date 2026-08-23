@@ -1,4 +1,4 @@
-import { SeasonsList } from "@/components/seasons/seasons";
+import { CollectionsList } from "@/components/collections/colections";
 import { createStyles } from "@/design-system/styles/seasons";
 import { useTheme } from "@/hooks/useTheme";
 import { Stack, useLocalSearchParams } from "expo-router";
@@ -7,7 +7,7 @@ import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AnimeDetailScreen() {
-  const { id, name } = useLocalSearchParams<{ id: string; name: string }>();
+  const { id, name } = useLocalSearchParams();
   const { theme, colorScheme } = useTheme();
   const style = createStyles(theme);
 
@@ -26,7 +26,7 @@ export default function AnimeDetailScreen() {
       />
       <SafeAreaView style={style.searcView} edges={["bottom"]}>
         <View style={style.content}>
-          <SeasonsList id={id} />
+          <CollectionsList id={Number(id)} />
         </View>
       </SafeAreaView>
     </>

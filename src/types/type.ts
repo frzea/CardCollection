@@ -7,21 +7,27 @@ interface CoverImage {
   large: string;
 }
 
-export interface Seasons {
-  animeId: string;
-  seasonId: number;
+export interface Cards {
+  cardId: number;
+  collectionId: number;
+  number: number;
+  image: string;
+}
+
+export interface Collections {
+  animeId: number;
+  collectionId: number;
   title: string;
   description: string;
-  episodes: string;
+  cards: number;
   image: string;
 }
 
 export interface TitleCardItem {
-  id: string;
+  id: number;
   title: Title;
   coverImage: CoverImage;
   episodes: number | null;
   averageScore: number | null;
   genres: string[];
-  seasons: Seasons[];
 }

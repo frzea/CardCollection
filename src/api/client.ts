@@ -1,5 +1,5 @@
-export async function aniFetch<T>(): Promise<T> {
-  const response = await fetch("http://192.168.0.104:3001/anime");
+export async function aniFetch<T>(url: string): Promise<T> {
+  const response = await fetch(`http://192.168.0.104:3001/${url}`);
   const json = await response.json();
 
   if (json.errors) {

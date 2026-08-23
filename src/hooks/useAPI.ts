@@ -1,16 +1,15 @@
 import { aniFetch } from "@/api/client";
-import { TitleCardItem } from "@/types/type";
 import { useCallback, useEffect, useState } from "react";
 
-export function useAnimeList() {
-  const [loading, setLoading] = useState(true);
-  const [anime, setAnime] = useState<TitleCardItem[]>([]);
+export function useFetch<T>(url: string) {
+  const [data, setAnime] = useState<T | []>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await aniFetch<TitleCardItem[]>();
+      const data = await aniFetch<T>(url);
 
       setAnime(data);
       setError(null);
@@ -19,11 +18,11 @@ export function useAnimeList() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [url]);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
 
-  return { loading, anime, error, refetch: loadData };
+  return { loading, data, error, refetch: loadData };
 }

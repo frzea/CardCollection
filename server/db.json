@@ -12,41 +12,7 @@
       },
       "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
-      "episodes": 25,
-      "seasons": [
-        {
-          "animeId": 16498,
-          "seasonId": 1,
-          "title": "Collection #1",
-          "description": "",
-          "episodes": 25,
-          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
-        },
-        {
-          "animeId": 16498,
-          "seasonId": 2,
-          "title": "Collection #2",
-          "description": "",
-          "episodes": 12,
-          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
-        },
-        {
-          "animeId": 16498,
-          "seasonId": 3,
-          "title": "Collection #3",
-          "description": "",
-          "episodes": 12,
-          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
-        },
-        {
-          "animeId": 16498,
-          "seasonId": 4,
-          "title": "Collection #4",
-          "description": "",
-          "episodes": 12,
-          "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
-        }
-      ]
+      "episodes": 25
     },
     {
       "id": 101922,
@@ -60,8 +26,7 @@
       },
       "genres": ["Action", "Adventure", "Drama", "Fantasy", "Supernatural"],
       "averageScore": 83,
-      "episodes": 26,
-      "seasons": []
+      "episodes": 26
     },
     {
       "id": 113415,
@@ -75,8 +40,7 @@
       },
       "genres": ["Action", "Drama", "Supernatural"],
       "averageScore": 84,
-      "episodes": 24,
-      "seasons": []
+      "episodes": 24
     },
     {
       "id": 1535,
@@ -90,8 +54,7 @@
       },
       "genres": ["Mystery", "Psychological", "Supernatural", "Thriller"],
       "averageScore": 84,
-      "episodes": 37,
-      "seasons": []
+      "episodes": 37
     },
     {
       "id": 21459,
@@ -105,8 +68,7 @@
       },
       "genres": ["Action", "Adventure", "Comedy"],
       "averageScore": 77,
-      "episodes": 13,
-      "seasons": []
+      "episodes": 13
     },
     {
       "id": 11061,
@@ -120,8 +82,7 @@
       },
       "genres": ["Action", "Adventure", "Fantasy"],
       "averageScore": 89,
-      "episodes": 148,
-      "seasons": []
+      "episodes": 148
     },
     {
       "id": 21087,
@@ -135,8 +96,7 @@
       },
       "genres": ["Action", "Comedy", "Sci-Fi", "Supernatural"],
       "averageScore": 83,
-      "episodes": 12,
-      "seasons": []
+      "episodes": 12
     },
     {
       "id": 21,
@@ -150,8 +110,7 @@
       },
       "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy"],
       "averageScore": 87,
-      "episodes": null,
-      "seasons": []
+      "episodes": null
     },
     {
       "id": 20605,
@@ -172,8 +131,7 @@
         "Supernatural"
       ],
       "averageScore": 76,
-      "episodes": 12,
-      "seasons": []
+      "episodes": 12
     },
     {
       "id": 20958,
@@ -187,8 +145,105 @@
       },
       "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
-      "episodes": 12,
-      "seasons": []
+      "episodes": 12
+    }
+  ],
+  "collections": [
+    {
+      "animeId": 16498,
+      "collectionId": 1,
+      "title": "Collection #1",
+      "description": "",
+      "cards": 12,
+      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+    },
+    {
+      "animeId": 16498,
+      "collectionId": 2,
+      "title": "Collection #2",
+      "description": "",
+      "cards": 18,
+      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+    },
+    {
+      "animeId": 16498,
+      "collectionId": 3,
+      "title": "Collection #3",
+      "description": "",
+      "cards": 6,
+      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+    },
+    {
+      "animeId": 16498,
+      "collectionId": 4,
+      "title": "Collection #4",
+      "description": "",
+      "cards": 8,
+      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+    }
+  ],
+
+  "cards": [
+    {
+      "cardId": 1,
+      "collectionId": 2,
+      "number": 1,
+      "image": "..."
+    },
+    {
+      "cardId": 2,
+      "collectionId": 2,
+      "number": 2,
+      "image": "..."
+    },
+    {
+      "cardId": 3,
+      "collectionId": 2,
+      "number": 3,
+      "image": "..."
+    },
+    {
+      "cardId": 4,
+      "collectionId": 2,
+      "number": 4,
+      "image": "..."
+    },
+    {
+      "cardId": 5,
+      "collectionId": 4,
+      "number": 5,
+      "image": "..."
+    },
+    {
+      "cardId": 6,
+      "collectionId": 4,
+      "number": 6,
+      "image": "..."
+    },
+    {
+      "cardId": 7,
+      "collectionId": 4,
+      "number": 7,
+      "image": "..."
+    },
+    {
+      "cardId": 8,
+      "collectionId": 1,
+      "number": 8,
+      "image": "..."
+    }
+  ],
+
+  "userCollections": [
+    {
+      "userId": 1,
+      "collectionId": 2
+    }
+  ],
+  "userCards": [
+    {
+      "userId": 1,
+      "cardId": 1
     }
   ]
 }
