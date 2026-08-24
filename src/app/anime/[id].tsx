@@ -1,5 +1,5 @@
 import { CollectionsList } from "@/components/collections/colections";
-import { createStyles } from "@/design-system/styles/seasons";
+import { createStyles } from "@/design-system/styles/collections";
 import { useTheme } from "@/hooks/useTheme";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";

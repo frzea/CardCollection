@@ -8,6 +8,8 @@ export const createStyles = (theme: Theme) =>
     },
     cardInner: {
       flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
       backgroundColor: "#fff",
       borderRadius: 8,
     },

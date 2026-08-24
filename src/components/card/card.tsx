@@ -1,13 +1,25 @@
 import { useTheme } from "@/hooks/useTheme";
-import { View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./style";
 
-export function Card({ id, numColumn }: { id: number; numColumn: number }) {
+type CArdProps = {
+  id: number;
+  numColumn: number;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function Card({ id, numColumn, setModalVisible }: CArdProps) {
   const { theme } = useTheme();
   const style = createStyles(theme);
   return (
-    <View style={[style.cardWrapper, { width: `${100 / numColumn}%` }]}>
-      <View style={style.cardInner} />
-    </View>
+    <TouchableOpacity
+      style={[style.cardWrapper, { width: `${100 / numColumn}%` }]}
+      activeOpacity={0.8}
+      onPress={() => setModalVisible((prev) => !prev)}
+    >
+      <View style={style.cardInner}>
+        <Text>{id}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }

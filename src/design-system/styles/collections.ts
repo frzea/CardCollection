@@ -17,6 +17,20 @@ export const createStyles = (theme: Theme) =>
     grid: {
       flexDirection: "row",
       flexWrap: "wrap",
-      marginHorizontal: 10,
+      marginHorizontal: 15,
+    },
+    modalBgContainer: {
+      flex: 1,
+      justifyContent: "flex-end",
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.7)",
+    },
+    modal: {
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+      height: "30%",
+      backgroundColor: "#ffff",
+      bottom: 0,
     },
   });
