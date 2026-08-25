@@ -25,7 +25,7 @@ export function CardTitleList({ query }: { query: string }) {
   const filterData = data.filter((item) => {
     const title = (
       item.title.english ||
-      item.title.english ||
+      item.title.romaji ||
       ""
     ).toLocaleLowerCase();
     return title.includes(query.trim().toLocaleLowerCase());

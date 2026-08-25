@@ -41,7 +41,7 @@ export default function CollectionPage() {
         <View style={style.grid}>
           {cards.map((item, index) => (
             <Card
-              key={index}
+              key={item.cardId}
               id={item.cardId}
               numColumn={3}
               setModalVisible={setModalVisible}
