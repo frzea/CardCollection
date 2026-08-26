@@ -1,5 +1,9 @@
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
+export function resolveImageUrl(path: string): string {
+  return path.startsWith("http") ? path : `${API_URL}${path}`;
+}
+
 export async function aniFetch<T>(url: string): Promise<T> {
   if (!API_URL) {
     throw new Error(

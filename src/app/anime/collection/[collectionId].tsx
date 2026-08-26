@@ -6,7 +6,13 @@ import { Cards } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
@@ -37,34 +43,37 @@ export default function CollectionPage() {
           headerTintColor: theme.text,
         }}
       />
-      <SafeAreaView style={style.searcView} edges={["bottom"]}>
-        <View style={style.grid}>
-          {cards.map((item, index) => (
-            <Card
-              key={item.cardId}
-              id={item.cardId}
-              numColumn={3}
-              setModalVisible={setModalVisible}
-            />
-          ))}
-        </View>
-        <Modal
-          visible={modalVisible}
-          animationType="slide"
-          transparent
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-            <View style={style.modalBgContainer}>
-              <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-                <View style={style.modal}>
-                  <Text>Custom modal</Text>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </SafeAreaView>
+      <ScrollView>
+        <SafeAreaView style={style.searcView} edges={["bottom"]}>
+          <View style={style.grid}>
+            {cards.map((item, index) => (
+              <Card
+                key={item.cardId}
+                id={item.cardId}
+                image={item.image}
+                numColumn={3}
+                setModalVisible={setModalVisible}
+              />
+            ))}
+          </View>
+          <Modal
+            visible={modalVisible}
+            animationType="slide"
+            transparent
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+              <View style={style.modalBgContainer}>
+                <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                  <View style={style.modal}>
+                    <Text>Custom modal</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
+        </SafeAreaView>
+      </ScrollView>
     </>
   );
 }

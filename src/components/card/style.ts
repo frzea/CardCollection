@@ -12,5 +12,6 @@ export const createStyles = (theme: Theme) =>
       alignItems: "center",
       backgroundColor: "#fff",
       borderRadius: 8,
+      overflow: "hidden",
     },
   });

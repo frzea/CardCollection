@@ -7,14 +7,23 @@ interface CoverImage {
   large: string;
 }
 
-export interface Cards {
+interface TitleCardItem {
+  id: number;
+  title: Title;
+  coverImage: CoverImage;
+  episodes: number | null;
+  averageScore: number | null;
+  genres: string[];
+}
+
+interface Cards {
   cardId: number;
   collectionId: number;
   number: number;
   image: string;
 }
 
-export interface Collections {
+interface Collections {
   animeId: number;
   collectionId: number;
   title: string;
@@ -23,11 +32,18 @@ export interface Collections {
   image: string;
 }
 
-export interface TitleCardItem {
+interface UserCard {
   id: number;
-  title: Title;
-  coverImage: CoverImage;
-  episodes: number | null;
-  averageScore: number | null;
-  genres: string[];
+  userId: number;
+  cardId: number;
+  count: number;
 }
+
+interface UserCollection {
+  id: number;
+  userId: number;
+  collectionId: number;
+}
+
+export type { Cards, Collections, TitleCardItem, UserCard, UserCollection };
+
