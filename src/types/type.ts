@@ -24,6 +24,7 @@ interface Cards {
 }
 
 interface Collections {
+  id: number;
   animeId: number;
   collectionId: number;
   title: string;
@@ -34,6 +35,7 @@ interface Collections {
 
 interface UserCard {
   id: number;
+  collectionId: number;
   userId: number;
   cardId: number;
   count: number;

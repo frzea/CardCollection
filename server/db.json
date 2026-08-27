@@ -150,6 +150,7 @@
   ],
   "collections": [
     {
+      "id": 1,
       "animeId": 16498,
       "collectionId": 1,
       "title": "Collection #1",
@@ -158,6 +159,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
+      "id": 2,
       "animeId": 16498,
       "collectionId": 2,
       "title": "Collection #2",
@@ -166,6 +168,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
+      "id": 3,
       "animeId": 16498,
       "collectionId": 3,
       "title": "Collection #3",
@@ -174,6 +177,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
+      "id": 4,
       "animeId": 16498,
       "collectionId": 4,
       "title": "Collection #4",
@@ -346,8 +350,16 @@
   "userCards": [
     {
       "id": 1,
+      "collectionId": 1,
       "userId": 1,
-      "cardId": 1,
+      "cardId": 8,
+      "count": 1
+    },
+    {
+      "id": 2,
+      "collectionId": 1,
+      "userId": 1,
+      "cardId": 12,
       "count": 1
     }
   ]

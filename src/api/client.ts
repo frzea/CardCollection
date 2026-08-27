@@ -1,22 +1,28 @@
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export function resolveImageUrl(path: string): string {
-  return path.startsWith("http") ? path : `${API_URL}${path}`;
-}
-
-export async function aniFetch<T>(url: string): Promise<T> {
+export async function apiFetch<TResponse>(
+  path: string,
+  options: RequestInit = {},
+): Promise<TResponse> {
   if (!API_URL) {
     throw new Error(
-      "EXPO_PUBLIC_API_URL is not set. Copy .env.example to .env and set your local IP."
+      "EXPO_PUBLIC_API_URL is not set. Copy .env.example to .env and set your local IP.",
     );
   }
 
-  const response = await fetch(`${API_URL}/${url}`);
+  const headers = new Headers(options.headers);
+  headers.set("Content-Type", "application/json");
+
+  const response = await fetch(`${API_URL}/${path}`, { ...options, headers });
   const json = await response.json();
 
   if (json.errors) {
     throw new Error(json.errors[0]?.message || "GraphQL error");
   }
 
-  return json as T;
+  return json as TResponse;
+}
+
+export function resolveImageUrl(path: string): string {
+  return path.startsWith("http") ? path : `${API_URL}${path}`;
 }

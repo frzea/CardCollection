@@ -8,15 +8,13 @@ import { createStyles } from "./styles";
 export function ManhwaTitle({ id }: { id: number }) {
   const { theme } = useTheme();
   const style = createStyles(theme);
-  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime");
-
-  const colectTitle = data.find((item) => Number(item.id) === id);
+  const { data } = useFetch<TitleCardItem | null>(`anime/${id}`, null);
 
   return (
     <>
       <View style={style.container}>
         <Image
-          source={{ uri: colectTitle?.coverImage.large }}
+          source={{ uri: data?.coverImage.large }}
           style={style.backgroundImage}
           resizeMode="cover"
         />
@@ -24,7 +22,7 @@ export function ManhwaTitle({ id }: { id: number }) {
           colors={["transparent", "rgba(0,0,0,0.9)"]}
           style={style.gradientOverlay}
         />
-        <Text style={style.imageBgText}>{colectTitle?.title.english}</Text>
+        <Text style={style.imageBgText}>{data?.title.english}</Text>
       </View>
       <Text style={style.titleText}>Collections</Text>
     </>

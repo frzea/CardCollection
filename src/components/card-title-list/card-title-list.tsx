@@ -20,7 +20,10 @@ export function CardTitleList({ query }: { query: string }) {
   const style = createStyles(theme);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime");
+  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>(
+    "anime",
+    [],
+  );
 
   const filterData = data.filter((item) => {
     const title = (

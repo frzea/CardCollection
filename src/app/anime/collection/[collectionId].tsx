@@ -2,7 +2,7 @@ import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
 import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
-import { Cards } from "@/types/type";
+import { Cards, UserCard } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -23,12 +23,16 @@ export default function CollectionPage() {
   }>();
   const { theme, colorScheme } = useTheme();
   const style = createStyles(theme);
-  const { data, loading, error, refetch } = useFetch<Cards[]>("cards");
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const cards = data.filter(
-    (item) => String(item.collectionId) === collectionId,
+  const { data, loading, error, refetch } = useFetch<Cards[]>(
+    `cards?collectionId=${collectionId}`,
+    [],
   );
+  const { data: userCards } = useFetch<UserCard[]>(
+    `userCards?userId=1&collectionId=${collectionId}`,
+    [],
+  );
+  const ownedCardIds = new Set(userCards.map((uc) => uc.cardId));
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
@@ -46,12 +50,13 @@ export default function CollectionPage() {
       <ScrollView>
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <View style={style.grid}>
-            {cards.map((item, index) => (
+            {data.map((item, index) => (
               <Card
                 key={item.cardId}
                 id={item.cardId}
                 image={item.image}
                 numColumn={3}
+                owned={ownedCardIds.has(item.cardId)}
                 setModalVisible={setModalVisible}
               />
             ))}

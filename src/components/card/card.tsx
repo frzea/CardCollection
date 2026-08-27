@@ -8,10 +8,17 @@ type CArdProps = {
   id: number;
   image: string;
   numColumn: number;
+  owned: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function Card({ id, image, numColumn, setModalVisible }: CArdProps) {
+export function Card({
+  id,
+  image,
+  numColumn,
+  owned,
+  setModalVisible,
+}: CArdProps) {
   const { theme } = useTheme();
   const style = createStyles(theme);
   return (
@@ -26,6 +33,7 @@ export function Card({ id, image, numColumn, setModalVisible }: CArdProps) {
           style={StyleSheet.absoluteFill}
           contentFit="cover"
         />
+        {!owned && <View style={style.overlay} />}
       </View>
     </TouchableOpacity>
   );

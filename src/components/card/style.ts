@@ -14,4 +14,8 @@ export const createStyles = (theme: Theme) =>
       borderRadius: 8,
       overflow: "hidden",
     },
+    overlay: {
+      ...StyleSheet.absoluteFill,
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+    },
   });
