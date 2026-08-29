@@ -3,15 +3,9 @@ import { colors } from "@/design-system/index";
 import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections, UserCard } from "@/types/type";
-import { useRouter } from "expo-router";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback } from "react";
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: number }) {
@@ -22,12 +16,20 @@ export function CollectionsList({ id }: { id: number }) {
     `collections?animeId=${id}`,
     [],
   );
-  const { data: userCards } = useFetch<UserCard[]>("userCards?userId=1", []);
+  const { data: userCards, refetch: refetchUserCard } = useFetch<UserCard[]>(
+    "userCards?userId=1",
+    [],
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+      refetchUserCard();
+    }, []),
+  );
 
   const renderSeasons = ({ item }: { item: Collections }) => {
-    const ownedCount = userCards.filter(
-      (uc) => uc.collectionId === Number(item.id),
-    ).length;
+    const ownedCount = userCards.filter((uc) => uc.collectionId === Number(item.id)).length;
 
     return (
       <TouchableOpacity

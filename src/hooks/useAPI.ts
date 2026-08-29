@@ -24,5 +24,5 @@ export function useFetch<T>(path: string, initialValue: T) {
     loadData();
   }, [loadData]);
 
-  return { loading, data, error, refetch: loadData };
+  return { loading, data, error, refetch: loadData, setData };
 }

@@ -1,3 +1,5 @@
+import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
+import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
 import { useFetch } from "@/hooks/useAPI";
@@ -6,13 +8,7 @@ import { Cards, UserCard } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import {
-  Modal,
-  ScrollView,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
@@ -23,16 +19,59 @@ export default function CollectionPage() {
   }>();
   const { theme, colorScheme } = useTheme();
   const style = createStyles(theme);
-  const { data, loading, error, refetch } = useFetch<Cards[]>(
-    `cards?collectionId=${collectionId}`,
-    [],
-  );
-  const { data: userCards } = useFetch<UserCard[]>(
-    `userCards?userId=1&collectionId=${collectionId}`,
-    [],
-  );
-  const ownedCardIds = new Set(userCards.map((uc) => uc.cardId));
-  const [modalVisible, setModalVisible] = useState(false);
+  const { data } = useFetch<Cards[]>(`cards?collectionId=${collectionId}`, []);
+  const {
+    data: userCards,
+    setData: setUserCard,
+    refetch: refreshUserCards,
+  } = useFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`, []);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+
+  const userCardByCardId = new Map(userCards.map((item) => [item.cardId, item]));
+  const selectedCard = data.find((c) => c.cardId === selectedCardId) ?? null;
+  const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
+
+  async function handleAdd() {
+    if (!selectedCardId) return;
+    const existing = userCardByCardId.get(selectedCardId);
+    try {
+      if (!existing) {
+        const created = await apiPOST<UserCard>("userCards", {
+          userId: 1,
+          collectionId: Number(collectionId),
+          cardId: selectedCardId,
+          count: 1,
+        });
+        setUserCard((prev) => [...prev, created]);
+      } else {
+        const updated = await apiPATCH<UserCard>(`userCards/${existing.id}`, {
+          count: existing.count + 1,
+        });
+        setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
+      }
+    } catch {
+      refreshUserCards();
+    }
+  }
+
+  async function handleRemove() {
+    if (!selectedCardId) return;
+    const existing = userCardByCardId.get(selectedCardId);
+    if (!existing) return;
+    try {
+      if (existing.count <= 1) {
+        await apiDELETE(`userCards/${existing.id}`);
+        setUserCard((prev) => prev.filter((uc) => uc.id !== existing.id));
+      } else {
+        const updated = await apiPATCH<UserCard>(`userCards/${existing.id}`, {
+          count: existing.count - 1,
+        });
+        setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
+      }
+    } catch {
+      refreshUserCards();
+    }
+  }
 
   return (
     <>
@@ -56,27 +95,20 @@ export default function CollectionPage() {
                 id={item.cardId}
                 image={item.image}
                 numColumn={3}
-                owned={ownedCardIds.has(item.cardId)}
-                setModalVisible={setModalVisible}
+                owned={userCardByCardId.has(item.cardId)}
+                count={userCardByCardId.get(item.cardId)?.count ?? 0}
+                onPress={setSelectedCardId}
               />
             ))}
           </View>
-          <Modal
-            visible={modalVisible}
-            animationType="slide"
-            transparent
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-              <View style={style.modalBgContainer}>
-                <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-                  <View style={style.modal}>
-                    <Text>Custom modal</Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              </View>
-            </TouchableWithoutFeedback>
-          </Modal>
+          <CardModal
+            visible={selectedCardId !== null}
+            card={selectedCard}
+            count={selectedCount}
+            onAdd={handleAdd}
+            onRemove={handleRemove}
+            onClose={() => setSelectedCardId(null)}
+          />
         </SafeAreaView>
       </ScrollView>
     </>

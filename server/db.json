@@ -1,7 +1,7 @@
 {
   "anime": [
     {
-      "id": 16498,
+      "id": "16498",
       "title": {
         "romaji": "Shingeki no Kyojin",
         "english": "Melting Point"
@@ -10,12 +10,17 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/fc7823b2-70fe-4d91-9554-719eb6d4de0a/original/3d5037bbfb417c8c.webp"
       },
-      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Fantasy",
+        "Mystery"
+      ],
       "averageScore": 85,
       "episodes": 25
     },
     {
-      "id": 101922,
+      "id": "101922",
       "title": {
         "romaji": "Behind the Scenes",
         "english": "Behind the Scenes"
@@ -24,12 +29,18 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/2eeb749a-afa8-4ce9-bfe1-d8db0251e296/original/7083df39d541b86a.jpg"
       },
-      "genres": ["Action", "Adventure", "Drama", "Fantasy", "Supernatural"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Fantasy",
+        "Supernatural"
+      ],
       "averageScore": 83,
       "episodes": 26
     },
     {
-      "id": 113415,
+      "id": "113415",
       "title": {
         "romaji": "Sketch: Side Story",
         "english": "Sketch: Side Story"
@@ -38,12 +49,16 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/972d89b0-abb8-560f-8157-e72db6c6efbb/original/66bacf0cb3cf07c0.jpg"
       },
-      "genres": ["Action", "Drama", "Supernatural"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Supernatural"
+      ],
       "averageScore": 84,
       "episodes": 24
     },
     {
-      "id": 1535,
+      "id": "1535",
       "title": {
         "romaji": "Operation: True Love",
         "english": "Operation: True Love"
@@ -52,12 +67,17 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/b7f8d356-f119-47f8-9fcc-3ea4882945c4/original/2112ec81d0494ae9.jpg"
       },
-      "genres": ["Mystery", "Psychological", "Supernatural", "Thriller"],
+      "genres": [
+        "Mystery",
+        "Psychological",
+        "Supernatural",
+        "Thriller"
+      ],
       "averageScore": 84,
       "episodes": 37
     },
     {
-      "id": 21459,
+      "id": "21459",
       "title": {
         "romaji": "The Mating of Elves",
         "english": "The Mating of Elves"
@@ -66,12 +86,16 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/8e7d8799-dc61-4a0a-be76-e09076248635/original/08850c1a2a63365a.jpg"
       },
-      "genres": ["Action", "Adventure", "Comedy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
       "averageScore": 77,
       "episodes": 13
     },
     {
-      "id": 11061,
+      "id": "11061",
       "title": {
         "romaji": "Falling For It",
         "english": "Falling For It"
@@ -80,12 +104,16 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/dd9ed61c-68e5-44f7-b919-e22cdf2d2767/original/7fb31e9f84e2b1b2.png"
       },
-      "genres": ["Action", "Adventure", "Fantasy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
       "averageScore": 89,
       "episodes": 148
     },
     {
-      "id": 21087,
+      "id": "21087",
       "title": {
         "romaji": "Undercover Princess",
         "english": "Undercover Princess"
@@ -94,12 +122,17 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5a497ec4-eab8-413f-8577-3887a559f8e7/original/1c38b128d86b2112.jpg"
       },
-      "genres": ["Action", "Comedy", "Sci-Fi", "Supernatural"],
+      "genres": [
+        "Action",
+        "Comedy",
+        "Sci-Fi",
+        "Supernatural"
+      ],
       "averageScore": 83,
       "episodes": 12
     },
     {
-      "id": 21,
+      "id": "21",
       "title": {
         "romaji": "Sketch",
         "english": "Sketch"
@@ -108,12 +141,18 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5d8d5391-1e03-4d89-b73d-8041119a8d09/original/a119a2d74d774dab.jpg"
       },
-      "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Fantasy"
+      ],
       "averageScore": 87,
       "episodes": null
     },
     {
-      "id": 20605,
+      "id": "20605",
       "title": {
         "romaji": "Eighteen's Bed",
         "english": "Eighteen's Bed"
@@ -134,7 +173,7 @@
       "episodes": 12
     },
     {
-      "id": 20958,
+      "id": "20958",
       "title": {
         "romaji": "Dreaming Freedom",
         "english": "Dreaming Freedom"
@@ -143,14 +182,19 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/43ee3ed1-b906-430e-94f5-336bf75c653c/original/3fda9834e7c0518c.jpg"
       },
-      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Fantasy",
+        "Mystery"
+      ],
       "averageScore": 85,
       "episodes": 12
     }
   ],
   "collections": [
     {
-      "id": 1,
+      "id": "1",
       "animeId": 16498,
       "collectionId": 1,
       "title": "Collection #1",
@@ -159,7 +203,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "animeId": 16498,
       "collectionId": 2,
       "title": "Collection #2",
@@ -168,7 +212,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "animeId": 16498,
       "collectionId": 3,
       "title": "Collection #3",
@@ -177,7 +221,7 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     },
     {
-      "id": 4,
+      "id": "4",
       "animeId": 16498,
       "collectionId": 4,
       "title": "Collection #4",
@@ -186,181 +230,254 @@
       "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
     }
   ],
-
   "cards": [
     {
       "cardId": 1,
       "collectionId": 2,
       "number": 1,
-      "image": "..."
+      "image": "...",
+      "id": "mAlG7_MBg0M"
     },
     {
       "cardId": 2,
       "collectionId": 2,
       "number": 2,
-      "image": "..."
+      "image": "...",
+      "id": "gyTKuCHdw-A"
     },
     {
       "cardId": 3,
       "collectionId": 2,
       "number": 3,
-      "image": "..."
+      "image": "...",
+      "id": "k0r-rlmhYlg"
     },
     {
       "cardId": 4,
       "collectionId": 2,
       "number": 4,
-      "image": "..."
+      "image": "...",
+      "id": "clKgzvK6rzM"
     },
     {
       "cardId": 5,
       "collectionId": 4,
       "number": 5,
-      "image": "..."
+      "image": "...",
+      "id": "QWiZwcdmZQI"
     },
     {
       "cardId": 6,
       "collectionId": 4,
       "number": 6,
-      "image": "..."
+      "image": "...",
+      "id": "ia1kIYiyb78"
     },
     {
       "cardId": 7,
       "collectionId": 4,
       "number": 7,
-      "image": "..."
+      "image": "...",
+      "id": "qjJuOn4zQZw"
     },
     {
       "cardId": 8,
       "collectionId": 1,
       "number": 1,
-      "image": "/cards/Collection-1/1.JPG"
+      "image": "/cards/Collection-1/1.JPG",
+      "id": "0276545UkW0"
     },
     {
       "cardId": 9,
       "collectionId": 1,
       "number": 2,
-      "image": "/cards/Collection-1/2.JPG"
+      "image": "/cards/Collection-1/2.JPG",
+      "id": "XRUdB4yVUtA"
     },
     {
       "cardId": 10,
       "collectionId": 1,
       "number": 3,
-      "image": "/cards/Collection-1/3.JPG"
+      "image": "/cards/Collection-1/3.JPG",
+      "id": "HfdlUmeTcNw"
     },
     {
       "cardId": 11,
       "collectionId": 1,
       "number": 4,
-      "image": "/cards/Collection-1/4.JPG"
+      "image": "/cards/Collection-1/4.JPG",
+      "id": "l76U4BhfQWo"
     },
     {
       "cardId": 12,
       "collectionId": 1,
       "number": 5,
-      "image": "/cards/Collection-1/5.JPG"
+      "image": "/cards/Collection-1/5.JPG",
+      "id": "0QI0TJB90OQ"
     },
     {
       "cardId": 13,
       "collectionId": 1,
       "number": 6,
-      "image": "/cards/Collection-1/6.JPG"
+      "image": "/cards/Collection-1/6.JPG",
+      "id": "inwT8vmM3xg"
     },
     {
       "cardId": 14,
       "collectionId": 1,
       "number": 7,
-      "image": "/cards/Collection-1/7.JPG"
+      "image": "/cards/Collection-1/7.JPG",
+      "id": "ZwCnu7Pg3ko"
     },
     {
       "cardId": 15,
       "collectionId": 1,
       "number": 8,
-      "image": "/cards/Collection-1/8.JPG"
+      "image": "/cards/Collection-1/8.JPG",
+      "id": "hL9B7AF09-8"
     },
     {
       "cardId": 16,
       "collectionId": 1,
       "number": 9,
-      "image": "/cards/Collection-1/9.JPG"
+      "image": "/cards/Collection-1/9.JPG",
+      "id": "hrD0dnylHUI"
     },
     {
       "cardId": 17,
       "collectionId": 1,
       "number": 10,
-      "image": "/cards/Collection-1/10.JPG"
+      "image": "/cards/Collection-1/10.JPG",
+      "id": "WdJDyQhINLM"
     },
     {
       "cardId": 18,
       "collectionId": 1,
       "number": 11,
-      "image": "/cards/Collection-1/11.JPG"
+      "image": "/cards/Collection-1/11.JPG",
+      "id": "Do3Q_MZHJno"
     },
     {
       "cardId": 19,
       "collectionId": 1,
       "number": 12,
-      "image": "/cards/Collection-1/12.JPG"
+      "image": "/cards/Collection-1/12.JPG",
+      "id": "_gSIKyg9uMk"
     },
     {
       "cardId": 20,
       "collectionId": 1,
       "number": 13,
-      "image": "/cards/Collection-1/13.JPG"
+      "image": "/cards/Collection-1/13.JPG",
+      "id": "Jhkrl7X_H2E"
     },
     {
       "cardId": 21,
       "collectionId": 1,
       "number": 14,
-      "image": "/cards/Collection-1/14.JPG"
+      "image": "/cards/Collection-1/14.JPG",
+      "id": "NVcCKMKAW8k"
     },
     {
       "cardId": 22,
       "collectionId": 1,
       "number": 15,
-      "image": "/cards/Collection-1/15.JPG"
+      "image": "/cards/Collection-1/15.JPG",
+      "id": "OOUmmCQUIIQ"
     },
     {
       "cardId": 23,
       "collectionId": 1,
       "number": 16,
-      "image": "/cards/Collection-1/16.JPG"
+      "image": "/cards/Collection-1/16.JPG",
+      "id": "3BNce51cYIk"
     },
     {
       "cardId": 24,
       "collectionId": 1,
       "number": 17,
-      "image": "/cards/Collection-1/17.JPG"
+      "image": "/cards/Collection-1/17.JPG",
+      "id": "UxLlWQVzTn8"
     },
     {
       "cardId": 25,
       "collectionId": 1,
       "number": 18,
-      "image": "/cards/Collection-1/18.JPG"
+      "image": "/cards/Collection-1/18.JPG",
+      "id": "W_VFzw0ocvo"
     }
   ],
-
   "userCollections": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "collectionId": 2
     }
   ],
   "userCards": [
     {
-      "id": 1,
+      "id": "1",
       "collectionId": 1,
       "userId": 1,
       "cardId": 8,
-      "count": 1
+      "count": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "collectionId": 1,
       "userId": 1,
       "cardId": 12,
       "count": 1
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 11,
+      "count": 1,
+      "id": "gXS7t7tm5pE"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 10,
+      "count": 2,
+      "id": "5vU9JAbqdCU"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 9,
+      "count": 1,
+      "id": "fS-5sVFRKrs"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 18,
+      "count": 4,
+      "id": "if5XNcuUors"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 13,
+      "count": 2,
+      "id": "u0DA81VkZNY"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 14,
+      "count": 1,
+      "id": "drb1jviVpvI"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 16,
+      "count": 3,
+      "id": "KQ-Op6rkvPg"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
