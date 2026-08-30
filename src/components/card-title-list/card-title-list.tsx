@@ -1,38 +1,28 @@
 import { colors } from "@/design-system/index";
+import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
 import { useRouter } from "expo-router";
-
-import { useFetch } from "@/hooks/useAPI";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useMemo } from "react";
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
 export function CardTitleList({ query }: { query: string }) {
   const { theme } = useTheme();
-  const style = createStyles(theme);
+  const style = useMemo(() => createStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>(
-    "anime",
-    [],
-  );
+  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime", []);
 
-  const filterData = data.filter((item) => {
-    const title = (
-      item.title.english ||
-      item.title.romaji ||
-      ""
-    ).toLocaleLowerCase();
-    return title.includes(query.trim().toLocaleLowerCase());
-  });
+  const filterData = useMemo(
+    () =>
+      data.filter((item) => {
+        const title = (item.title.english || item.title.romaji || "").toLocaleLowerCase();
+        return title.includes(query.trim().toLocaleLowerCase());
+      }),
+    [data, query],
+  );
 
   const renderCard = ({ item }: { item: TitleCardItem }) => (
     <TouchableOpacity
@@ -54,8 +44,7 @@ export function CardTitleList({ query }: { query: string }) {
           {item.title.english || item.title.romaji}
         </Text>
         <Text style={style.meta}>
-          {item.episodes ? `${item.episodes} эп.` : ""} ⭐{" "}
-          {item.averageScore ? (item.averageScore / 10).toFixed(1) : "N/A"}
+          {item.episodes ? `${item.episodes} эп.` : ""} ⭐ {item.averageScore ? (item.averageScore / 10).toFixed(1) : "N/A"}
         </Text>
         <Text style={style.genres} numberOfLines={1}>
           {item.genres.slice(0, 3).join(", ")}
@@ -95,10 +84,7 @@ export function CardTitleList({ query }: { query: string }) {
       renderItem={renderCard}
       numColumns={2}
       columnWrapperStyle={style.row}
-      contentContainerStyle={[
-        style.list,
-        { paddingBottom: insets.bottom + 70 },
-      ]}
+      contentContainerStyle={[style.list, { paddingBottom: insets.bottom + 70 }]}
       showsVerticalScrollIndicator={false}
     />
   );

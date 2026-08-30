@@ -21,7 +21,7 @@ export const createStyles = (theme: Theme) =>
     },
     badge: {
       position: "absolute",
-      top: 4,
+      bottom: 4,
       right: 4,
       minWidth: 20,
       paddingHorizontal: 5,

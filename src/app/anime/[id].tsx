@@ -1,15 +1,16 @@
-import { CollectionsList } from "@/components/collections/colections";
+import { CollectionsList } from "@/components/collections/collections";
 import { createStyles } from "@/design-system/styles/collections";
 import { useTheme } from "@/hooks/useTheme";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AnimeDetailScreen() {
   const { id, name } = useLocalSearchParams();
   const { theme, colorScheme } = useTheme();
-  const style = createStyles(theme);
+  const style = useMemo(() => createStyles(theme), [theme]);
 
   return (
     <>

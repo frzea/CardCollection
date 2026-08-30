@@ -427,7 +427,7 @@
       "collectionId": 1,
       "userId": 1,
       "cardId": 12,
-      "count": 1
+      "count": 4
     },
     {
       "userId": 1,
@@ -467,16 +467,23 @@
     {
       "userId": 1,
       "collectionId": 1,
-      "cardId": 14,
-      "count": 1,
-      "id": "drb1jviVpvI"
+      "cardId": 16,
+      "count": 3,
+      "id": "KQ-Op6rkvPg"
     },
     {
       "userId": 1,
       "collectionId": 1,
-      "cardId": 16,
-      "count": 3,
-      "id": "KQ-Op6rkvPg"
+      "cardId": 14,
+      "count": 1,
+      "id": "84N6HHBHITM"
+    },
+    {
+      "userId": 1,
+      "collectionId": 1,
+      "cardId": 15,
+      "count": 1,
+      "id": "LyvgvS63-GA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

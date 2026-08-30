@@ -1,6 +1,7 @@
 import { resolveImageUrl } from "@/api/client";
 import { useTheme } from "@/hooks/useTheme";
 import { Image } from "expo-image";
+import { useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./style";
 
@@ -15,19 +16,11 @@ type CardProps = {
 
 export function Card({ id, image, numColumn, owned, count, onPress }: CardProps) {
   const { theme } = useTheme();
-  const style = createStyles(theme);
+  const style = useMemo(() => createStyles(theme), [theme]);
   return (
-    <TouchableOpacity
-      style={[style.cardWrapper, { width: `${100 / numColumn}%` }]}
-      activeOpacity={0.8}
-      onPress={() => onPress(id)}
-    >
+    <TouchableOpacity style={[style.cardWrapper, { width: `${100 / numColumn}%` }]} activeOpacity={0.8} onPress={() => onPress(id)}>
       <View style={style.cardInner}>
-        <Image
-          source={{ uri: resolveImageUrl(image) }}
-          style={StyleSheet.absoluteFill}
-          contentFit="cover"
-        />
+        <Image source={{ uri: resolveImageUrl(image) }} style={StyleSheet.absoluteFill} contentFit="cover" />
         {!owned && <View style={style.overlay} />}
         {count > 1 && (
           <View style={style.badge}>

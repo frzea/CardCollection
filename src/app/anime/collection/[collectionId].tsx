@@ -7,18 +7,14 @@ import { useTheme } from "@/hooks/useTheme";
 import { Cards, UserCard } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
-  const { id, collectionId, name } = useLocalSearchParams<{
-    id: string;
-    collectionId: string;
-    name: string;
-  }>();
+  const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
-  const style = createStyles(theme);
+  const style = useMemo(() => createStyles(theme), [theme]);
   const { data } = useFetch<Cards[]>(`cards?collectionId=${collectionId}`, []);
   const {
     data: userCards,
@@ -27,7 +23,7 @@ export default function CollectionPage() {
   } = useFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`, []);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
-  const userCardByCardId = new Map(userCards.map((item) => [item.cardId, item]));
+  const userCardByCardId = useMemo(() => new Map(userCards.map((item) => [item.cardId, item])), [userCards]);
   const selectedCard = data.find((c) => c.cardId === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
 

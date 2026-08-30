@@ -4,32 +4,31 @@ import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections, UserCard } from "@/types/type";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: number }) {
   const { theme } = useTheme();
-  const style = createStyles(theme);
+  const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
-  const { data, loading, error, refetch } = useFetch<Collections[]>(
-    `collections?animeId=${id}`,
-    [],
-  );
-  const { data: userCards, refetch: refetchUserCard } = useFetch<UserCard[]>(
-    "userCards?userId=1",
-    [],
-  );
+  const { data, loading, error, refetch } = useFetch<Collections[]>(`collections?animeId=${id}`, []);
+  const { data: userCards, refetch: refetchUserCard } = useFetch<UserCard[]>("userCards?userId=1", []);
 
   useFocusEffect(
     useCallback(() => {
       refetch();
       refetchUserCard();
-    }, []),
+    }, [refetch, refetchUserCard]),
+  );
+
+  const ownedCount = useMemo(
+    () => new Map(data.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === Number(item.id)).length])),
+    [data, userCards],
   );
 
   const renderSeasons = ({ item }: { item: Collections }) => {
-    const ownedCount = userCards.filter((uc) => uc.collectionId === Number(item.id)).length;
+    const cardCount = ownedCount.get(item.id);
 
     return (
       <TouchableOpacity
@@ -46,7 +45,7 @@ export function CollectionsList({ id }: { id: number }) {
         <View style={style.info}>
           <Text style={style.title}>{item.title}</Text>
           <Text style={style.title}>
-            Кол. карточек - {ownedCount}/{item.cards}
+            Кол. карточек - {cardCount}/{item.cards}
           </Text>
           <Text style={style.title}>{item.collectionId}</Text>
         </View>
