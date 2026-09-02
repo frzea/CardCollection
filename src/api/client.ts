@@ -1,3 +1,5 @@
+import { ApiError } from "./api-error";
+
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export async function apiFetch<TResponse>(path: string, options: RequestInit = {}): Promise<TResponse> {
@@ -9,10 +11,18 @@ export async function apiFetch<TResponse>(path: string, options: RequestInit = {
   headers.set("Content-Type", "application/json");
 
   const response = await fetch(`${API_URL}/${path}`, { ...options, headers });
-  const json = await response.json();
+  const text = await response.text();
+  let json: unknown = null;
+  if (text) {
+    try {
+      json = JSON.parse(text);
+    } catch {
+      json = text;
+    }
+  }
 
-  if (json.errors) {
-    throw new Error(json.errors[0]?.message || "GraphQL error");
+  if (!response.ok) {
+    throw new ApiError(response.status, json);
   }
 
   return json as TResponse;

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export function useFetch<T>(path: string, initialValue: T) {
   const [data, setData] = useState<T>(initialValue);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
 
   const loadData = useCallback(
@@ -16,8 +16,8 @@ export function useFetch<T>(path: string, initialValue: T) {
         setData(data);
         setError(null);
       } catch (err) {
-        if (err instanceof Error && err.name === "AbortError") return;
-        setError(err instanceof Error ? err.message : "Unknown error");
+        if ((err as { name?: string })?.name === "AbortError") return;
+        setError(err instanceof Error ? err : new Error("Unknown error"));
       } finally {
         setLoading(false);
       }

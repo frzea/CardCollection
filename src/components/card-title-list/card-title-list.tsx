@@ -68,7 +68,7 @@ export function CardTitleList({ query }: { query: string }) {
         )}
         {!loading && error && (
           <View style={style.center}>
-            <Text style={style.errorText}>Error: {error}</Text>
+            <Text style={style.errorText}>Error: {error.message}</Text>
             <TouchableOpacity onPress={refetch} style={style.retryBtn}>
               <Text style={style.retryText}>Refresh</Text>
             </TouchableOpacity>
