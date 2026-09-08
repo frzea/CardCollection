@@ -1,8 +1,9 @@
 import { resolveImageUrl } from "@/api/client";
 import { useTheme } from "@/hooks/useTheme";
+import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useMemo } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./style";
 
 type CardProps = {
@@ -20,14 +21,28 @@ export function Card({ id, image, numColumn, owned, count, onPress }: CardProps)
   return (
     <TouchableOpacity style={[style.cardWrapper, { width: `${100 / numColumn}%` }]} activeOpacity={0.8} onPress={() => onPress(id)}>
       <View style={style.cardInner}>
-        <Image source={{ uri: resolveImageUrl(image) }} style={StyleSheet.absoluteFill} contentFit="cover" />
-        {!owned && <View style={style.overlay} />}
-        {count > 1 && (
-          <View style={style.badge}>
-            <Text style={style.badgeText}>x{count}</Text>
+        {!image ? (
+          <>
+            <Image source={{ uri: resolveImageUrl(image) }} style={StyleSheet.absoluteFill} contentFit="cover" />
+          </>
+        ) : (
+          <View style={[style.cover, style.coverPlaceholder]}>
+            <Feather name="layers" size={32} color={theme.iconColor} />
           </View>
         )}
       </View>
     </TouchableOpacity>
   );
 }
+
+//<Image source={{ uri: resolveImageUrl(image) }} style={StyleSheet.absoluteFill} contentFit="cover" />
+
+/*
+
+        {!owned && <View style={style.overlay} />}
+        {count > 1 && (
+          <View style={style.badge}>
+            <Text style={style.badgeText}>x{count}</Text>
+          </View>
+        )}
+*/

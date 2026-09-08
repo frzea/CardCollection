@@ -11,9 +11,21 @@ export const createStyles = (theme: Theme) =>
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#fff",
       borderRadius: 8,
       overflow: "hidden",
+    },
+    cover: {
+      height: "100%",
+      aspectRatio: 2 / 3,
+      borderRadius: radius.xs,
+      overflow: "hidden",
+    },
+    coverPlaceholder: {
+      borderWidth: 2,
+      borderStyle: "dashed",
+      borderColor: theme.iconColor,
+      alignItems: "center",
+      justifyContent: "center",
     },
     overlay: {
       ...StyleSheet.absoluteFill,

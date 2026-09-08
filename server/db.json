@@ -10,12 +10,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/fc7823b2-70fe-4d91-9554-719eb6d4de0a/original/3d5037bbfb417c8c.webp"
       },
-      "genres": [
-        "Action",
-        "Drama",
-        "Fantasy",
-        "Mystery"
-      ],
+      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
       "episodes": 25
     },
@@ -29,13 +24,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/2eeb749a-afa8-4ce9-bfe1-d8db0251e296/original/7083df39d541b86a.jpg"
       },
-      "genres": [
-        "Action",
-        "Adventure",
-        "Drama",
-        "Fantasy",
-        "Supernatural"
-      ],
+      "genres": ["Action", "Adventure", "Drama", "Fantasy", "Supernatural"],
       "averageScore": 83,
       "episodes": 26
     },
@@ -49,11 +38,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/972d89b0-abb8-560f-8157-e72db6c6efbb/original/66bacf0cb3cf07c0.jpg"
       },
-      "genres": [
-        "Action",
-        "Drama",
-        "Supernatural"
-      ],
+      "genres": ["Action", "Drama", "Supernatural"],
       "averageScore": 84,
       "episodes": 24
     },
@@ -67,12 +52,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/b7f8d356-f119-47f8-9fcc-3ea4882945c4/original/2112ec81d0494ae9.jpg"
       },
-      "genres": [
-        "Mystery",
-        "Psychological",
-        "Supernatural",
-        "Thriller"
-      ],
+      "genres": ["Mystery", "Psychological", "Supernatural", "Thriller"],
       "averageScore": 84,
       "episodes": 37
     },
@@ -86,11 +66,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/8e7d8799-dc61-4a0a-be76-e09076248635/original/08850c1a2a63365a.jpg"
       },
-      "genres": [
-        "Action",
-        "Adventure",
-        "Comedy"
-      ],
+      "genres": ["Action", "Adventure", "Comedy"],
       "averageScore": 77,
       "episodes": 13
     },
@@ -104,11 +80,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/dd9ed61c-68e5-44f7-b919-e22cdf2d2767/original/7fb31e9f84e2b1b2.png"
       },
-      "genres": [
-        "Action",
-        "Adventure",
-        "Fantasy"
-      ],
+      "genres": ["Action", "Adventure", "Fantasy"],
       "averageScore": 89,
       "episodes": 148
     },
@@ -122,12 +94,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5a497ec4-eab8-413f-8577-3887a559f8e7/original/1c38b128d86b2112.jpg"
       },
-      "genres": [
-        "Action",
-        "Comedy",
-        "Sci-Fi",
-        "Supernatural"
-      ],
+      "genres": ["Action", "Comedy", "Sci-Fi", "Supernatural"],
       "averageScore": 83,
       "episodes": 12
     },
@@ -141,13 +108,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5d8d5391-1e03-4d89-b73d-8041119a8d09/original/a119a2d74d774dab.jpg"
       },
-      "genres": [
-        "Action",
-        "Adventure",
-        "Comedy",
-        "Drama",
-        "Fantasy"
-      ],
+      "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy"],
       "averageScore": 87,
       "episodes": null
     },
@@ -161,14 +122,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/9a19c00b-a45f-49e1-b618-fe592ca89afe/original/2c3554de7cba30a5.jpg"
       },
-      "genres": [
-        "Action",
-        "Drama",
-        "Horror",
-        "Mystery",
-        "Psychological",
-        "Supernatural"
-      ],
+      "genres": ["Action", "Drama", "Horror", "Mystery", "Psychological", "Supernatural"],
       "averageScore": 76,
       "episodes": 12
     },
@@ -182,12 +136,7 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/43ee3ed1-b906-430e-94f5-336bf75c653c/original/3fda9834e7c0518c.jpg"
       },
-      "genres": [
-        "Action",
-        "Drama",
-        "Fantasy",
-        "Mystery"
-      ],
+      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
       "averageScore": 85,
       "episodes": 12
     }
@@ -200,7 +149,7 @@
       "title": "Collection #1",
       "description": "",
       "cards": 18,
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+      "image": ""
     },
     {
       "id": "2",
@@ -209,7 +158,7 @@
       "title": "Collection #2",
       "description": "",
       "cards": 18,
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+      "image": ""
     },
     {
       "id": "3",
@@ -218,7 +167,7 @@
       "title": "Collection #3",
       "description": "",
       "cards": 6,
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+      "image": ""
     },
     {
       "id": "4",
@@ -227,7 +176,7 @@
       "title": "Collection #4",
       "description": "",
       "cards": 8,
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-buvcRTBx4NSm.jpg"
+      "image": ""
     }
   ],
   "cards": [

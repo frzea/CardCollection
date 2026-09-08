@@ -1,11 +1,14 @@
+import { resolveImageUrl } from "@/api/client";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
 import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections, UserCard } from "@/types/type";
+import Feather from "@expo/vector-icons/Feather";
+import { Image } from "expo-image";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
-import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: number }) {
@@ -41,7 +44,13 @@ export function CollectionsList({ id }: { id: number }) {
           })
         }
       >
-        <Image /*source={{ uri: item.image }}*/ style={style.cover} />
+        {item.image ? (
+          <Image source={{ uri: resolveImageUrl(item.image) }} style={style.cover} contentFit="cover" />
+        ) : (
+          <View style={[style.cover, style.coverPlaceholder]}>
+            <Feather name="layers" size={32} color={theme.iconColor} />
+          </View>
+        )}
         <View style={style.info}>
           <Text style={style.title}>{item.title}</Text>
           <Text style={style.title}>
@@ -62,7 +71,7 @@ export function CollectionsList({ id }: { id: number }) {
       )}
       {!loading && error && (
         <View style={style.center}>
-          <Text style={style.errorText}>Error: {error}</Text>
+          <Text style={style.errorText}>Error: {error.message}</Text>
           <TouchableOpacity onPress={refetch} style={style.retryBtn}>
             <Text style={style.retryText}>Refresh</Text>
           </TouchableOpacity>
