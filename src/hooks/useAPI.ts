@@ -16,7 +16,7 @@ export function useFetch<T>(path: string, initialValue: T) {
         setData(data);
         setError(null);
       } catch (err) {
-        if ((err as { name?: string })?.name === "AbortError") return;
+        if (signal.aborted) return;
         setError(err instanceof Error ? err : new Error("Unknown error"));
       } finally {
         setLoading(false);

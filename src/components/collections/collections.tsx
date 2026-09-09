@@ -56,7 +56,6 @@ export function CollectionsList({ id }: { id: number }) {
           <Text style={style.title}>
             Кол. карточек - {cardCount}/{item.cards}
           </Text>
-          <Text style={style.title}>{item.collectionId}</Text>
         </View>
       </TouchableOpacity>
     );
