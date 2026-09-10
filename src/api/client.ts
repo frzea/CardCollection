@@ -1,31 +1,34 @@
+import { isAxiosError } from "axios";
 import { ApiError } from "./api-error";
+import { api } from "./axios-instance";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export async function apiFetch<TResponse>(path: string, options: RequestInit = {}): Promise<TResponse> {
+interface ApiRequestOptions {
+  method?: string;
+  body?: string;
+  signal?: AbortSignal;
+}
+
+export async function apiFetch<TResponse>(path: string, options: ApiRequestOptions = {}): Promise<TResponse> {
   if (!API_URL) {
     throw new Error("EXPO_PUBLIC_API_URL is not set. Copy .env.example to .env and set your local IP.");
   }
 
-  const headers = new Headers(options.headers);
-  headers.set("Content-Type", "application/json");
-
-  const response = await fetch(`${API_URL}/${path}`, { ...options, headers });
-  const text = await response.text();
-  let json: unknown = null;
-  if (text) {
-    try {
-      json = JSON.parse(text);
-    } catch {
-      json = text;
+  try {
+    const response = await api.request<TResponse>({
+      url: path,
+      method: options.method,
+      data: options.body,
+      signal: options.signal,
+    });
+    return response.data;
+  } catch (err) {
+    if (isAxiosError(err) && err.response) {
+      throw new ApiError(err.response.status, err.response.data);
     }
+    throw err;
   }
-
-  if (!response.ok) {
-    throw new ApiError(response.status, json);
-  }
-
-  return json as TResponse;
 }
 
 export function resolveImageUrl(path: string): string {

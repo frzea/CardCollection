@@ -1,4 +1,4 @@
-import { resolveImageUrl } from "@/api/client";
+import { resolveImageUrl } from "@/api/client(old)";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards } from "@/types/type";
 import { Image } from "expo-image";

@@ -1,6 +1,7 @@
-import { useFetch } from "@/hooks/useAPI";
+import { apiFetch } from "@/api/client";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
+import { useQuery } from "@tanstack/react-query";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo } from "react";
 import { Image, Text, View } from "react-native";
@@ -9,7 +10,7 @@ import { createStyles } from "./styles";
 export function ManhwaTitle({ id }: { id: number }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
-  const { data } = useFetch<TitleCardItem | null>(`anime/${id}`, null);
+  const { data } = useQuery({ queryKey: ["anime", id], queryFn: () => apiFetch<TitleCardItem>(`anime/${id}`) });
 
   return (
     <>
