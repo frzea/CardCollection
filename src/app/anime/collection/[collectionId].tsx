@@ -1,10 +1,11 @@
+import { apiFetch } from "@/api/client";
 import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
-import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards, UserCard } from "@/types/type";
+import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
@@ -15,16 +16,25 @@ export default function CollectionPage() {
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
-  const { data } = useFetch<Cards[]>(`cards?collectionId=${collectionId}`, []);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+
+  const { data: collctionCards = [] } = useQuery({
+    queryKey: ["colectionCards", collectionId],
+    queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}`),
+  });
+  const { data: userCards = [], refetch: refresCollectionUserCards } = useQuery({
+    queryKey: ["userColltcionCards", collectionId],
+    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`),
+  });
+  /*const { data } = useFetch<Cards[]>(`cards?collectionId=${collectionId}`, []);
   const {
     data: userCards,
     setData: setUserCard,
     refetch: refreshUserCards,
-  } = useFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`, []);
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  } = useFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`, []);*/
 
   const userCardByCardId = useMemo(() => new Map(userCards.map((item) => [item.cardId, item])), [userCards]);
-  const selectedCard = data.find((c) => c.cardId === selectedCardId) ?? null;
+  const selectedCard = collctionCards.find((c) => c.cardId === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
 
   async function handleAdd() {
@@ -46,7 +56,7 @@ export default function CollectionPage() {
         setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
       }
     } catch {
-      refreshUserCards();
+      refresCollectionUserCards();
     }
   }
 
@@ -65,7 +75,7 @@ export default function CollectionPage() {
         setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
       }
     } catch {
-      refreshUserCards();
+      refresCollectionUserCards();
     }
   }
 
@@ -85,7 +95,7 @@ export default function CollectionPage() {
       <ScrollView>
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <View style={style.grid}>
-            {data.map((item, index) => (
+            {collctionCards.map((item, index) => (
               <Card
                 key={item.cardId}
                 id={item.cardId}

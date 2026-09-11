@@ -1,10 +1,11 @@
+import { apiFetch } from "@/api/client";
 import { resolveImageUrl } from "@/api/client(old)";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
-import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections, UserCard } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
+import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
@@ -15,19 +16,30 @@ export function CollectionsList({ id }: { id: number }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
-  const { data, loading, error, refetch } = useFetch<Collections[]>(`collections?animeId=${id}`, []);
-  const { data: userCards, refetch: refetchUserCard } = useFetch<UserCard[]>("userCards?userId=1", []);
+  const {
+    data: collectionData = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["collections", id],
+    queryFn: () => apiFetch<Collections[]>(`collections?animeId=${id}`),
+  });
+  const { data: userCards = [], refetch: refetchUserCards } = useQuery({
+    queryKey: ["userCards", 1],
+    queryFn: () => apiFetch<UserCard[]>("userCards?userId=1"),
+  });
 
   useFocusEffect(
     useCallback(() => {
       refetch();
-      refetchUserCard();
-    }, [refetch, refetchUserCard]),
+      refetchUserCards();
+    }, [refetch, refetchUserCards]),
   );
 
   const ownedCount = useMemo(
-    () => new Map(data.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === Number(item.id)).length])),
-    [data, userCards],
+    () => new Map(collectionData.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === Number(item.id)).length])),
+    [collectionData, userCards],
   );
 
   const renderSeasons = ({ item }: { item: Collections }) => {
@@ -63,22 +75,22 @@ export function CollectionsList({ id }: { id: number }) {
 
   return (
     <>
-      {loading && (
+      {isLoading && (
         <View style={style.center}>
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )}
-      {!loading && error && (
+      {!isLoading && error && (
         <View style={style.center}>
           <Text style={style.errorText}>Error: {error.message}</Text>
-          <TouchableOpacity onPress={refetch} style={style.retryBtn}>
+          <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
             <Text style={style.retryText}>Refresh</Text>
           </TouchableOpacity>
         </View>
       )}
-      {!loading && !error && (
+      {!isLoading && !error && (
         <FlatList
-          data={data}
+          data={collectionData}
           keyExtractor={(item) => String(item.id)}
           renderItem={renderSeasons}
           contentContainerStyle={style.flatList}

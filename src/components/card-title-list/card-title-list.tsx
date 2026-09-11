@@ -1,7 +1,8 @@
+import { apiFetch } from "@/api/client";
 import { colors } from "@/design-system/index";
-import { useFetch } from "@/hooks/useAPI";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
@@ -13,7 +14,7 @@ export function CardTitleList({ query }: { query: string }) {
   const style = useMemo(() => createStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data, loading, error, refetch } = useFetch<TitleCardItem[]>("anime", []);
+  const { data = [], isLoading, error, refetch } = useQuery({ queryKey: ["anime"], queryFn: () => apiFetch<TitleCardItem[]>("anime") });
 
   const filterData = useMemo(
     () =>
@@ -53,7 +54,7 @@ export function CardTitleList({ query }: { query: string }) {
     </TouchableOpacity>
   );
 
-  if (loading || error)
+  if (isLoading || error)
     return (
       <View
         style={{
@@ -61,15 +62,15 @@ export function CardTitleList({ query }: { query: string }) {
           height: "80%",
         }}
       >
-        {loading && (
+        {isLoading && (
           <View style={style.center}>
             <ActivityIndicator size="large" color={colors.primary} />
           </View>
         )}
-        {!loading && error && (
+        {!isLoading && error && (
           <View style={style.center}>
             <Text style={style.errorText}>Error: {error.message}</Text>
-            <TouchableOpacity onPress={refetch} style={style.retryBtn}>
+            <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
               <Text style={style.retryText}>Refresh</Text>
             </TouchableOpacity>
           </View>
