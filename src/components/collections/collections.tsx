@@ -1,5 +1,4 @@
-import { apiFetch } from "@/api/client";
-import { resolveImageUrl } from "@/api/client(old)";
+import { apiFetch, resolveImageUrl } from "@/api/client";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";

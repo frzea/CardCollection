@@ -1,4 +1,4 @@
-import { resolveImageUrl } from "@/api/client(old)";
+import { resolveImageUrl } from "@/api/client";
 import { useTheme } from "@/hooks/useTheme";
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";

@@ -5,7 +5,7 @@ import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards, UserCard } from "@/types/type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
@@ -17,66 +17,64 @@ export default function CollectionPage() {
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
 
   const { data: collctionCards = [] } = useQuery({
     queryKey: ["colectionCards", collectionId],
     queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}`),
   });
-  const { data: userCards = [], refetch: refresCollectionUserCards } = useQuery({
-    queryKey: ["userColltcionCards", collectionId],
-    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`),
+  const { data: userCards = [] } = useQuery({
+    queryKey: ["userCards", 1],
+    queryFn: () => apiFetch<UserCard[]>("userCards?userId=1"),
   });
-  /*const { data } = useFetch<Cards[]>(`cards?collectionId=${collectionId}`, []);
-  const {
-    data: userCards,
-    setData: setUserCard,
-    refetch: refreshUserCards,
-  } = useFetch<UserCard[]>(`userCards?userId=1&collectionId=${collectionId}`, []);*/
 
-  const userCardByCardId = useMemo(() => new Map(userCards.map((item) => [item.cardId, item])), [userCards]);
+  const userCardByCardId = useMemo(
+    () => new Map(userCards.filter((item) => item.collectionId == Number(collectionId)).map((item) => [item.cardId, item])),
+    [userCards, collectionId],
+  );
   const selectedCard = collctionCards.find((c) => c.cardId === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
+
+  const addMutations = useMutation({
+    mutationFn: (existing?: UserCard) =>
+      existing
+        ? apiPATCH<UserCard>(`userCards/${existing.id}`, {
+            count: existing.count + 1,
+          })
+        : apiPOST<UserCard>("userCards", {
+            userId: 1,
+            collectionId: Number(collectionId),
+            cardId: selectedCardId,
+            count: 1,
+          }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userCards", 1] });
+    },
+  });
+
+  const removeMutations = useMutation({
+    mutationFn: (existing: UserCard) =>
+      existing.count <= 1
+        ? apiDELETE(`userCards/${existing.id}`)
+        : apiPATCH<UserCard>(`userCards/${existing.id}`, {
+            count: existing.count - 1,
+          }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userCards", 1] });
+    },
+  });
 
   async function handleAdd() {
     if (!selectedCardId) return;
     const existing = userCardByCardId.get(selectedCardId);
-    try {
-      if (!existing) {
-        const created = await apiPOST<UserCard>("userCards", {
-          userId: 1,
-          collectionId: Number(collectionId),
-          cardId: selectedCardId,
-          count: 1,
-        });
-        setUserCard((prev) => [...prev, created]);
-      } else {
-        const updated = await apiPATCH<UserCard>(`userCards/${existing.id}`, {
-          count: existing.count + 1,
-        });
-        setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
-      }
-    } catch {
-      refresCollectionUserCards();
-    }
+    addMutations.mutate(existing);
   }
 
   async function handleRemove() {
     if (!selectedCardId) return;
     const existing = userCardByCardId.get(selectedCardId);
     if (!existing) return;
-    try {
-      if (existing.count <= 1) {
-        await apiDELETE(`userCards/${existing.id}`);
-        setUserCard((prev) => prev.filter((uc) => uc.id !== existing.id));
-      } else {
-        const updated = await apiPATCH<UserCard>(`userCards/${existing.id}`, {
-          count: existing.count - 1,
-        });
-        setUserCard((prev) => prev.map((uc) => (uc.id === updated.id ? updated : uc)));
-      }
-    } catch {
-      refresCollectionUserCards();
-    }
+    removeMutations.mutate(existing);
   }
 
   return (

@@ -1,4 +1,4 @@
-import { apiFetch } from "./client(old)";
+import { apiFetch } from "./client";
 
 export async function apiPOST<TResponse, TBody = unknown>(path: string, body: TBody) {
   return apiFetch<TResponse>(path, {
