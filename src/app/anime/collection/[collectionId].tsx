@@ -3,8 +3,9 @@ import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
+import useAsyncStorage from "@/hooks/useAsuncStorage";
 import { useTheme } from "@/hooks/useTheme";
-import { Cards, UserCard } from "@/types/type";
+import { Cards, UserAuth, UserCard } from "@/types/type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -18,14 +19,18 @@ export default function CollectionPage() {
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
   const queryClient = useQueryClient();
+  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
+    key: "user-auth",
+    initialValue: { userId: 0, roleId: 0 },
+  });
 
   const { data: collctionCards = [] } = useQuery({
     queryKey: ["colectionCards", collectionId],
     queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}`),
   });
   const { data: userCards = [] } = useQuery({
-    queryKey: ["userCards", 1],
-    queryFn: () => apiFetch<UserCard[]>("userCards?userId=1"),
+    queryKey: ["userCards", auth.userId],
+    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${auth.userId}`),
   });
 
   const userCardByCardId = useMemo(
@@ -42,13 +47,13 @@ export default function CollectionPage() {
             count: existing.count + 1,
           })
         : apiPOST<UserCard>("userCards", {
-            userId: 1,
+            userId: auth.userId,
             collectionId: Number(collectionId),
             cardId: selectedCardId,
             count: 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", 1] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
     },
   });
 
@@ -60,7 +65,7 @@ export default function CollectionPage() {
             count: existing.count - 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", 1] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
     },
   });
 

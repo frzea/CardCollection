@@ -1,8 +1,9 @@
 import { apiFetch, resolveImageUrl } from "@/api/client";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
+import useAsyncStorage from "@/hooks/useAsuncStorage";
 import { useTheme } from "@/hooks/useTheme";
-import { Collections, UserCard } from "@/types/type";
+import { Collections, UserAuth, UserCard } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
@@ -15,6 +16,10 @@ export function CollectionsList({ id }: { id: number }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
+  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
+    key: "user-auth",
+    initialValue: { userId: 0, roleId: 0 },
+  });
   const {
     data: collectionData = [],
     isLoading,
@@ -25,8 +30,8 @@ export function CollectionsList({ id }: { id: number }) {
     queryFn: () => apiFetch<Collections[]>(`collections?animeId=${id}`),
   });
   const { data: userCards = [], refetch: refetchUserCards } = useQuery({
-    queryKey: ["userCards", 1],
-    queryFn: () => apiFetch<UserCard[]>("userCards?userId=1"),
+    queryKey: ["userCards", auth.userId],
+    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${auth.userId}`),
   });
 
   useFocusEffect(

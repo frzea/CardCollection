@@ -22,7 +22,6 @@ export async function apiFetch<TResponse>(path: string, options: ApiRequestOptio
       data: options.body,
       signal: options.signal,
     });
-    console.log("api done!");
     return response.data;
   } catch (err) {
     if (isAxiosError(err) && err.response) {

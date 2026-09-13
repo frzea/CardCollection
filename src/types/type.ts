@@ -34,7 +34,7 @@ interface Collections {
 }
 
 interface UserCard {
-  id: number;
+  id: string;
   collectionId: number;
   userId: number;
   cardId: number;
@@ -47,5 +47,10 @@ interface UserCollection {
   collectionId: number;
 }
 
-export type { Cards, Collections, TitleCardItem, UserCard, UserCollection };
+type UserAuth = {
+  userId: number;
+  roleId: number;
+};
+
+export type { Cards, Collections, TitleCardItem, UserAuth, UserCard, UserCollection };
 

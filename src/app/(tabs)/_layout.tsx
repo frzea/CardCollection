@@ -28,9 +28,7 @@ export default function TabLayout() {
             headerTitle: "",
             headerShown: false,
             title: "Search",
-            tabBarIcon: ({ color }) => (
-              <Feather name="search" size={24} color={color} />
-            ),
+            tabBarIcon: ({ color }) => <Feather name="search" size={24} color={color} />,
           }}
         />
         <Tabs.Screen
@@ -38,9 +36,7 @@ export default function TabLayout() {
           options={{
             headerTitle: "",
             title: "Profile",
-            tabBarIcon: ({ color }) => (
-              <Feather name="user" size={24} color={color} />
-            ),
+            tabBarIcon: ({ color }) => <Feather name="user" size={24} color={color} />,
           }}
         />
       </Tabs>
