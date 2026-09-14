@@ -17,4 +17,12 @@ export const createStyles = (theme: Theme) =>
       color: theme.text,
       fontSize: fontSize.fab,
     },
+    button: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: spacing.xxl,
+      width: spacing.xl * 6,
+      backgroundColor: theme.iconColor,
+      alignSelf: "flex-end",
+    },
   });

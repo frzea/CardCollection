@@ -2,20 +2,25 @@ import { CardTitleList } from "@/components/card-title-list/card-title-list";
 import { SearchInput } from "@/components/ui/search-input/search-input";
 import { createStyles } from "@/design-system/styles/search-page";
 import { useTheme } from "@/hooks/useTheme";
+import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SearchPage() {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const [query, setQuery] = useState("");
+  const router = useRouter();
 
   return (
     <SafeAreaView style={style.searcView}>
       <View style={style.content}>
         <Text style={style.text}>Review</Text>
         <SearchInput value={query} onChengeValue={setQuery} />
+        <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={() => router.push({ pathname: "/anime/new-manhwa" })}>
+          <Text>Create new</Text>
+        </TouchableOpacity>
         <CardTitleList query={query} />
       </View>
     </SafeAreaView>
