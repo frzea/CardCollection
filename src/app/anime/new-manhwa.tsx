@@ -3,11 +3,12 @@ import { FormInput } from "@/hooks/useController";
 import { useTheme } from "@/hooks/useTheme";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as ImagePicker from "expo-image-picker";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 
 const schema = z.object({
@@ -18,7 +19,7 @@ const schema = z.object({
   averageScore: z
     .string()
     .min(1, "минимум 1")
-    .refine((val) => Number(val) >= 100, "больше 100 нельзя"),
+    .refine((val) => Number(val) <= 100, "больше 100 нельзя"),
   episodes: z.string().min(1, "минимум 1"),
 });
 
@@ -27,6 +28,15 @@ type FormData = z.infer<typeof schema>;
 export default function NewManhwa() {
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
+  const [permissionResponse, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [selectedImage, setSelectedImage] = useState<string[]>([]);
+  const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!permissionResponse?.granted) {
+      requestPermission();
+    }
+  }, []);
 
   const {
     control,
@@ -37,6 +47,23 @@ export default function NewManhwa() {
     mode: "onBlur",
     defaultValues: { titleEn: "", titleRom: "", description: "", genres: "", averageScore: "", episodes: "" },
   });
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      allowsMultipleSelection: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result);
+      const uris = result.assets.map((a) => a.uri);
+      setSelectedImage((prev) => [...prev, ...uris]);
+      setShowAppOptions(true);
+    } else {
+      alert("Tou did not select any image.");
+    }
+  };
 
   return (
     <>
@@ -53,40 +80,71 @@ export default function NewManhwa() {
       />
       <View style={style.page}>
         <ScrollView contentContainerStyle={style.content}>
-          <View style={[style.cover, style.coverPlaceholder]}>
-            <Feather name="image" size={48} color={theme.iconColor} />
-          </View>
+          <TouchableOpacity onPress={pickImageAsync}>
+            {selectedImage.length > 0 ? (
+              <Image source={{ uri: selectedImage[selectedImage.length - 1] }} style={style.cover} resizeMode="cover" />
+            ) : (
+              <View style={[style.cover, style.coverPlaceholder]}>
+                <Feather name="image" size={48} color={theme.iconColor} />
+              </View>
+            )}
+          </TouchableOpacity>
 
           <View style={style.field}>
             <Text style={style.label}>Title (English)</Text>
-
-            <TextInput style={style.input} placeholder="English title" placeholderTextColor={theme.iconColor} />
             <FormInput control={control} name="titleEn" placeholder="English title" style={style.input} placeholderTextColor={theme.iconColor} />
           </View>
 
           <View style={style.field}>
             <Text style={style.label}>Title (Romaji)</Text>
-            <TextInput style={style.input} placeholder="Romaji title" placeholderTextColor={theme.iconColor} />
+            <FormInput control={control} name="titleRom" placeholder="Romaji title" style={style.input} placeholderTextColor={theme.iconColor} />
           </View>
 
           <View style={style.field}>
             <Text style={style.label}>Description</Text>
-            <TextInput style={[style.input, style.multilineInput]} placeholder="Description" placeholderTextColor={theme.iconColor} multiline />
+            <FormInput
+              control={control}
+              name="description"
+              placeholder="Description"
+              style={[style.input, style.multilineInput]}
+              placeholderTextColor={theme.iconColor}
+              multiline
+            />
           </View>
 
           <View style={style.field}>
             <Text style={style.label}>Genres</Text>
-            <TextInput style={style.input} placeholder="Genres (comma separated)" placeholderTextColor={theme.iconColor} />
+            <FormInput
+              control={control}
+              name="genres"
+              placeholder="Genres (comma separated)"
+              style={style.input}
+              placeholderTextColor={theme.iconColor}
+            />
           </View>
 
           <View style={style.field}>
             <Text style={style.label}>Average score</Text>
-            <TextInput style={style.input} placeholder="Average score" placeholderTextColor={theme.iconColor} keyboardType="numeric" />
+            <FormInput
+              control={control}
+              name="averageScore"
+              placeholder="Average score"
+              style={style.input}
+              placeholderTextColor={theme.iconColor}
+              keyboardType="numeric"
+            />
           </View>
 
           <View style={style.field}>
             <Text style={style.label}>Episodes</Text>
-            <TextInput style={style.input} placeholder="Episodes" placeholderTextColor={theme.iconColor} keyboardType="numeric" />
+            <FormInput
+              control={control}
+              name="episodes"
+              placeholder="Episodes"
+              style={style.input}
+              placeholderTextColor={theme.iconColor}
+              keyboardType="numeric"
+            />
           </View>
         </ScrollView>
       </View>

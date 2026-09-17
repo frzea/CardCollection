@@ -1,5 +1,5 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { ColorValue, StyleProp, StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
+import { ColorValue, KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -7,9 +7,19 @@ type Props<T extends FieldValues> = {
   placeholder?: string;
   style?: StyleProp<TextStyle>;
   placeholderTextColor: ColorValue | undefined;
+  keyboardType?: KeyboardTypeOptions;
+  multiline?: boolean;
 };
 
-export function FormInput<T extends FieldValues>({ control, name, placeholder, style, placeholderTextColor }: Props<T>) {
+export function FormInput<T extends FieldValues>({
+  control,
+  name,
+  placeholder,
+  style,
+  placeholderTextColor,
+  keyboardType,
+  multiline,
+}: Props<T>) {
   const {
     field: { onChange, onBlur, value },
     fieldState: { error },
@@ -24,6 +34,8 @@ export function FormInput<T extends FieldValues>({ control, name, placeholder, s
         onChangeText={onChange}
         value={value}
         placeholderTextColor={placeholderTextColor}
+        keyboardType={keyboardType}
+        multiline={multiline}
       />
       {error && <Text style={styles.error}>{error.message}</Text>}
     </View>
