@@ -1,4 +1,4 @@
-import { fontSize, gaps, radius, spacing } from "@/design-system/index";
+import { colors, fontSize, fontWeight, gaps, radius, spacing } from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 
@@ -47,5 +47,26 @@ export const createStyles = (theme: Theme) =>
       height: spacing.large * 2,
       paddingTop: spacing.sm,
       textAlignVertical: "top",
+    },
+    button: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: spacing.large,
+      borderRadius: radius.sm,
+      backgroundColor: colors.primary,
+      marginTop: spacing.sm,
+      elevation: spacing.xs,
+      shadowColor: theme.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: spacing.xs,
+    },
+    buttonDisabled: {
+      opacity: 0.6,
+    },
+    buttonText: {
+      color: colors.white,
+      fontSize: fontSize.base,
+      fontWeight: fontWeight.semibold,
     },
   });

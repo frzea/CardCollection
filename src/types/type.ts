@@ -10,6 +10,7 @@ interface CoverImage {
 interface TitleCardItem {
   id: number;
   title: Title;
+  description: string;
   coverImage: CoverImage;
   episodes: number | null;
   averageScore: number | null;

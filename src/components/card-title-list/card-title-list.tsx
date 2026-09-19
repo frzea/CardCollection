@@ -1,4 +1,4 @@
-import { apiFetch } from "@/api/client";
+import { apiFetch, resolveImageUrl } from "@/api/client";
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
@@ -39,7 +39,7 @@ export function CardTitleList({ query }: { query: string }) {
         })
       }
     >
-      <Image source={{ uri: item.coverImage.large }} style={style.cover} />
+      <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} />
       <View style={style.info}>
         <Text style={style.title} numberOfLines={2}>
           {item.title.english || item.title.romaji}

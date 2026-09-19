@@ -1,14 +1,19 @@
+import { apiPOST } from "@/api/events";
+import { uploadImage } from "@/api/upload";
+import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { FormInput } from "@/hooks/useController";
 import { useTheme } from "@/hooks/useTheme";
+import { TitleCardItem } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 
 const schema = z.object({
@@ -29,8 +34,8 @@ export default function NewManhwa() {
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const [permissionResponse, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [selectedImage, setSelectedImage] = useState<string[]>([]);
-  const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!permissionResponse?.granted) {
@@ -51,18 +56,39 @@ export default function NewManhwa() {
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      allowsMultipleSelection: true,
+      allowsMultipleSelection: false,
       quality: 1,
     });
 
     if (!result.canceled) {
-      console.log(result);
-      const uris = result.assets.map((a) => a.uri);
-      setSelectedImage((prev) => [...prev, ...uris]);
-      setShowAppOptions(true);
+      const uris = result.assets[0].uri;
+      setSelectedImage(uris);
     } else {
       alert("Tou did not select any image.");
     }
+  };
+
+  const createMutatons = useMutation({
+    mutationFn: (existing: Omit<TitleCardItem, "id">) => apiPOST<TitleCardItem>("anime", existing),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["anime"] });
+    },
+  });
+
+  const onSabmit = async (data: FormData) => {
+    let coverImageUrl = "";
+    if (selectedImage) {
+      coverImageUrl = await uploadImage(selectedImage);
+    }
+
+    createMutatons.mutate({
+      title: { english: data.titleEn, romaji: data.titleRom },
+      description: data.description,
+      coverImage: { large: coverImageUrl },
+      genres: data.genres.split(",").map((g) => g.trim()),
+      averageScore: Number(data.averageScore),
+      episodes: Number(data.episodes),
+    });
   };
 
   return (
@@ -81,8 +107,8 @@ export default function NewManhwa() {
       <View style={style.page}>
         <ScrollView contentContainerStyle={style.content}>
           <TouchableOpacity onPress={pickImageAsync}>
-            {selectedImage.length > 0 ? (
-              <Image source={{ uri: selectedImage[selectedImage.length - 1] }} style={style.cover} resizeMode="cover" />
+            {selectedImage ? (
+              <Image source={{ uri: selectedImage }} style={style.cover} resizeMode="cover" />
             ) : (
               <View style={[style.cover, style.coverPlaceholder]}>
                 <Feather name="image" size={48} color={theme.iconColor} />
@@ -146,6 +172,15 @@ export default function NewManhwa() {
               keyboardType="numeric"
             />
           </View>
+
+          <TouchableOpacity
+            style={[style.button, isSubmitting && style.buttonDisabled]}
+            activeOpacity={0.8}
+            disabled={isSubmitting}
+            onPress={handleSubmit(onSabmit, (errors) => console.log(errors))}
+          >
+            {isSubmitting ? <ActivityIndicator color={colors.white} /> : <Text style={style.buttonText}>Create</Text>}
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </>

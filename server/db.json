@@ -212,6 +212,22 @@
       ],
       "averageScore": 85,
       "episodes": 12
+    },
+    {
+      "title": {
+        "english": "Big blades",
+        "romaji": "fdsfdffd"
+      },
+      "description": "fdsfsfs",
+      "coverImage": {
+        "large": "/cards/uploads/1789830086723-675015074.png"
+      },
+      "genres": [
+        "Action"
+      ],
+      "averageScore": 95,
+      "episodes": 2,
+      "id": "HL1IpPL"
     }
   ],
   "collections": [
