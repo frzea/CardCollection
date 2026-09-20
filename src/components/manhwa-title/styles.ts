@@ -1,4 +1,4 @@
-import { fontSize, fontWeight } from "@/design-system";
+import { fontSize, fontWeight, spacing } from "@/design-system";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 export const createStyles = (theme: Theme) =>
@@ -34,6 +34,18 @@ export const createStyles = (theme: Theme) =>
       fontSize: fontSize.base,
       fontWeight: fontWeight.bold,
       color: theme.text,
+    },
+    button: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: spacing.xxl,
+      width: spacing.xl * 6,
+      backgroundColor: theme.iconColor,
+    },
+    siteBar: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
       marginTop: 15,
     },
   });

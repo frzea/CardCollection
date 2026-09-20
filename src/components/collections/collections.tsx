@@ -1,18 +1,18 @@
-import { apiFetch, resolveImageUrl } from "@/api/client";
+import { resolveImageUrl } from "@/api/client";
+import { useCollection, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
 import useAsyncStorage from "@/hooks/useAsuncStorage";
 import { useTheme } from "@/hooks/useTheme";
-import { Collections, UserAuth, UserCard } from "@/types/type";
+import { Collections, UserAuth } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
-import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
-export function CollectionsList({ id }: { id: number }) {
+export function CollectionsList({ id }: { id: string }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
@@ -20,19 +20,8 @@ export function CollectionsList({ id }: { id: number }) {
     key: "user-auth",
     initialValue: { userId: 0, roleId: 0 },
   });
-  const {
-    data: collectionData = [],
-    isLoading,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["collections", id],
-    queryFn: () => apiFetch<Collections[]>(`collections?animeId=${id}`),
-  });
-  const { data: userCards = [], refetch: refetchUserCards } = useQuery({
-    queryKey: ["userCards", auth.userId],
-    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${auth.userId}`),
-  });
+  const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(auth.userId);
 
   useFocusEffect(
     useCallback(() => {

@@ -8,7 +8,7 @@ import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AnimeDetailScreen() {
-  const { id, name } = useLocalSearchParams();
+  const { id, name } = useLocalSearchParams<{ id: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
 
@@ -27,7 +27,7 @@ export default function AnimeDetailScreen() {
       />
       <SafeAreaView style={style.searcView} edges={["bottom"]}>
         <View style={style.content}>
-          <CollectionsList id={Number(id)} />
+          <CollectionsList id={id} />
         </View>
       </SafeAreaView>
     </>

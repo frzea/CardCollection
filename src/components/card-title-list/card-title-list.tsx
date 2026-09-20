@@ -1,8 +1,8 @@
-import { apiFetch, resolveImageUrl } from "@/api/client";
+import { resolveImageUrl } from "@/api/client";
+import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import { TitleCardItem } from "@/types/type";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
@@ -14,7 +14,7 @@ export function CardTitleList({ query }: { query: string }) {
   const style = useMemo(() => createStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data = [], isLoading, error, refetch } = useQuery({ queryKey: ["anime"], queryFn: () => apiFetch<TitleCardItem[]>("anime") });
+  const { data = [], isLoading, error, refetch } = useManhwas();
 
   const filterData = useMemo(
     () =>

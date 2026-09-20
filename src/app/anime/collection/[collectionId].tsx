@@ -1,12 +1,12 @@
-import { apiFetch } from "@/api/client";
 import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
+import { useCollectionCards, useUserCards } from "@/api/queries/queries";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
 import useAsyncStorage from "@/hooks/useAsuncStorage";
 import { useTheme } from "@/hooks/useTheme";
-import { Cards, UserAuth, UserCard } from "@/types/type";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { UserAuth, UserCard } from "@/types/type";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
@@ -23,15 +23,8 @@ export default function CollectionPage() {
     key: "user-auth",
     initialValue: { userId: 0, roleId: 0 },
   });
-
-  const { data: collctionCards = [] } = useQuery({
-    queryKey: ["colectionCards", collectionId],
-    queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}`),
-  });
-  const { data: userCards = [] } = useQuery({
-    queryKey: ["userCards", auth.userId],
-    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${auth.userId}`),
-  });
+  const { data: collctionCards = [] } = useCollectionCards(collectionId);
+  const { data: userCards = [] } = useUserCards(auth.userId);
 
   const userCardByCardId = useMemo(
     () => new Map(userCards.filter((item) => item.collectionId == Number(collectionId)).map((item) => [item.cardId, item])),

@@ -69,9 +69,9 @@ export default function NewManhwa() {
   };
 
   const createMutatons = useMutation({
-    mutationFn: (existing: Omit<TitleCardItem, "id">) => apiPOST<TitleCardItem>("anime", existing),
+    mutationFn: (existing: Omit<TitleCardItem, "id">) => apiPOST<TitleCardItem>("manhwa", existing),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["anime"] });
+      queryClient.invalidateQueries({ queryKey: ["manhwas"] });
     },
   });
 

@@ -8,7 +8,7 @@ interface CoverImage {
 }
 
 interface TitleCardItem {
-  id: number;
+  id: string;
   title: Title;
   description: string;
   coverImage: CoverImage;
@@ -26,7 +26,7 @@ interface Cards {
 
 interface Collections {
   id: number;
-  animeId: number;
+  manhwaId: number;
   collectionId: number;
   title: string;
   description: string;
