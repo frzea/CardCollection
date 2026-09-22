@@ -4,7 +4,7 @@ import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { FormInput } from "@/hooks/useController";
 import { useTheme } from "@/hooks/useTheme";
-import { TitleCardItem } from "@/types/type";
+import { Manhwa } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -69,7 +69,7 @@ export default function NewManhwa() {
   };
 
   const createMutatons = useMutation({
-    mutationFn: (existing: Omit<TitleCardItem, "id">) => apiPOST<TitleCardItem>("manhwa", existing),
+    mutationFn: (existing: Omit<Manhwa, "id">) => apiPOST<Manhwa>("manhwa", existing),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["manhwas"] });
     },

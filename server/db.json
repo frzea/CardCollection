@@ -32,7 +32,12 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/fc7823b2-70fe-4d91-9554-719eb6d4de0a/original/3d5037bbfb417c8c.webp"
       },
-      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Fantasy",
+        "Mystery"
+      ],
       "averageScore": 85,
       "episodes": 25
     },
@@ -46,7 +51,13 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/2eeb749a-afa8-4ce9-bfe1-d8db0251e296/original/7083df39d541b86a.jpg"
       },
-      "genres": ["Action", "Adventure", "Drama", "Fantasy", "Supernatural"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Fantasy",
+        "Supernatural"
+      ],
       "averageScore": 83,
       "episodes": 26
     },
@@ -60,7 +71,11 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/972d89b0-abb8-560f-8157-e72db6c6efbb/original/66bacf0cb3cf07c0.jpg"
       },
-      "genres": ["Action", "Drama", "Supernatural"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Supernatural"
+      ],
       "averageScore": 84,
       "episodes": 24
     },
@@ -74,7 +89,12 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/b7f8d356-f119-47f8-9fcc-3ea4882945c4/original/2112ec81d0494ae9.jpg"
       },
-      "genres": ["Mystery", "Psychological", "Supernatural", "Thriller"],
+      "genres": [
+        "Mystery",
+        "Psychological",
+        "Supernatural",
+        "Thriller"
+      ],
       "averageScore": 84,
       "episodes": 37
     },
@@ -88,7 +108,11 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/8e7d8799-dc61-4a0a-be76-e09076248635/original/08850c1a2a63365a.jpg"
       },
-      "genres": ["Action", "Adventure", "Comedy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
       "averageScore": 77,
       "episodes": 13
     },
@@ -102,7 +126,11 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/dd9ed61c-68e5-44f7-b919-e22cdf2d2767/original/7fb31e9f84e2b1b2.png"
       },
-      "genres": ["Action", "Adventure", "Fantasy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
       "averageScore": 89,
       "episodes": 148
     },
@@ -116,7 +144,12 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5a497ec4-eab8-413f-8577-3887a559f8e7/original/1c38b128d86b2112.jpg"
       },
-      "genres": ["Action", "Comedy", "Sci-Fi", "Supernatural"],
+      "genres": [
+        "Action",
+        "Comedy",
+        "Sci-Fi",
+        "Supernatural"
+      ],
       "averageScore": 83,
       "episodes": 12
     },
@@ -130,7 +163,13 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/5d8d5391-1e03-4d89-b73d-8041119a8d09/original/a119a2d74d774dab.jpg"
       },
-      "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy"],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Fantasy"
+      ],
       "averageScore": 87,
       "episodes": null
     },
@@ -144,7 +183,14 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/9a19c00b-a45f-49e1-b618-fe592ca89afe/original/2c3554de7cba30a5.jpg"
       },
-      "genres": ["Action", "Drama", "Horror", "Mystery", "Psychological", "Supernatural"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Horror",
+        "Mystery",
+        "Psychological",
+        "Supernatural"
+      ],
       "averageScore": 76,
       "episodes": 12
     },
@@ -158,7 +204,12 @@
       "coverImage": {
         "large": "https://cdn.nextchapter.moe/covers/series/43ee3ed1-b906-430e-94f5-336bf75c653c/original/3fda9834e7c0518c.jpg"
       },
-      "genres": ["Action", "Drama", "Fantasy", "Mystery"],
+      "genres": [
+        "Action",
+        "Drama",
+        "Fantasy",
+        "Mystery"
+      ],
       "averageScore": 85,
       "episodes": 12
     },
@@ -171,7 +222,9 @@
       "coverImage": {
         "large": "/cards/uploads/1789830086723-675015074.png"
       },
-      "genres": ["Action"],
+      "genres": [
+        "Action"
+      ],
       "averageScore": 95,
       "episodes": 2,
       "id": "HL1IpPL"
@@ -180,213 +233,231 @@
   "collections": [
     {
       "id": "1",
-      "manhwaId": 16498,
+      "manhwaId": "16498",
       "collectionId": 1,
       "title": "Collection #1",
       "description": "",
-      "cards": 18,
+      "cards": "18",
       "image": ""
     },
     {
       "id": "2",
-      "manhwaId": 16498,
+      "manhwaId": "16498",
       "collectionId": 2,
       "title": "Collection #2",
       "description": "",
-      "cards": 18,
+      "cards": "18",
       "image": ""
     },
     {
       "id": "3",
-      "manhwaId": 16498,
+      "manhwaId": "16498",
       "collectionId": 3,
       "title": "Collection #3",
       "description": "",
-      "cards": 6,
+      "cards": "6",
       "image": ""
     },
     {
       "id": "4",
-      "manhwaId": 16498,
+      "manhwaId": "16498",
       "collectionId": 4,
       "title": "Collection #4",
       "description": "",
-      "cards": 8,
+      "cards": "8",
       "image": ""
+    },
+    {
+      "manhwaId": "HL1IpPL",
+      "number": 1,
+      "title": "Padruga noch",
+      "cards": "2",
+      "description": "Nu da",
+      "image": "/cards/uploads/1790096491338-518196625.png",
+      "id": "ZN35K4E"
+    },
+    {
+      "manhwaId": "HL1IpPL",
+      "number": 2,
+      "title": "Ti pochek",
+      "cards": "5",
+      "description": "nuda",
+      "image": "/cards/uploads/1790096537768-512167628.png",
+      "id": "TZXRUc7"
     }
   ],
   "cards": [
     {
       "cardId": 1,
-      "collectionId": 2,
+      "collectionId": "2",
       "number": 1,
       "image": "",
       "id": "mAlG7_MBg0M"
     },
     {
       "cardId": 2,
-      "collectionId": 2,
+      "collectionId": "2",
       "number": 2,
       "image": "",
       "id": "gyTKuCHdw-A"
     },
     {
       "cardId": 3,
-      "collectionId": 2,
+      "collectionId": "2",
       "number": 3,
       "image": "",
       "id": "k0r-rlmhYlg"
     },
     {
       "cardId": 4,
-      "collectionId": 2,
+      "collectionId": "2",
       "number": 4,
       "image": "",
       "id": "clKgzvK6rzM"
     },
     {
       "cardId": 5,
-      "collectionId": 4,
+      "collectionId": "4",
       "number": 5,
       "image": "",
       "id": "QWiZwcdmZQI"
     },
     {
       "cardId": 6,
-      "collectionId": 4,
+      "collectionId": "4",
       "number": 6,
       "image": "",
       "id": "ia1kIYiyb78"
     },
     {
       "cardId": 7,
-      "collectionId": 4,
+      "collectionId": "4",
       "number": 7,
       "image": "",
       "id": "qjJuOn4zQZw"
     },
     {
       "cardId": 8,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 1,
       "image": "/cards/Collection-1/1.JPG",
       "id": "0276545UkW0"
     },
     {
       "cardId": 9,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 2,
       "image": "/cards/Collection-1/2.JPG",
       "id": "XRUdB4yVUtA"
     },
     {
       "cardId": 10,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 3,
       "image": "/cards/Collection-1/3.JPG",
       "id": "HfdlUmeTcNw"
     },
     {
       "cardId": 11,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 4,
       "image": "/cards/Collection-1/4.JPG",
       "id": "l76U4BhfQWo"
     },
     {
       "cardId": 12,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 5,
       "image": "/cards/Collection-1/5.JPG",
       "id": "0QI0TJB90OQ"
     },
     {
       "cardId": 13,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 6,
       "image": "/cards/Collection-1/6.JPG",
       "id": "inwT8vmM3xg"
     },
     {
       "cardId": 14,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 7,
       "image": "/cards/Collection-1/7.JPG",
       "id": "ZwCnu7Pg3ko"
     },
     {
       "cardId": 15,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 8,
       "image": "/cards/Collection-1/8.JPG",
       "id": "hL9B7AF09-8"
     },
     {
       "cardId": 16,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 9,
       "image": "/cards/Collection-1/9.JPG",
       "id": "hrD0dnylHUI"
     },
     {
       "cardId": 17,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 10,
       "image": "/cards/Collection-1/10.JPG",
       "id": "WdJDyQhINLM"
     },
     {
       "cardId": 18,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 11,
       "image": "/cards/Collection-1/11.JPG",
       "id": "Do3Q_MZHJno"
     },
     {
       "cardId": 19,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 12,
       "image": "/cards/Collection-1/12.JPG",
       "id": "_gSIKyg9uMk"
     },
     {
       "cardId": 20,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 13,
       "image": "/cards/Collection-1/13.JPG",
       "id": "Jhkrl7X_H2E"
     },
     {
       "cardId": 21,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 14,
       "image": "/cards/Collection-1/14.JPG",
       "id": "NVcCKMKAW8k"
     },
     {
       "cardId": 22,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 15,
       "image": "/cards/Collection-1/15.JPG",
       "id": "OOUmmCQUIIQ"
     },
     {
       "cardId": 23,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 16,
       "image": "/cards/Collection-1/16.JPG",
       "id": "3BNce51cYIk"
     },
     {
       "cardId": 24,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 17,
       "image": "/cards/Collection-1/17.JPG",
       "id": "UxLlWQVzTn8"
     },
     {
       "cardId": 25,
-      "collectionId": 1,
+      "collectionId": "1",
       "number": 18,
       "image": "/cards/Collection-1/18.JPG",
       "id": "W_VFzw0ocvo"
@@ -396,139 +467,139 @@
     {
       "id": "1",
       "userId": 1,
-      "collectionId": 2
+      "collectionId": "2"
     }
   ],
   "userCards": [
     {
       "id": "1",
-      "collectionId": 1,
+      "collectionId": "1",
       "userId": 1,
       "cardId": 8,
       "count": 2
     },
     {
       "id": "2",
-      "collectionId": 1,
+      "collectionId": "1",
       "userId": 1,
       "cardId": 12,
       "count": 4
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 11,
       "count": 1,
       "id": "gXS7t7tm5pE"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 10,
       "count": 2,
       "id": "5vU9JAbqdCU"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 9,
       "count": 1,
       "id": "fS-5sVFRKrs"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 18,
       "count": 4,
       "id": "if5XNcuUors"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 13,
       "count": 2,
       "id": "u0DA81VkZNY"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 16,
       "count": 3,
       "id": "KQ-Op6rkvPg"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 14,
       "count": 1,
       "id": "84N6HHBHITM"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "LyvgvS63-GA"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 22,
       "count": 1,
       "id": "BhMD09nZeGA"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "dSgpATmxDi4"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "AbVoRw1hEZI"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "vuX5t8JdbqY"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "eGF0USqA3E0"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "-lAVtlIUHD8"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 15,
       "count": 1,
       "id": "ZmxrTxhr2rk"
     },
     {
       "userId": 2,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 12,
       "count": 1,
       "id": "u8KkpeEjG0Q"
     },
     {
       "userId": 1,
-      "collectionId": 1,
+      "collectionId": "1",
       "cardId": 17,
       "count": 4,
       "id": "07Y5B1I130s"

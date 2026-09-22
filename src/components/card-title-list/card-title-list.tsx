@@ -2,7 +2,7 @@ import { resolveImageUrl } from "@/api/client";
 import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
-import { TitleCardItem } from "@/types/type";
+import { Manhwa } from "@/types/type";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
@@ -25,7 +25,7 @@ export function CardTitleList({ query }: { query: string }) {
     [data, query],
   );
 
-  const renderCard = ({ item }: { item: TitleCardItem }) => (
+  const renderCard = ({ item }: { item: Manhwa }) => (
     <TouchableOpacity
       style={style.card}
       activeOpacity={0.8}

@@ -1,18 +1,18 @@
 import { apiFetch } from "@/api/client";
-import { Cards, Collections, TitleCardItem, UserCard } from "@/types/type";
+import { Cards, Collections, Manhwa, UserCard } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 
 export function useManhwas() {
   return useQuery({
     queryKey: ["manhwas"],
-    queryFn: () => apiFetch<TitleCardItem[]>("manhwa"),
+    queryFn: () => apiFetch<Manhwa[]>("manhwa"),
   });
 }
 
 export function useManhwa(manhwaId: string) {
   return useQuery({
     queryKey: ["manhwa", manhwaId],
-    queryFn: () => apiFetch<TitleCardItem>(`manhwa/${manhwaId}`),
+    queryFn: () => apiFetch<Manhwa>(`manhwa/${manhwaId}`),
   });
 }
 

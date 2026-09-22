@@ -7,7 +7,7 @@ interface CoverImage {
   large: string;
 }
 
-interface TitleCardItem {
+interface Manhwa {
   id: string;
   title: Title;
   description: string;
@@ -19,18 +19,18 @@ interface TitleCardItem {
 
 interface Cards {
   cardId: number;
-  collectionId: number;
+  collectionId: string;
   number: number;
   image: string;
 }
 
 interface Collections {
-  id: number;
-  manhwaId: number;
-  collectionId: number;
+  id: string;
+  manhwaId: string;
+  number: number;
   title: string;
   description: string;
-  cards: number;
+  cards: string;
   image: string;
 }
 
@@ -53,5 +53,5 @@ type UserAuth = {
   roleId: number;
 };
 
-export type { Cards, Collections, TitleCardItem, UserAuth, UserCard, UserCollection };
+export type { Cards, Collections, Manhwa, UserAuth, UserCard, UserCollection };
 
