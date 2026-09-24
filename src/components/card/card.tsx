@@ -7,12 +7,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./style";
 
 type CardProps = {
-  id: number;
+  id: string;
   image: string;
   numColumn: number;
   owned: boolean;
   count: number;
-  onPress: (id: number) => void;
+  onPress: (id: string) => void;
 };
 
 export function Card({ id, image, numColumn, owned, count, onPress }: CardProps) {

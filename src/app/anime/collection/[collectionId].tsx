@@ -17,20 +17,20 @@ export default function CollectionPage() {
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
     key: "user-auth",
     initialValue: { userId: 0, roleId: 0 },
   });
   const { data: collctionCards = [] } = useCollectionCards(collectionId);
-  const { data: userCards = [] } = useUserCards(auth.userId);
+  const { data: userCards = [] } = useUserCards(String(auth.userId));
 
   const userCardByCardId = useMemo(
-    () => new Map(userCards.filter((item) => item.collectionId == Number(collectionId)).map((item) => [item.cardId, item])),
+    () => new Map(userCards.filter((item) => item.collectionId == collectionId).map((item) => [item.cardId, item])),
     [userCards, collectionId],
   );
-  const selectedCard = collctionCards.find((c) => c.cardId === selectedCardId) ?? null;
+  const selectedCard = collctionCards.find((c) => c.id === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
 
   const addMutations = useMutation({
@@ -40,13 +40,13 @@ export default function CollectionPage() {
             count: existing.count + 1,
           })
         : apiPOST<UserCard>("userCards", {
-            userId: auth.userId,
-            collectionId: Number(collectionId),
+            userId: String(auth.userId),
+            collectionId: collectionId,
             cardId: selectedCardId,
             count: 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", String(auth.userId)] });
     },
   });
 
@@ -58,7 +58,7 @@ export default function CollectionPage() {
             count: existing.count - 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", String(auth.userId)] });
     },
   });
 
@@ -93,12 +93,12 @@ export default function CollectionPage() {
           <View style={style.grid}>
             {collctionCards.map((item, index) => (
               <Card
-                key={item.cardId}
-                id={item.cardId}
+                key={item.id}
+                id={item.id}
                 image={item.image}
                 numColumn={3}
-                owned={userCardByCardId.has(item.cardId)}
-                count={userCardByCardId.get(item.cardId)?.count ?? 0}
+                owned={userCardByCardId.has(item.id)}
+                count={userCardByCardId.get(item.id)?.count ?? 0}
                 onPress={setSelectedCardId}
               />
             ))}

@@ -7,7 +7,7 @@ const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, "db.json"));
 const middlewares = jsonServer.defaults();
 
-const uploadsDir = path.join(__dirname, "..", "public", "cards", "uploads");
+const uploadsDir = path.join(__dirname, "..", "public", "images", "uploads");
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 const storage = multer.diskStorage({
@@ -32,7 +32,7 @@ server.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
-  res.json({ path: `/cards/uploads/${req.file.filename}` });
+  res.json({ path: `/images/uploads/${req.file.filename}` });
 });
 
 server.use(router);

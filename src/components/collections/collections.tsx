@@ -31,7 +31,7 @@ export function CollectionsList({ id }: { id: string }) {
   );
 
   const ownedCount = useMemo(
-    () => new Map(collectionData.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === Number(item.id)).length])),
+    () => new Map(collectionData.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),
     [collectionData, userCards],
   );
 

@@ -18,7 +18,7 @@ interface Manhwa {
 }
 
 interface Cards {
-  cardId: number;
+  id: string;
   collectionId: string;
   number: number;
   image: string;
@@ -35,17 +35,17 @@ interface Collections {
 }
 
 interface UserCard {
-  id: string;
-  collectionId: number;
-  userId: number;
-  cardId: number;
+  id: number;
+  collectionId: string;
+  userId: string;
+  cardId: string;
   count: number;
 }
 
 interface UserCollection {
-  id: number;
-  userId: number;
-  collectionId: number;
+  id: string;
+  userId: string;
+  collectionId: string;
 }
 
 type UserAuth = {

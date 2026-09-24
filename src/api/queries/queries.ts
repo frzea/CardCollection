@@ -30,7 +30,7 @@ export function useCollectionCards(collectionId: string) {
   });
 }
 
-export function useUserCards(userId: number) {
+export function useUserCards(userId: string) {
   return useQuery({
     queryKey: ["userCards", userId],
     queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${userId}`),

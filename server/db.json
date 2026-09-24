@@ -220,7 +220,7 @@
       },
       "description": "fdsfsfs",
       "coverImage": {
-        "large": "/cards/uploads/1789830086723-675015074.png"
+        "large": "/images/uploads/1789830086723-675015074.png"
       },
       "genres": [
         "Action"
@@ -273,7 +273,7 @@
       "title": "Padruga noch",
       "cards": "2",
       "description": "Nu da",
-      "image": "/cards/uploads/1790096491338-518196625.png",
+      "image": "/images/uploads/1790096491338-518196625.png",
       "id": "ZN35K4E"
     },
     {
@@ -282,184 +282,159 @@
       "title": "Ti pochek",
       "cards": "5",
       "description": "nuda",
-      "image": "/cards/uploads/1790096537768-512167628.png",
+      "image": "/images/uploads/1790096537768-512167628.png",
       "id": "TZXRUc7"
     }
   ],
   "cards": [
     {
-      "cardId": 1,
       "collectionId": "2",
       "number": 1,
       "image": "",
       "id": "mAlG7_MBg0M"
     },
     {
-      "cardId": 2,
       "collectionId": "2",
       "number": 2,
       "image": "",
       "id": "gyTKuCHdw-A"
     },
     {
-      "cardId": 3,
       "collectionId": "2",
       "number": 3,
       "image": "",
       "id": "k0r-rlmhYlg"
     },
     {
-      "cardId": 4,
       "collectionId": "2",
       "number": 4,
       "image": "",
       "id": "clKgzvK6rzM"
     },
     {
-      "cardId": 5,
       "collectionId": "4",
       "number": 5,
       "image": "",
       "id": "QWiZwcdmZQI"
     },
     {
-      "cardId": 6,
       "collectionId": "4",
       "number": 6,
       "image": "",
       "id": "ia1kIYiyb78"
     },
     {
-      "cardId": 7,
       "collectionId": "4",
       "number": 7,
       "image": "",
       "id": "qjJuOn4zQZw"
     },
     {
-      "cardId": 8,
       "collectionId": "1",
       "number": 1,
-      "image": "/cards/Collection-1/1.JPG",
+      "image": "/images/Collection-1/1.JPG",
       "id": "0276545UkW0"
     },
     {
-      "cardId": 9,
       "collectionId": "1",
       "number": 2,
-      "image": "/cards/Collection-1/2.JPG",
+      "image": "/images/Collection-1/2.JPG",
       "id": "XRUdB4yVUtA"
     },
     {
-      "cardId": 10,
       "collectionId": "1",
       "number": 3,
-      "image": "/cards/Collection-1/3.JPG",
+      "image": "/images/Collection-1/3.JPG",
       "id": "HfdlUmeTcNw"
     },
     {
-      "cardId": 11,
       "collectionId": "1",
       "number": 4,
-      "image": "/cards/Collection-1/4.JPG",
+      "image": "/images/Collection-1/4.JPG",
       "id": "l76U4BhfQWo"
     },
     {
-      "cardId": 12,
       "collectionId": "1",
       "number": 5,
-      "image": "/cards/Collection-1/5.JPG",
+      "image": "/images/Collection-1/5.JPG",
       "id": "0QI0TJB90OQ"
     },
     {
-      "cardId": 13,
       "collectionId": "1",
       "number": 6,
-      "image": "/cards/Collection-1/6.JPG",
+      "image": "/images/Collection-1/6.JPG",
       "id": "inwT8vmM3xg"
     },
     {
-      "cardId": 14,
       "collectionId": "1",
       "number": 7,
-      "image": "/cards/Collection-1/7.JPG",
+      "image": "/images/Collection-1/7.JPG",
       "id": "ZwCnu7Pg3ko"
     },
     {
-      "cardId": 15,
       "collectionId": "1",
       "number": 8,
-      "image": "/cards/Collection-1/8.JPG",
+      "image": "/images/Collection-1/8.JPG",
       "id": "hL9B7AF09-8"
     },
     {
-      "cardId": 16,
       "collectionId": "1",
       "number": 9,
-      "image": "/cards/Collection-1/9.JPG",
+      "image": "/images/Collection-1/9.JPG",
       "id": "hrD0dnylHUI"
     },
     {
-      "cardId": 17,
       "collectionId": "1",
       "number": 10,
-      "image": "/cards/Collection-1/10.JPG",
+      "image": "/images/Collection-1/10.JPG",
       "id": "WdJDyQhINLM"
     },
     {
-      "cardId": 18,
       "collectionId": "1",
       "number": 11,
-      "image": "/cards/Collection-1/11.JPG",
+      "image": "/images/Collection-1/11.JPG",
       "id": "Do3Q_MZHJno"
     },
     {
-      "cardId": 19,
       "collectionId": "1",
       "number": 12,
-      "image": "/cards/Collection-1/12.JPG",
+      "image": "/images/Collection-1/12.JPG",
       "id": "_gSIKyg9uMk"
     },
     {
-      "cardId": 20,
       "collectionId": "1",
       "number": 13,
-      "image": "/cards/Collection-1/13.JPG",
+      "image": "/images/Collection-1/13.JPG",
       "id": "Jhkrl7X_H2E"
     },
     {
-      "cardId": 21,
       "collectionId": "1",
       "number": 14,
-      "image": "/cards/Collection-1/14.JPG",
+      "image": "/images/Collection-1/14.JPG",
       "id": "NVcCKMKAW8k"
     },
     {
-      "cardId": 22,
       "collectionId": "1",
       "number": 15,
-      "image": "/cards/Collection-1/15.JPG",
+      "image": "/images/Collection-1/15.JPG",
       "id": "OOUmmCQUIIQ"
     },
     {
-      "cardId": 23,
       "collectionId": "1",
       "number": 16,
-      "image": "/cards/Collection-1/16.JPG",
+      "image": "/images/Collection-1/16.JPG",
       "id": "3BNce51cYIk"
     },
     {
-      "cardId": 24,
       "collectionId": "1",
       "number": 17,
-      "image": "/cards/Collection-1/17.JPG",
+      "image": "/images/Collection-1/17.JPG",
       "id": "UxLlWQVzTn8"
     },
     {
-      "cardId": 25,
       "collectionId": "1",
       "number": 18,
-      "image": "/cards/Collection-1/18.JPG",
+      "image": "/images/Collection-1/18.JPG",
       "id": "W_VFzw0ocvo"
     }
   ],
@@ -472,137 +447,32 @@
   ],
   "userCards": [
     {
-      "id": "1",
+      "userId": "1",
       "collectionId": "1",
-      "userId": 1,
-      "cardId": 8,
-      "count": 2
-    },
-    {
-      "id": "2",
-      "collectionId": "1",
-      "userId": 1,
-      "cardId": 12,
-      "count": 4
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 11,
-      "count": 1,
-      "id": "gXS7t7tm5pE"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 10,
+      "cardId": "l76U4BhfQWo",
       "count": 2,
-      "id": "5vU9JAbqdCU"
+      "id": 1
     },
     {
-      "userId": 1,
+      "userId": "1",
       "collectionId": "1",
-      "cardId": 9,
+      "cardId": "_gSIKyg9uMk",
       "count": 1,
-      "id": "fS-5sVFRKrs"
+      "id": 2
     },
     {
-      "userId": 1,
+      "userId": "1",
       "collectionId": "1",
-      "cardId": 18,
-      "count": 4,
-      "id": "if5XNcuUors"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 13,
-      "count": 2,
-      "id": "u0DA81VkZNY"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 16,
-      "count": 3,
-      "id": "KQ-Op6rkvPg"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 14,
+      "cardId": "inwT8vmM3xg",
       "count": 1,
-      "id": "84N6HHBHITM"
+      "id": 3
     },
     {
-      "userId": 1,
+      "userId": "1",
       "collectionId": "1",
-      "cardId": 15,
+      "cardId": "ZwCnu7Pg3ko",
       "count": 1,
-      "id": "LyvgvS63-GA"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 22,
-      "count": 1,
-      "id": "BhMD09nZeGA"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "dSgpATmxDi4"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "AbVoRw1hEZI"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "vuX5t8JdbqY"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "eGF0USqA3E0"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "-lAVtlIUHD8"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 15,
-      "count": 1,
-      "id": "ZmxrTxhr2rk"
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": 12,
-      "count": 1,
-      "id": "u8KkpeEjG0Q"
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": 17,
-      "count": 4,
-      "id": "07Y5B1I130s"
+      "id": 4
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
