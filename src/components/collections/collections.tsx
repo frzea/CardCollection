@@ -21,7 +21,7 @@ export function CollectionsList({ id }: { id: string }) {
     initialValue: { userId: 0, roleId: 0 },
   });
   const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
-  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(auth.userId);
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(String(auth.userId));
 
   useFocusEffect(
     useCallback(() => {

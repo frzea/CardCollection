@@ -436,6 +436,24 @@
       "number": 18,
       "image": "/images/Collection-1/18.JPG",
       "id": "W_VFzw0ocvo"
+    },
+    {
+      "collectionId": "ZN35K4E",
+      "number": 1,
+      "image": "/images/uploads/1790435523799-749189729.png",
+      "id": "8rkaw8T"
+    },
+    {
+      "collectionId": "ZN35K4E",
+      "number": 2,
+      "image": "/images/uploads/1790435524800-143816056.png",
+      "id": "X5YjFoN"
+    },
+    {
+      "collectionId": "ZN35K4E",
+      "number": 3,
+      "image": "/images/uploads/1790435525606-959235481.png",
+      "id": "GOsLxji"
     }
   ],
   "userCollections": [
@@ -464,7 +482,7 @@
       "userId": "1",
       "collectionId": "1",
       "cardId": "inwT8vmM3xg",
-      "count": 1,
+      "count": 2,
       "id": 3
     },
     {
@@ -473,6 +491,41 @@
       "cardId": "ZwCnu7Pg3ko",
       "count": 1,
       "id": 4
+    },
+    {
+      "userId": "2",
+      "collectionId": "1",
+      "cardId": "0QI0TJB90OQ",
+      "count": 1,
+      "id": 6
+    },
+    {
+      "userId": "2",
+      "collectionId": "1",
+      "cardId": "WdJDyQhINLM",
+      "count": 3,
+      "id": 7
+    },
+    {
+      "userId": "2",
+      "collectionId": "1",
+      "cardId": "_gSIKyg9uMk",
+      "count": 2,
+      "id": 8
+    },
+    {
+      "userId": "1",
+      "collectionId": "ZN35K4E",
+      "cardId": "X5YjFoN",
+      "count": 4,
+      "id": 9
+    },
+    {
+      "userId": "1",
+      "collectionId": "ZN35K4E",
+      "cardId": "8rkaw8T",
+      "count": 1,
+      "id": 10
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -1,22 +1,25 @@
 import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
 import { useCollectionCards, useUserCards } from "@/api/queries/queries";
+import { uploadImage } from "@/api/upload";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
 import useAsyncStorage from "@/hooks/useAsuncStorage";
+import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
-import { UserAuth, UserCard } from "@/types/type";
+import { Cards, UserAuth, UserCard } from "@/types/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
+  const { images, pick, reset } = useImagePicker({ multiple: true, selectionLimit: 0 });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
@@ -75,6 +78,26 @@ export default function CollectionPage() {
     removeMutations.mutate(existing);
   }
 
+  const uploadCardsMutation = useMutation({
+    mutationFn: async (urls: string[]) => {
+      const startNumber = collctionCards.length;
+
+      for (const [index, url] of urls.entries()) {
+        const imageUrl = await uploadImage(url);
+
+        await apiPOST<Cards>("cards", {
+          collectionId: collectionId,
+          number: startNumber + index + 1,
+          image: imageUrl,
+        });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["collectionCards", collectionId] });
+      reset();
+    },
+  });
+
   return (
     <>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
@@ -89,6 +112,14 @@ export default function CollectionPage() {
         }}
       />
       <ScrollView>
+        <View>
+          <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={pick}>
+            <Text>Select Img</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={() => uploadCardsMutation.mutate(images)}>
+            <Text>Add Img</Text>
+          </TouchableOpacity>
+        </View>
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <View style={style.grid}>
             {collctionCards.map((item, index) => (

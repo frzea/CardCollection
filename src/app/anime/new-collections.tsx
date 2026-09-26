@@ -4,15 +4,15 @@ import { uploadImage } from "@/api/upload";
 import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { FormInput } from "@/hooks/useController";
+import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import * as ImagePicker from "expo-image-picker";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
@@ -31,16 +31,9 @@ export default function NewCollection() {
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const { id: manhwaId } = useLocalSearchParams<{ id: string }>();
+  const { image: selectedImage, pick } = useImagePicker();
   const { data: manhwaCollectionsData } = useCollection(manhwaId);
-  const [permissionResponse, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (!permissionResponse?.granted) {
-      requestPermission();
-    }
-  }, []);
 
   const {
     control,
@@ -51,21 +44,6 @@ export default function NewCollection() {
     mode: "onBlur",
     defaultValues: { title: "", description: "", cards: "" },
   });
-
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      allowsMultipleSelection: false,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const uris = result.assets[0].uri;
-      setSelectedImage(uris);
-    } else {
-      alert("Tou did not select any image.");
-    }
-  };
 
   const createMutatons = useMutation({
     mutationFn: (existing: Omit<Collections, "id">) => apiPOST<Collections>("collections", existing),
@@ -107,7 +85,7 @@ export default function NewCollection() {
       />
       <View style={style.page}>
         <ScrollView contentContainerStyle={style.content}>
-          <TouchableOpacity onPress={pickImageAsync}>
+          <TouchableOpacity onPress={pick}>
             {selectedImage ? (
               <Image source={{ uri: selectedImage }} style={style.cover} resizeMode="cover" />
             ) : (

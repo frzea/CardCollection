@@ -6,6 +6,7 @@ export const createStyles = (theme: Theme) =>
   StyleSheet.create({
     searcView: {
       flex: 1,
+      flexDirection: "column",
       backgroundColor: theme.background,
     },
     content: {
@@ -32,5 +33,13 @@ export const createStyles = (theme: Theme) =>
       height: "30%",
       backgroundColor: "#ffff",
       bottom: 0,
+    },
+    button: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: spacing.xxl,
+      width: spacing.xl * 6,
+      backgroundColor: theme.iconColor,
+      alignSelf: "flex-end",
     },
   });
