@@ -1,27 +1,34 @@
-import { createContext, PropsWithChildren, useState } from "react";
+import useAsyncStorage from "@/hooks/useAsuncStorage";
+import { UserAuth } from "@/types/type";
+import { createContext, PropsWithChildren } from "react";
 
 type AuthState = {
+  auth: UserAuth;
   isLoggedIn: boolean;
-  logIn: () => void;
+  loading: boolean;
+  logIn: (userId: number, roleId: number) => void;
   logOut: () => void;
 };
 
-export const AuthContext = createContext<AuthState>({
-  isLoggedIn: false,
-  logIn: () => {},
-  logOut: () => {},
-});
+const EMPTY_AUTH: UserAuth = { userId: 0, roleId: 0 };
+
+export const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
+    key: "user-auth",
+    initialValue: EMPTY_AUTH,
+  });
 
-  const logIn = () => {
-    setIsLoggedIn(true);
+  const logIn = (userId: number, roleId: number) => {
+    setAuth({ userId, roleId });
   };
 
   const logOut = () => {
-    setIsLoggedIn(false);
+    setAuth(EMPTY_AUTH);
   };
 
-  return <AuthContext.Provider value={{ isLoggedIn, logIn, logOut }}>{children}</AuthContext.Provider>;
+  const isLoggedIn = auth.userId !== 0;
+
+  return <AuthContext.Provider value={{ auth, isLoggedIn, loading, logIn, logOut }}>{children}</AuthContext.Provider>;
 }

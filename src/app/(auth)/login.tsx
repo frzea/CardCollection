@@ -1,31 +1,16 @@
-import useAsyncStorage from "@/hooks/useAsuncStorage";
-import { UserAuth } from "@/types/type";
-import { useRouter } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Login() {
-  const router = useRouter();
-  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
-    key: "user-auth",
-    initialValue: { userId: 0, roleId: 0 },
-  });
-
-  const handleLogin = async (userId: number, roleId: number) => {
-    // userId — здесь должен приходить с сервера/из вашей логики авторизации
-    // пока условно генерирую заглушку
-
-    await setAuth({ userId, roleId });
-    router.replace("/(tabs)");
-  };
-
+  const { logIn } = useAuth();
   return (
     <View style={stales.page}>
       <Text style={stales.title}>Please choose your role:</Text>
       <View style={stales.buttonAria}>
-        <Pressable style={[stales.button, { backgroundColor: "#E24B4A" }]} onPress={() => handleLogin(1, 1)}>
+        <Pressable style={[stales.button, { backgroundColor: "#E24B4A" }]} onPress={() => logIn(1, 1)}>
           <Text style={[stales.btnText, { color: "#501313" }]}>Admin</Text>
         </Pressable>
-        <Pressable style={[stales.button, { backgroundColor: "#378ADD" }]} onPress={() => handleLogin(2, 2)}>
+        <Pressable style={[stales.button, { backgroundColor: "#378ADD" }]} onPress={() => logIn(2, 2)}>
           <Text style={[stales.btnText, { color: "#1E1B36" }]}>User</Text>
         </Pressable>
       </View>

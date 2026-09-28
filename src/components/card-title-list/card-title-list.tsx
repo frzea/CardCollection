@@ -31,7 +31,7 @@ export function CardTitleList({ query }: { query: string }) {
       activeOpacity={0.8}
       onPress={() =>
         router.push({
-          pathname: `/anime/[id]`,
+          pathname: `/manhwa/[id]`,
           params: {
             id: item.id,
             name: item.title.english || item.title.romaji,

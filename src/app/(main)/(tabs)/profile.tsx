@@ -1,8 +1,12 @@
+import { spacing } from "@/design-system/index";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
-import { Switch, Text, View } from "react-native";
+
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function ProfilePage() {
   const { theme, isDark, toggleTheme } = useTheme();
+  const { logOut } = useAuth();
 
   return (
     <View>
@@ -14,6 +18,20 @@ export default function ProfilePage() {
         onValueChange={toggleTheme}
         value={isDark}
       />
+      <TouchableOpacity style={stales.button} activeOpacity={0.8} onPress={logOut}>
+        <Text>Exit</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const stales = StyleSheet.create({
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: spacing.xxl,
+    width: spacing.xl * 6,
+    backgroundColor: "#bebaba",
+    alignSelf: "flex-end",
+  },
+});

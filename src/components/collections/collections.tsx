@@ -44,7 +44,7 @@ export function CollectionsList({ id }: { id: string }) {
         activeOpacity={0.8}
         onPress={() =>
           router.push({
-            pathname: "/anime/collection/[collectionId]",
+            pathname: "/manhwa/collection/[collectionId]",
             params: { id: id, collectionId: item.id, name: item.title },
           })
         }

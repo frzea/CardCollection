@@ -18,7 +18,7 @@ export default function SearchPage() {
       <View style={style.content}>
         <Text style={style.text}>Review</Text>
         <SearchInput value={query} onChengeValue={setQuery} />
-        <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={() => router.push({ pathname: "/anime/new-manhwa" })}>
+        <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={() => router.push({ pathname: "/manhwa/new-manhwa" })}>
           <Text>Create new</Text>
         </TouchableOpacity>
         <CardTitleList query={query} />
