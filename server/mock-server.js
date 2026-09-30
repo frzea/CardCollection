@@ -2,10 +2,19 @@ const path = require("path");
 const fs = require("fs");
 const jsonServer = require("json-server");
 const multer = require("multer");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, "db.json"));
+const db = router.db;
 const middlewares = jsonServer.defaults();
+const JWT_SECRET = process.env.JWT_SECRET;
+const ACCESS_TOKEN_TTL = "7d"; // на этапе 2 (refresh) станет "15m"
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not set. Create server/.env");
+}
 
 const uploadsDir = path.join(__dirname, "..", "public", "images", "uploads");
 fs.mkdirSync(uploadsDir, { recursive: true });
@@ -27,6 +36,34 @@ const upload = multer({
 });
 
 server.use(middlewares);
+
+function publicUser(user) {
+  return {
+    id: user.id,
+    name: user.name,
+    role: user.role,
+  };
+}
+
+// Создаёт access-токен для юзера
+function signAccessToken(user) {
+  return jwt.sign(
+    { sub: user.id, role: user.role }, // payload: кто и с какой ролью
+    JWT_SECRET, // подпись секретом
+    { expiresIn: ACCESS_TOKEN_TTL }, // jwt сам добавит в payload поле exp
+  );
+}
+
+// Проверяет токен. Возвращает payload или null, если токен битый/просрочен
+function verifyAccessToken(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch {
+    return null;
+  }
+}
+
+server.use(jsonServer.bodyParser);
 
 server.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {

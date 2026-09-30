@@ -37,14 +37,14 @@ interface Collections {
 interface UserCard {
   id: number;
   collectionId: string;
-  userId: string;
+  userId: number;
   cardId: string;
   count: number;
 }
 
 interface UserCollection {
   id: string;
-  userId: string;
+  userId: number;
   collectionId: string;
 }
 

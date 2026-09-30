@@ -27,7 +27,7 @@ export default function CollectionPage() {
     initialValue: { userId: 0, roleId: 0 },
   });
   const { data: collctionCards = [] } = useCollectionCards(collectionId);
-  const { data: userCards = [] } = useUserCards(String(auth.userId));
+  const { data: userCards = [] } = useUserCards(auth.userId);
 
   const userCardByCardId = useMemo(
     () => new Map(userCards.filter((item) => item.collectionId == collectionId).map((item) => [item.cardId, item])),
@@ -43,13 +43,13 @@ export default function CollectionPage() {
             count: existing.count + 1,
           })
         : apiPOST<UserCard>("userCards", {
-            userId: String(auth.userId),
+            userId: auth.userId,
             collectionId: collectionId,
             cardId: selectedCardId,
             count: 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", String(auth.userId)] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
     },
   });
 
@@ -61,7 +61,7 @@ export default function CollectionPage() {
             count: existing.count - 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", String(auth.userId)] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
     },
   });
 
