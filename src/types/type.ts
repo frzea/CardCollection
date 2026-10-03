@@ -7,6 +7,12 @@ interface CoverImage {
   large: string;
 }
 
+interface User {
+  id: number;
+  name: string;
+  role: number;
+}
+
 interface Manhwa {
   id: string;
   title: Title;
@@ -53,5 +59,10 @@ type UserAuth = {
   roleId: number;
 };
 
-export type { Cards, Collections, Manhwa, UserAuth, UserCard, UserCollection };
+type LoginResponce = {
+  accessToken: string;
+  userId: number;
+};
+
+export type { Cards, Collections, LoginResponce, Manhwa, User, UserAuth, UserCard, UserCollection };
 

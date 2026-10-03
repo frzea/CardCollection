@@ -45,6 +45,13 @@ function publicUser(user) {
   };
 }
 
+// Достаёт токен из заголовка "Authorization: Bearer <токен>"
+function getTokenFromRequest(req) {
+  const header = req.headers.authorization || "";
+  if (!header.startsWith("Bearer ")) return null;
+  return header.slice("Bearer ".length);
+}
+
 // Создаёт access-токен для юзера
 function signAccessToken(user) {
   return jwt.sign(
@@ -65,6 +72,20 @@ function verifyAccessToken(token) {
 
 server.use(jsonServer.bodyParser);
 
+// Middleware
+server.use((req, res, next) => {
+  if (req.method === "POST" && req.path === "/auth/login") return next();
+
+  const token = getTokenFromRequest(req);
+  const payload = token && verifyAccessToken(token);
+  if (!payload) {
+    return res.status(401).json({ error: "Требуется авторизация" });
+  }
+
+  req.user = { id: payload.sub, role: payload.role };
+  next();
+});
+
 server.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -72,6 +93,64 @@ server.post("/upload", upload.single("file"), (req, res) => {
   res.json({ path: `/images/uploads/${req.file.filename}` });
 });
 
+// ----- AUTH -----
+
+// 1. Вход: логин + пароль -> токен
+server.post("/auth/login", async (req, res) => {
+  try {
+    const { login, password } = req.body;
+    if (!login || !password) {
+      return res.status(400).json({ error: "Нужны login и password" });
+    }
+
+    const user = db.get("users").find({ login }).value();
+    if (!user) {
+      return res.status(401).json({ error: "Неверный логин или пароль" });
+    }
+
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isValid) {
+      return res.status(401).json({ error: "Неверный логин или пароль" });
+    }
+
+    res.json({
+      accessToken: signAccessToken(user),
+      user: publicUser(user),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// 2. Кто я: проверяет токен и возвращает юзера
+server.get("/auth/me", (req, res) => {
+  const token = getTokenFromRequest(req);
+  if (!token) {
+    return res.status(401).json({ error: "Нет токена" });
+  }
+
+  const payload = verifyAccessToken(token);
+  if (!payload) {
+    return res.status(401).json({ error: "Токен недействителен" });
+  }
+
+  const user = db.get("users").find({ id: payload.sub }).value();
+  if (!user) {
+    return res.status(401).json({ error: "Пользователь не найден" });
+  }
+
+  res.json(publicUser(user));
+});
+
+// 3. Выход: на этапе 1 сервер ничего не хранит, просто подтверждаем
+server.post("/auth/logout", (req, res) => {
+  res.sendStatus(204);
+});
+
+server.use(["/users", "/sessions"], (req, res) => {
+  res.sendStatus(403);
+});
 server.use(router);
 
 const PORT = 3001;
