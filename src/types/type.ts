@@ -59,10 +59,10 @@ type UserAuth = {
   roleId: number;
 };
 
-type LoginResponce = {
+type LoginResponse = {
   accessToken: string;
-  userId: number;
+  user: User;
 };
 
-export type { Cards, Collections, LoginResponce, Manhwa, User, UserAuth, UserCard, UserCollection };
+export type { Cards, Collections, LoginResponse, Manhwa, User, UserAuth, UserCard, UserCollection };
 

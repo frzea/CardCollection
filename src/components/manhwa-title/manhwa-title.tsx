@@ -30,7 +30,7 @@ export function ManhwaTitle({ id }: { id: string }) {
         <TouchableOpacity
           style={style.button}
           activeOpacity={0.8}
-          onPress={() => router.push({ pathname: "/anime/new-collections", params: { id: id } })}
+          onPress={() => router.push({ pathname: "/manhwa/new-collections", params: { id: id } })}
         >
           <Text>Create new</Text>
         </TouchableOpacity>
