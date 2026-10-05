@@ -4,10 +4,10 @@ import { uploadImage } from "@/api/upload";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
-import useAsyncStorage from "@/hooks/useAsuncStorage";
+import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
-import { Cards, UserAuth, UserCard } from "@/types/type";
+import { Cards, UserCard } from "@/types/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -16,18 +16,15 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
+  const { user } = useAuth();
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const { images, pick, reset } = useImagePicker({ multiple: true, selectionLimit: 0 });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
-    key: "user-auth",
-    initialValue: { userId: 0, roleId: 0 },
-  });
   const { data: collctionCards = [] } = useCollectionCards(collectionId);
-  const { data: userCards = [] } = useUserCards(auth.userId);
+  const { data: userCards = [] } = useUserCards(user?.id);
 
   const userCardByCardId = useMemo(
     () => new Map(userCards.filter((item) => item.collectionId == collectionId).map((item) => [item.cardId, item])),
@@ -43,13 +40,13 @@ export default function CollectionPage() {
             count: existing.count + 1,
           })
         : apiPOST<UserCard>("userCards", {
-            userId: auth.userId,
+            userId: user?.id,
             collectionId: collectionId,
             cardId: selectedCardId,
             count: 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", user?.id] });
     },
   });
 
@@ -61,7 +58,7 @@ export default function CollectionPage() {
             count: existing.count - 1,
           }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userCards", auth.userId] });
+      queryClient.invalidateQueries({ queryKey: ["userCards", user?.id] });
     },
   });
 

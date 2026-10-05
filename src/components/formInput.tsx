@@ -1,5 +1,5 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { ColorValue, KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
+import { ColorValue, KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View } from "react-native";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -9,6 +9,8 @@ type Props<T extends FieldValues> = {
   placeholderTextColor: ColorValue | undefined;
   keyboardType?: KeyboardTypeOptions;
   multiline?: boolean;
+  secureTextEntry?: boolean; // закрывает пароль точками
+  autoCapitalize?: TextInputProps["autoCapitalize"]; // не дает телефону делать первую букву заглавную
 };
 
 export function FormInput<T extends FieldValues>({
@@ -19,6 +21,8 @@ export function FormInput<T extends FieldValues>({
   placeholderTextColor,
   keyboardType,
   multiline,
+  secureTextEntry,
+  autoCapitalize,
 }: Props<T>) {
   const {
     field: { onChange, onBlur, value },
@@ -36,6 +40,8 @@ export function FormInput<T extends FieldValues>({
         placeholderTextColor={placeholderTextColor}
         keyboardType={keyboardType}
         multiline={multiline}
+        secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
       {error && <Text style={styles.error}>{error.message}</Text>}
     </View>

@@ -30,9 +30,13 @@ export function useCollectionCards(collectionId: string) {
   });
 }
 
-export function useUserCards(userId: number) {
+export function useUserCards(userId: number | undefined) {
   return useQuery({
     queryKey: ["userCards", userId],
-    queryFn: () => apiFetch<UserCard[]>(`userCards?userId=${userId}`),
+    queryFn: async () => {
+      if (userId === undefined) return [];
+      return apiFetch<UserCard[]>(`userCards?userId=${userId}`);
+    },
+    enabled: userId !== undefined,
   });
 }

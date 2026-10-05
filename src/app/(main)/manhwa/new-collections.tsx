@@ -1,9 +1,9 @@
 import { apiPOST } from "@/api/events";
 import { useCollection } from "@/api/queries/queries";
 import { uploadImage } from "@/api/upload";
+import { FormInput } from "@/components/formInput";
 import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
-import { FormInput } from "@/hooks/useController";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";

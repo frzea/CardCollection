@@ -2,9 +2,9 @@ import { resolveImageUrl } from "@/api/client";
 import { useCollection, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
-import useAsyncStorage from "@/hooks/useAsuncStorage";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
-import { Collections, UserAuth } from "@/types/type";
+import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -13,15 +13,12 @@ import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: string }) {
+  const { user } = useAuth();
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
-  const [auth, setAuth, loading] = useAsyncStorage<UserAuth>({
-    key: "user-auth",
-    initialValue: { userId: 0, roleId: 0 },
-  });
   const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
-  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(auth.userId);
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(user?.id);
 
   useFocusEffect(
     useCallback(() => {
