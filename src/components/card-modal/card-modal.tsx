@@ -10,12 +10,13 @@ type CardModalProps = {
   visible: boolean;
   card: Cards | null;
   count: number;
+  disabled?: boolean;
   onAdd: () => void;
   onRemove: () => void;
   onClose: () => void;
 };
 
-export function CardModal({ visible, card, count, onAdd, onClose, onRemove }: CardModalProps) {
+export function CardModal({ visible, card, count, disabled = false, onAdd, onClose, onRemove }: CardModalProps) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   return (
@@ -34,10 +35,14 @@ export function CardModal({ visible, card, count, onAdd, onClose, onRemove }: Ca
               </View>
               <Text style={style.number}>#{card?.number}</Text>
               <View style={style.controls}>
-                <TouchableOpacity style={[style.controlButton, count === 0 && style.controlButtonDisabled]} onPress={onRemove} disabled={count === 0}>
+                <TouchableOpacity
+                  style={[style.controlButton, (count === 0 || disabled) && style.controlButtonDisabled]}
+                  onPress={onRemove}
+                  disabled={count === 0}
+                >
                   <Text style={style.controlButtonText}>-</Text>
                 </TouchableOpacity>
-                <Text style={style.countText}>{count}</Text>
+                <Text style={[style.countText, disabled && style.controlButtonDisabled]}>{count}</Text>
                 <TouchableOpacity style={style.controlButton} onPress={onAdd}>
                   <Text style={style.controlButtonText}>+</Text>
                 </TouchableOpacity>

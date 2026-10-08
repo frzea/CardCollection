@@ -32,13 +32,16 @@ export default function CollectionPage() {
   const selectedCard = collctionCards.find((c) => c.id === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
 
-  async function handleAdd() {
-    if (!selectedCardId) return;
+  // защита от двойного нажатия
+  const isLock = addCard.isPending || removeCard.isPending;
+
+  function handleAdd() {
+    if (!selectedCardId || isLock) return;
     addCard.mutate({ existing: userCardByCardId.get(selectedCardId), cardId: selectedCardId, collectionId });
   }
 
-  async function handleRemove() {
-    if (!selectedCardId) return;
+  function handleRemove() {
+    if (!selectedCardId || isLock) return;
     const existing = userCardByCardId.get(selectedCardId);
     if (existing) removeCard.mutate(existing);
   }
@@ -63,6 +66,7 @@ export default function CollectionPage() {
           </TouchableOpacity>
           <TouchableOpacity
             style={style.button}
+            disabled={images.length === 0 || uploadCards.isPending}
             activeOpacity={0.8}
             onPress={() => uploadCards.mutate({ urls: images, startNumber: collctionCards.length }, { onSuccess: reset })}
           >
@@ -71,7 +75,7 @@ export default function CollectionPage() {
         </View>
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <View style={style.grid}>
-            {collctionCards.map((item, index) => (
+            {collctionCards.map((item) => (
               <Card
                 key={item.id}
                 id={item.id}
@@ -87,6 +91,7 @@ export default function CollectionPage() {
             visible={selectedCardId !== null}
             card={selectedCard}
             count={selectedCount}
+            disabled={isLock}
             onAdd={handleAdd}
             onRemove={handleRemove}
             onClose={() => setSelectedCardId(null)}
