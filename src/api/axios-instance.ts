@@ -21,6 +21,11 @@ api.interceptors.request.use(async (config) => {
 // Функцию для выхода регистрирует AuthProvider
 let onUnauthorized: (() => void) | null = null;
 
+export async function handleUnauthorized() {
+  await removeToken();
+  onUnauthorized?.(); // сообщаем провайдеру, что надо выйти
+}
+
 export function setOnUnauthorized(callback: () => void) {
   onUnauthorized = callback;
 }
@@ -30,8 +35,7 @@ api.interceptors.response.use(
   async (error) => {
     const isLoginRequest = error.config?.url === "/auth/login";
     if (isAxiosError(error) && error.response?.status === 401 && !isLoginRequest) {
-      await removeToken();
-      onUnauthorized?.(); // сообщаем провайдеру, что надо выйти
+      await handleUnauthorized();
     }
     return Promise.reject(error); // обязательно пробросить ошибку дальше
   },

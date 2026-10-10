@@ -13,7 +13,7 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
@@ -60,19 +60,21 @@ export default function CollectionPage() {
         }}
       />
       <ScrollView>
-        <View>
-          <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={pick}>
-            <Text>Select Img</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={style.button}
-            disabled={images.length === 0 || uploadCards.isPending}
-            activeOpacity={0.8}
-            onPress={() => uploadCards.mutate({ urls: images, startNumber: collctionCards.length }, { onSuccess: reset })}
-          >
-            <Text>{uploadCards.isPending ? "Uploading..." : "Add Img"}</Text>
-          </TouchableOpacity>
-        </View>
+        {isAdmin && (
+          <View>
+            <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={pick}>
+              <Text>Select Img</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.button}
+              disabled={images.length === 0 || uploadCards.isPending}
+              activeOpacity={0.8}
+              onPress={() => uploadCards.mutate({ urls: images, startNumber: collctionCards.length }, { onSuccess: reset })}
+            >
+              <Text>{uploadCards.isPending ? "Uploading..." : "Add Img"}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <View style={style.grid}>
             {collctionCards.map((item) => (

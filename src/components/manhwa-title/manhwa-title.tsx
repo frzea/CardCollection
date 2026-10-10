@@ -1,6 +1,7 @@
 import { resolveImageUrl } from "@/api/client";
 import { useManhwa } from "@/api/queries/queries";
 import { colors } from "@/design-system";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -9,6 +10,7 @@ import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-na
 import { createStyles } from "./styles";
 
 export function ManhwaTitle({ id }: { id: string }) {
+  const { isAdmin } = useAuth();
   const { theme } = useTheme();
   const router = useRouter();
   const style = useMemo(() => createStyles(theme), [theme]);
@@ -27,13 +29,15 @@ export function ManhwaTitle({ id }: { id: string }) {
       </View>
       <View style={style.siteBar}>
         <Text style={style.titleText}>Collections</Text>
-        <TouchableOpacity
-          style={style.button}
-          activeOpacity={0.8}
-          onPress={() => router.push({ pathname: "/manhwa/new-collections", params: { id: id } })}
-        >
-          <Text>Create new</Text>
-        </TouchableOpacity>
+        {isAdmin && (
+          <TouchableOpacity
+            style={style.button}
+            activeOpacity={0.8}
+            onPress={() => router.push({ pathname: "/manhwa/new-collections", params: { id: id } })}
+          >
+            <Text>Create new</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </>
   );

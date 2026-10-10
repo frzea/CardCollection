@@ -7,11 +7,14 @@ import { createContext, PropsWithChildren, useCallback, useEffect, useState } fr
 
 type AuthState = {
   user: User | null;
+  isAdmin: boolean;
   isLoggedIn: boolean;
   loading: boolean;
   logIn: (data: { login: string; password: string }) => Promise<void>;
-  logOut: () => void;
+  logOut: () => Promise<void>;
 };
+
+const ADMIN_ROLE = 1;
 
 export const AuthContext = createContext<AuthState | null>(null);
 
@@ -65,6 +68,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [queryClient]);
 
   const isLoggedIn = user !== null;
+  const isAdmin = user?.role === ADMIN_ROLE;
 
-  return <AuthContext.Provider value={{ user, isLoggedIn, loading, logIn, logOut }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, loading, logIn, logOut }}>{children}</AuthContext.Provider>;
 }
