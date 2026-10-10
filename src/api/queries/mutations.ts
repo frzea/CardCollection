@@ -1,6 +1,6 @@
 import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
 import { uploadImage } from "@/api/upload";
-import { Cards, UserCard } from "@/types/type";
+import { Cards, Collections, Manhwa, UserCard } from "@/types/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type AddVars = { existing?: UserCard; cardId: string; collectionId: string };
@@ -37,5 +37,21 @@ export function useUploadCards(collectionId: string) {
       }
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["collectionCards", collectionId] }),
+  });
+}
+
+export function useAddCollection() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (collection: Omit<Collections, "id">) => apiPOST<Collections>("collections", collection),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["collections"] }),
+  });
+}
+
+export function useAddManhwa() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (manhwa: Omit<Manhwa, "id">) => apiPOST<Manhwa>("manhwa", manhwa),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["manhwas"] }),
   });
 }

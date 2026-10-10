@@ -1,4 +1,4 @@
-import { apiPOST } from "@/api/events";
+import { useAddCollection } from "@/api/queries/mutations";
 import { useCollection } from "@/api/queries/queries";
 import { uploadImage } from "@/api/upload";
 import { FormInput } from "@/components/formInput";
@@ -6,11 +6,9 @@ import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
-import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -33,7 +31,7 @@ export default function NewCollection() {
   const { id: manhwaId } = useLocalSearchParams<{ id: string }>();
   const { image: selectedImage, pick } = useImagePicker();
   const { data: manhwaCollectionsData } = useCollection(manhwaId);
-  const queryClient = useQueryClient();
+  const addCollection = useAddCollection();
 
   const {
     control,
@@ -45,29 +43,28 @@ export default function NewCollection() {
     defaultValues: { title: "", description: "", cards: "" },
   });
 
-  const createMutatons = useMutation({
-    mutationFn: (existing: Omit<Collections, "id">) => apiPOST<Collections>("collections", existing),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["collections"] });
-    },
-  });
-
   const onSabmit = async (data: FormData) => {
     let coverImageUrl = "";
     if (selectedImage) {
       coverImageUrl = await uploadImage(selectedImage);
     }
 
-    let numberCollection = (manhwaCollectionsData?.length ?? 0) + 1;
+    const numberCollection = (manhwaCollectionsData?.length ?? 0) + 1;
 
-    createMutatons.mutate({
-      manhwaId: manhwaId,
-      number: numberCollection,
-      title: data.title,
-      cards: data.cards,
-      description: data.description,
-      image: coverImageUrl,
-    });
+    try {
+      await addCollection.mutateAsync({
+        manhwaId: manhwaId,
+        number: numberCollection,
+        title: data.title,
+        cards: data.cards,
+        description: data.description,
+        image: coverImageUrl,
+      });
+
+      router.back();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

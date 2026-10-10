@@ -70,7 +70,7 @@ export default function CollectionPage() {
             activeOpacity={0.8}
             onPress={() => uploadCards.mutate({ urls: images, startNumber: collctionCards.length }, { onSuccess: reset })}
           >
-            <Text>Add Img</Text>
+            <Text>{uploadCards.isPending ? "Uploading..." : "Add Img"}</Text>
           </TouchableOpacity>
         </View>
         <SafeAreaView style={style.searcView} edges={["bottom"]}>

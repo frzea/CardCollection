@@ -1,15 +1,13 @@
-import { apiPOST } from "@/api/events";
+import { useAddManhwa } from "@/api/queries/mutations";
 import { uploadImage } from "@/api/upload";
 import { FormInput } from "@/components/formInput";
 import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
-import { Manhwa } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -34,7 +32,7 @@ export default function NewManhwa() {
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const { image: selectedImage, pick } = useImagePicker();
-  const queryClient = useQueryClient();
+  const addManhwa = useAddManhwa();
 
   const {
     control,
@@ -46,27 +44,26 @@ export default function NewManhwa() {
     defaultValues: { titleEn: "", titleRom: "", description: "", genres: "", averageScore: "", episodes: "" },
   });
 
-  const createMutatons = useMutation({
-    mutationFn: (existing: Omit<Manhwa, "id">) => apiPOST<Manhwa>("manhwa", existing),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["manhwas"] });
-    },
-  });
-
   const onSabmit = async (data: FormData) => {
     let coverImageUrl = "";
     if (selectedImage) {
       coverImageUrl = await uploadImage(selectedImage);
     }
 
-    createMutatons.mutate({
-      title: { english: data.titleEn, romaji: data.titleRom },
-      description: data.description,
-      coverImage: { large: coverImageUrl },
-      genres: data.genres.split(",").map((g) => g.trim()),
-      averageScore: Number(data.averageScore),
-      episodes: Number(data.episodes),
-    });
+    try {
+      await addManhwa.mutateAsync({
+        title: { english: data.titleEn, romaji: data.titleRom },
+        description: data.description,
+        coverImage: { large: coverImageUrl },
+        genres: data.genres.split(",").map((g) => g.trim()),
+        averageScore: Number(data.averageScore),
+        episodes: Number(data.episodes),
+      });
+
+      router.back();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

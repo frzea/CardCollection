@@ -38,12 +38,12 @@ export function CardModal({ visible, card, count, disabled = false, onAdd, onClo
                 <TouchableOpacity
                   style={[style.controlButton, (count === 0 || disabled) && style.controlButtonDisabled]}
                   onPress={onRemove}
-                  disabled={count === 0}
+                  disabled={count === 0 || disabled}
                 >
                   <Text style={style.controlButtonText}>-</Text>
                 </TouchableOpacity>
                 <Text style={[style.countText, disabled && style.controlButtonDisabled]}>{count}</Text>
-                <TouchableOpacity style={style.controlButton} onPress={onAdd}>
+                <TouchableOpacity style={style.controlButton} onPress={onAdd} disabled={disabled}>
                   <Text style={style.controlButtonText}>+</Text>
                 </TouchableOpacity>
               </View>
