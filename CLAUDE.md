@@ -6,40 +6,53 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-- `npm start` (or `npx expo start`) — start the Expo dev server.
-- `npm run android` / `npm run ios` / `npm run web` — start the dev server targeting a specific platform.
-- `npm run api` — start the local mock backend (`json-server --watch server/db.json --port 3001`). Must be running for the app to load any data.
-- `npm run lint` — run `expo lint` (ESLint).
-- No test framework is configured in this repo.
+- `npm start` (`npx expo start`) — Expo dev server; `npm run android` / `ios` / `web` target a platform.
+- `npm run api` — start the local mock backend (`node --env-file=server/.env server/mock-server.js`, port 3001). Must be running for the app to load any data.
+- `npm run lint` — `expo lint` (ESLint). Formatting is Prettier (`.prettierrc`: printWidth 150, double quotes, trailing commas).
+- No test framework is configured.
 
-### Local API setup
+### Local setup
 
-The app has no real backend — `server/db.json` is a `json-server` mock REST API (tables: `anime`, `collections`, `cards`, `userCollections`, `userCards`). The app reads its base URL from `EXPO_PUBLIC_API_URL` (see `.env.example`). Since Expo Go / simulators/devices can't reach `localhost` on the dev machine, `.env` must point at the machine's LAN IP (e.g. `http://192.168.x.x:3001`), not `localhost`. Copy `.env.example` to `.env` and set the IP before running the app.
+- `.env` (copy `.env.example`): `EXPO_PUBLIC_API_URL=http://<LAN-IP>:3001`. Use the machine's LAN IP, not `localhost` — devices/Expo Go can't reach the dev machine's localhost.
+- `server/.env` (gitignored, no example file): must define `JWT_SECRET=...`; `mock-server.js` throws on startup without it.
+- Seed users in `server/db.json`: `admin` (role 1) and `guest` (role 2); passwords are stored only as bcrypt hashes.
+
+## Backend (`server/mock-server.js`)
+
+A `json-server` 0.17 router over `server/db.json` (tables: `users`, `sessions`, `roles`, `manhwa`, `collections`, `cards`, `userCards`, `userCollections`) wrapped with custom middleware:
+- **Every request except `POST /auth/login` requires `Authorization: Bearer <JWT>`**, else 401.
+- Custom routes: `POST /auth/login` → `{ accessToken, user }`, `GET /auth/me`, `POST /auth/logout` (no-op 204), `POST /upload` (multer, field `file`, ≤5 MB) → saves into `public/images/uploads/` and returns `{ path: "/images/uploads/<name>" }`.
+- `/users` and `/sessions` are blocked (403) from the generic REST router.
+- Static files from `public/` are served by json-server defaults, so image paths in db.json are server-relative — turn them into URLs with `resolveImageUrl()` (`src/api/client.ts`).
+- Role checks are client-side only; the server does not restrict writes by role.
 
 ## Architecture
 
-**Routing**: Expo Router (file-based) under `src/app`, `main` entry is `expo-router/entry`. Screen flow:
-- `src/app/_layout.tsx` — root `Stack`, wraps everything in `QueryClientProvider` (TanStack Query) then `ThemeProvider`.
-- `src/app/(tabs)/` — tab group: `index.tsx` (Search tab, lists all anime via `CardTitleList`) and `profile.tsx`.
-- `src/app/anime/[id].tsx` — collections ("seasons") belonging to one anime, rendered by `CollectionsList`.
-- `src/app/anime/collection/[collectionId].tsx` — grid of cards belonging to one collection; tapping a card opens `CardModal`, which lets the user add/remove owned copies of that card.
+**Routing** (Expo Router, `src/app`, entry `expo-router/entry`):
+- `_layout.tsx` — `QueryClientProvider` → `AuthProvider` → `ThemeProvider` → `RootNavigator`, which shows a spinner while auth is loading, then uses `Stack.Protected` to expose `(main)` when logged in and `(auth)` otherwise.
+- `(auth)/login.tsx` — login form (react-hook-form + zod, via `src/components/formInput.tsx`).
+- `(main)/_layout.tsx` — Stack; `manhwa/new-manhwa` and `manhwa/new-collections` are wrapped in `Stack.Protected guard={isAdmin}`.
+- `(main)/(tabs)/` — `index.tsx` (Search, list of manhwa) and `profile.tsx`.
+- `(main)/manhwa/[id].tsx` — collections of one manhwa; `(main)/manhwa/collection/[collectionId].tsx` — card grid + `CardModal` to add/remove owned copies; admins can bulk-upload cards here.
 
-This mirrors the data hierarchy: an **anime** has many **collections**, a **collection** has many **cards**.
+Data hierarchy: **manhwa** → many **collections** → many **cards**. `userCards` rows (`{ userId, collectionId, cardId, count }`) track ownership; `userCollections` exists in db.json/types but is unused.
 
-**Data fetching**: TanStack Query + axios, called directly from screens/components — there is no shared `useFetch`-style wrapper hook.
-- `src/api/axios-instance.tsx` exports `api`, an axios instance with `baseURL: EXPO_PUBLIC_API_URL`.
-- `src/api/client.ts` exports `apiFetch<T>(path, options?)`, which wraps `api.request` and rethrows axios errors as `ApiError` (`src/api/api-error.ts`); also exports `resolveImageUrl(path)` for turning db.json-relative image paths into full URLs.
-- `src/api/events.ts` exports `apiPOST`/`apiPATCH`/`apiDELETE` mutation helpers built on `apiFetch`.
-- Each screen/component calls `useQuery({ queryKey: [...], queryFn: () => apiFetch(...) })` directly (e.g. `["anime"]`, `["collections", id]`, `["userCards", 1]`) — there's no query-key constants file, so keep new keys consistent with the existing ad hoc array literals when adding queries.
-- Mutations use `useMutation` + `queryClient.invalidateQueries` on success (see `src/app/anime/collection/[collectionId].tsx`), rather than optimistic updates.
-- `src/hooks/useAPI.ts` (`useFetch`) and `src/api/client(old).ts` are leftover dead code from a pre-TanStack-Query fetch-based implementation — `useFetch`'s import (`@/api/client(old)`) is broken, and nothing in the app imports it. Don't build on it.
+**Auth**:
+- `src/providers/authProvider.tsx` holds `user`, `isLoggedIn`, `isAdmin` (`role === 1`), `logIn`, `logOut`; consume via `useAuth()` (`src/hooks/useAuth.ts`). On startup it reads the token and calls `/auth/me`.
+- Token lives in `expo-secure-store` (`src/api/token-storage.ts`).
+- `src/api/axios-instance.ts`: request interceptor attaches the Bearer token; response interceptor on 401 (except login) calls `handleUnauthorized()` → removes token and fires the callback `AuthProvider` registered via `setOnUnauthorized` (clears user + `queryClient.clear()`).
+- Use `useAuth().user?.id` for the current user — don't hardcode user IDs.
 
-**Ownership state**: `userCards` (one row per owned card, with a `count`) is wired into `src/app/anime/collection/[collectionId].tsx` — `addMutations`/`removeMutations` POST/PATCH/DELETE rows keyed by `{ userId, collectionId, cardId }` and drive the `Card`/`CardModal` owned/count UI. There's no auth, so `userId` is hardcoded to `1` everywhere. `userCollections` exists in `db.json` and has a matching `UserCollection` type but isn't queried or mutated anywhere yet — there's no collection-level "owned" tracking, only card-level.
+**Data layer** (TanStack Query + axios):
+- `apiFetch<T>(path, options)` in `src/api/client.ts` wraps `api.request` and rethrows axios errors as `ApiError` (`src/api/api-error.ts`). `src/api/events.ts` has `apiPOST`/`apiPATCH`/`apiDELETE`. Paths are relative without leading slash (e.g. `"manhwa"`, `` `cards?collectionId=${id}` ``), except auth routes.
+- **All queries/mutations live as hooks in `src/api/queries/queries.ts` and `src/api/queries/mutations.ts`** — add new ones there rather than calling `useQuery` inline. Query keys are array literals defined in those hooks (`["manhwas"]`, `["manhwa", id]`, `["collections", manhwaId]`, `["collectionCards", collectionId]`, `["userCards", userId]`); mutations invalidate the matching key on success (no optimistic updates).
+- Image upload: `src/api/upload.ts` `uploadImage(uri)` uses `expo-file-system` `UploadTask` (multipart, not axios), so it attaches the token and handles 401 manually. Pair with `useImagePicker` (`src/hooks/useImagePicker.ts`).
+- QueryClient defaults: `staleTime: 60000`, `retry: 2`.
 
-**Theming**: custom theme system, not React Navigation's built-in theming. `src/providers/ThemProvider.tsx` defines `ThemeContext` (light/dark toggle, initialized from `useColorScheme()`); consume it via the `useTheme()` hook (`src/hooks/useTheme.ts`), never `useContext` directly. Each component computes its styles by calling a local `createStyles(theme)` factory (colocated `styles.ts`/`style.ts` next to the component) — this is the standard styling pattern throughout, not a CSS-in-JS library or NativeWind.
+**Theming & styles**: custom theme, not React Navigation theming. `src/providers/ThemProvider.tsx` → consume via `useTheme()` (`src/hooks/useTheme.ts`) which returns `{ theme, colorScheme }`. Styles are `createStyles(theme)` factories returning `StyleSheet.create(...)`: component styles are colocated (`styles.ts`/`style.ts` next to the component), screen styles live in `src/design-system/styles/*.ts`. Design tokens (`colors`, `spacing`, `radius`, `gaps`, `fontSize`, `fontWeight`, `params`) are exported from `src/design-system/index.ts` — prefer them over hardcoded values.
 
-**Design tokens**: `src/design-system/theme/` holds `colors.ts`, `spacing.ts`, `radius.ts`, `gaps.ts`, `typography.ts`, aggregated into a single `params` object and re-exported from `src/design-system/index.ts`. Prefer importing tokens from there rather than hardcoding values in `createStyles`.
-
-**Path aliases** (`tsconfig.json`): `@/*` → `src/*`, `@/assets/*` → `assets/*`. TypeScript `strict` mode is on; `experiments.typedRoutes` and `experiments.reactCompiler` are enabled in `app.json`, so route params should be typed via `useLocalSearchParams<{...}>()` as already done in the collection screen.
-
-**Types**: domain shapes live in `src/types/type.ts` (`Cards`, `Collections`, `TitleCardItem`, `UserCard`, `UserCollection`); `TitleCardItem` follows an AniList-like shape (`title.romaji`/`title.english`, `coverImage.large`, `genres`, etc.) since anime metadata in `db.json` mimics that schema.
+**Conventions**:
+- Path aliases: `@/*` → `src/*`, `@/assets/*` → `assets/*`. TS `strict`; `typedRoutes` and `reactCompiler` are enabled in `app.json` — type route params with `useLocalSearchParams<{...}>()`.
+- Domain types are in `src/types/type.ts` (`Manhwa`, `Collections`, `Cards`, `UserCard`, `UserCollection`, `User`, `LoginResponse`). `Manhwa` follows an AniList-like shape (`title.romaji`/`title.english`, `coverImage.large`, `genres`).
+- Code comments in this repo are written in Russian.
+- `src/hooks/useAsuncStorage.ts` (sic) is currently unused.

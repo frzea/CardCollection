@@ -1,56 +1,146 @@
-# Welcome to your Expo app 👋
+# CardCollection
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобильное приложение для учёта коллекционных карточек по манхве. Пользователь смотрит каталог тайтлов, открывает коллекции (сезоны) каждого тайтла и отмечает, какие карточки у него есть и сколько копий. Администратор пополняет каталог прямо из приложения: добавляет тайтлы, коллекции и загружает изображения карточек.
 
-## Get started
+## Возможности
 
-1. Install dependencies
+### Каталог
+- Список всех тайтлов с поиском на вкладке **Search**.
+- Страница тайтла со списком его коллекций.
+- Сетка карточек коллекции. По тапу на карточку открывается модальное окно с карточкой.
 
-   ```bash
-   npm install
-   ```
+### Учёт коллекции
+- Добавление и удаление своих копий карточки со счётчиком количества.
+- Владение карточками хранится отдельно для каждого пользователя.
 
-2. Start the app
+### Аутентификация
+- Вход по логину и паролю, сервер выдаёт JWT access-токен.
+- Токен хранится в зашифрованном хранилище устройства (`expo-secure-store`).
+- При запуске сессия восстанавливается автоматически через `/auth/me`.
+- Экраны защищены через `Stack.Protected` из Expo Router: без входа доступен только экран логина.
 
-   ```bash
-   npx expo start
-   ```
+### Роли
+- Две роли: **admin** и **user**.
+- Только администратору видны и доступны:
+  - создание нового тайтла;
+  - создание новой коллекции;
+  - массовая загрузка изображений карточек в коллекцию.
 
-In the output, you'll find options to open the app in a
+### Загрузка изображений
+- Изображения выбираются из галереи (`expo-image-picker`), можно выбрать сразу несколько.
+- Файлы отправляются на сервер multipart-запросом с токеном и сохраняются в `public/images/uploads/`.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Дизайн-система
+- Собственная система тем: светлая и тёмная тема, начальная берётся из системной.
+- Дизайн-токены (`colors`, `spacing`, `radius`, `gaps`, `typography`) собраны в `src/design-system`.
+- Стили задаются фабриками `createStyles(theme)`, которые пересчитываются при смене темы.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Технические детали
 
-## Get a fresh project
+### Защищённые запросы
+- Каждый запрос к API, кроме логина, требует JWT: сервер без валидного токена отвечает `401`.
+- Токен автоматически подставляется в заголовок `Authorization: Bearer ...` через request-интерсептор axios, поэтому в коде запросов о нём думать не нужно.
+- Загрузка файлов идёт мимо axios (через `expo-file-system`), поэтому токен и ответ `401` там обрабатываются отдельно.
 
-When you're ready, run:
+### Обработка ошибок
+- Все запросы проходят через одну функцию `apiFetch`, которая превращает ошибки axios в собственный класс `ApiError` со статусом и телом ответа. Остальной код работает с одним понятным типом ошибки.
+- Ответ `401` (токен истёк или недействителен) ловит response-интерсептор: он удаляет токен, разлогинивает пользователя и очищает кэш данных. Пользователь попадает на экран логина.
+- Если не задан адрес API (`EXPO_PUBLIC_API_URL`), приложение сразу сообщает об этом понятной ошибкой.
+- Неудачные запросы TanStack Query повторяет до 2 раз.
 
-```bash
-npm run reset-project
+### Работа с данными
+- Все запросы и мутации оформлены как хуки в `src/api/queries/` (`useManhwas`, `useCollectionCards`, `useAddUserCard` и т. д.). Экраны не обращаются к API напрямую.
+- Данные кэшируются (свежими считаются 60 секунд), а после успешной мутации нужный кэш инвалидируется и данные перезапрашиваются.
+
+## Технологии
+
+| Область | Что используется |
+|---|---|
+| Платформа | Expo SDK 57, React Native 0.86, React 19 |
+| Язык | TypeScript (strict) |
+| Навигация | Expo Router (файловый роутинг, typed routes) |
+| Компилятор | React Compiler |
+| Данные с сервера | TanStack Query v5 + axios |
+| Формы и валидация | react-hook-form + zod |
+| Безопасное хранилище | expo-secure-store |
+| Изображения | expo-image, expo-image-picker, expo-file-system |
+| Mock-бэкенд | json-server, jsonwebtoken, bcryptjs, multer |
+| Качество кода | ESLint (eslint-config-expo), Prettier |
+
+## Архитектура
+
+```
+src/
+├── app/                 # экраны (Expo Router)
+│   ├── (auth)/          # экран логина
+│   └── (main)/          # всё, что доступно после входа
+│       ├── (tabs)/      # вкладки Search и Profile
+│       └── manhwa/      # тайтл → коллекция → карточки, админские формы
+├── api/
+│   ├── queries/         # хуки useQuery / useMutation
+│   ├── axios-instance   # axios + интерсепторы токена и 401
+│   ├── client           # apiFetch, ApiError, resolveImageUrl
+│   ├── auth             # login / me / logout
+│   ├── token-storage    # работа с SecureStore
+│   └── upload           # загрузка изображений
+├── components/          # переиспользуемые компоненты
+├── design-system/       # токены и стили экранов
+├── hooks/               # useAuth, useTheme, useImagePicker
+├── providers/           # AuthProvider, ThemeProvider
+└── types/               # доменные типы
+server/
+├── mock-server.js       # json-server + JWT-авторизация + загрузка файлов
+└── db.json              # данные
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Модель данных: **manhwa** → **collections** → **cards**. Владение карточкой хранится в `userCards` (`userId`, `cardId`, `count`).
 
-### Other setup steps
+## Запуск
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 1. Зависимости
+```bash
+npm install
+```
 
-## Learn more
+### 2. Переменные окружения
 
-To learn more about developing your project with Expo, look at the following resources:
+**`.env`** в корне (скопировать из `.env.example`):
+```
+EXPO_PUBLIC_API_URL=http://<IP-компьютера-в-локальной-сети>:3001
+```
+Нужен именно LAN IP, а не `localhost`: телефон или эмулятор не видит `localhost` компьютера. Узнать IP можно командой `ipconfig` (Windows) или `ifconfig` (macOS/Linux).
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**`server/.env`**:
+```
+JWT_SECRET=любая-длинная-случайная-строка
+```
 
-## Join the community
+### 3. Бэкенд
+```bash
+npm run api
+```
+Сервер запустится на порту `3001`.
 
-Join our community of developers creating universal apps.
+### 4. Приложение
+```bash
+npm start
+```
+Дальше открыть в Expo Go, эмуляторе или браузере (`npm run android` / `ios` / `web`).
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Скрипты
+
+| Команда | Что делает |
+|---|---|
+| `npm start` | Запускает Expo dev server |
+| `npm run android` / `ios` / `web` | Запускает dev server под конкретную платформу |
+| `npm run api` | Запускает mock-бэкенд |
+| `npm run lint` | Проверяет код ESLint |
+
+## Текущие ограничения
+- Бэкенд пока mock-сервер на json-server. Права ролей проверяются только на клиенте, сервер не ограничивает запись по роли.
+- Refresh-токенов нет, access-токен живёт 7 дней.
+- Таблица `userCollections` уже есть в данных, но в приложении пока не используется.
+
+## Планы
+- Написать полноценный бэкенд вместо mock-сервера.
+- Задеплоить полностью рабочее приложение.
