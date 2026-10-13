@@ -37,6 +37,7 @@ export default function NewManhwa() {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -46,11 +47,11 @@ export default function NewManhwa() {
 
   const onSabmit = async (data: FormData) => {
     let coverImageUrl = "";
-    if (selectedImage) {
-      coverImageUrl = await uploadImage(selectedImage);
-    }
 
     try {
+      if (selectedImage) {
+        coverImageUrl = await uploadImage(selectedImage);
+      }
       await addManhwa.mutateAsync({
         title: { english: data.titleEn, romaji: data.titleRom },
         description: data.description,
@@ -62,7 +63,7 @@ export default function NewManhwa() {
 
       router.back();
     } catch (e) {
-      console.log(e);
+      setError("root", { message: "Ошибка загрузки манхвы!" });
     }
   };
 
@@ -148,6 +149,7 @@ export default function NewManhwa() {
             />
           </View>
 
+          {errors.root && <Text style={style.error}>{errors.root.message}</Text>}
           <TouchableOpacity
             style={[style.button, isSubmitting && style.buttonDisabled]}
             activeOpacity={0.8}

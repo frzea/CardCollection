@@ -90,7 +90,8 @@ src/
 └── types/               # доменные типы
 server/
 ├── mock-server.js       # json-server + JWT-авторизация + загрузка файлов
-└── db.json              # данные
+├── db.json              # данные
+└── package.json         # зависимости mock-сервера
 ```
 
 Модель данных: **manhwa** → **collections** → **cards**. Владение карточкой хранится в `userCards` (`userId`, `cardId`, `count`).
@@ -98,9 +99,12 @@ server/
 ## Запуск
 
 ### 1. Зависимости
+У приложения и mock-сервера отдельные `package.json`, поэтому зависимости ставятся в двух местах:
 ```bash
-npm install
+npm install                  # приложение
+npm --prefix server install  # mock-сервер (json-server, jsonwebtoken, bcryptjs, multer)
 ```
+Без второй команды `npm run api` упадёт с `Cannot find module 'json-server'`.
 
 ### 2. Переменные окружения
 

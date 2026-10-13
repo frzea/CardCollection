@@ -151,6 +151,25 @@ server.post("/auth/logout", (req, res) => {
 server.use(["/users", "/sessions"], (req, res) => {
   res.sendStatus(403);
 });
+
+// Номер присваивает сервер: следующий после максимального внутри группы
+function nextNumber(table, filter) {
+  const numbers = db.get(table).filter(filter).map("number").value();
+  return numbers.length ? Math.max(...numbers) + 1 : 1;
+}
+
+server.post("/collections", (req, res, next) => {
+  if (!req.body.manhwaId) return res.status(400).json({ error: "Нужен manhwaId" });
+  req.body.number = nextNumber("collections", { manhwaId: req.body.manhwaId });
+  next(); // дальше запись делает обычный json-server router
+});
+
+server.post("/cards", (req, res, next) => {
+  if (!req.body.collectionId) return res.status(400).json({ error: "Нужен collectionId" });
+  req.body.number = nextNumber("cards", { collectionId: req.body.collectionId });
+  next();
+});
+
 server.use(router);
 
 const PORT = 3001;

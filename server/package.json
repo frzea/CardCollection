@@ -1,0 +1,10 @@
+{
+  "name": "cardcollection-server",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "json-server": "0.17.4"
+  }
+}

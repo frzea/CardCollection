@@ -543,13 +543,6 @@
       "id": 12
     },
     {
-      "userId": 2,
-      "collectionId": "ZN35K4E",
-      "cardId": "GOsLxji",
-      "count": 2,
-      "id": 13
-    },
-    {
       "userId": 1,
       "collectionId": "ZN35K4E",
       "cardId": "8rkaw8T",
@@ -576,6 +569,13 @@
       "cardId": "OOUmmCQUIIQ",
       "count": 1,
       "id": 17
+    },
+    {
+      "userId": 2,
+      "collectionId": "ZN35K4E",
+      "cardId": "X5YjFoN",
+      "count": 1,
+      "id": 18
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

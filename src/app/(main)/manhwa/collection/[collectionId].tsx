@@ -46,6 +46,10 @@ export default function CollectionPage() {
     if (existing) removeCard.mutate(existing);
   }
 
+  function uploadingCards() {
+    uploadCards.mutate({ urls: images }, { onSuccess: reset });
+  }
+
   return (
     <>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
@@ -69,7 +73,7 @@ export default function CollectionPage() {
               style={style.button}
               disabled={images.length === 0 || uploadCards.isPending}
               activeOpacity={0.8}
-              onPress={() => uploadCards.mutate({ urls: images, startNumber: collctionCards.length }, { onSuccess: reset })}
+              onPress={uploadingCards}
             >
               <Text>{uploadCards.isPending ? "Uploading..." : "Add Img"}</Text>
             </TouchableOpacity>

@@ -69,4 +69,8 @@ export const createStyles = (theme: Theme) =>
       fontSize: fontSize.base,
       fontWeight: fontWeight.semibold,
     },
+    error: {
+      color: colors.warning,
+      textAlign: "center",
+    },
   });

@@ -1,5 +1,4 @@
 import { useAddCollection } from "@/api/queries/mutations";
-import { useCollection } from "@/api/queries/queries";
 import { uploadImage } from "@/api/upload";
 import { FormInput } from "@/components/formInput";
 import { colors } from "@/design-system";
@@ -30,12 +29,12 @@ export default function NewCollection() {
   const style = useMemo(() => createStyles(theme), [theme]);
   const { id: manhwaId } = useLocalSearchParams<{ id: string }>();
   const { image: selectedImage, pick } = useImagePicker();
-  const { data: manhwaCollectionsData } = useCollection(manhwaId);
   const addCollection = useAddCollection();
 
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -45,16 +44,14 @@ export default function NewCollection() {
 
   const onSabmit = async (data: FormData) => {
     let coverImageUrl = "";
-    if (selectedImage) {
-      coverImageUrl = await uploadImage(selectedImage);
-    }
-
-    const numberCollection = (manhwaCollectionsData?.length ?? 0) + 1;
 
     try {
+      if (selectedImage) {
+        coverImageUrl = await uploadImage(selectedImage);
+      }
+
       await addCollection.mutateAsync({
         manhwaId: manhwaId,
-        number: numberCollection,
         title: data.title,
         cards: data.cards,
         description: data.description,
@@ -63,7 +60,7 @@ export default function NewCollection() {
 
       router.back();
     } catch (e) {
-      console.log(e);
+      setError("root", { message: "Ошибка загрузки колекции!" });
     }
   };
 
@@ -114,6 +111,7 @@ export default function NewCollection() {
             />
           </View>
 
+          {errors.root && <Text style={style.error}>{errors.root.message}</Text>}
           <TouchableOpacity
             style={[style.button, isSubmitting && style.buttonDisabled]}
             activeOpacity={0.8}
