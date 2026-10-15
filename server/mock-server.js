@@ -167,6 +167,14 @@ server.post("/collections", (req, res, next) => {
 server.post("/cards", (req, res, next) => {
   if (!req.body.collectionId) return res.status(400).json({ error: "Нужен collectionId" });
   req.body.number = nextNumber("cards", { collectionId: req.body.collectionId });
+
+  const collection = db.get("collections").find({ id: req.body.collectionId }).value();
+  if (!collection) return res.status(400).json({ error: "Коллекция не найдена" });
+
+  const count = db.get("cards").filter({ collectionId: req.body.collectionId }).size().value();
+  if (count >= Number(collection.cards)) {
+    return res.status(400).json({ error: "Коллекция уже заполнена" });
+  }
   next();
 });
 

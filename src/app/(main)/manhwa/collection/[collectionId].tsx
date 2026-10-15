@@ -1,5 +1,6 @@
+import { ApiError } from "@/api/api-error";
 import { useAddUserCard, useRemoveUserCard, useUploadCards } from "@/api/queries/mutations";
-import { useCollectionCards, useUserCards } from "@/api/queries/queries";
+import { useCollectionById, useCollectionCards, useUserCards } from "@/api/queries/queries";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
 import { createStyles } from "@/design-system/styles/collections";
@@ -17,9 +18,12 @@ export default function CollectionPage() {
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
-  const { images, pick, reset } = useImagePicker({ multiple: true, selectionLimit: 0 });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  const { data: collectionInfo } = useCollectionById(collectionId);
   const { data: collctionCards = [] } = useCollectionCards(collectionId);
+  const maxCards = Number(collectionInfo?.cards ?? 0);
+  const freeSlots = Math.max(maxCards - collctionCards.length, 0);
+  const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
   const { data: userCards = [] } = useUserCards(user?.id);
   const addCard = useAddUserCard(user?.id);
   const removeCard = useRemoveUserCard(user?.id);
@@ -35,6 +39,8 @@ export default function CollectionPage() {
   // защита от двойного нажатия
   const isLock = addCard.isPending || removeCard.isPending;
 
+  const canPick = !!collectionInfo && freeSlots - images.length > 0;
+
   function handleAdd() {
     if (!selectedCardId || isLock) return;
     addCard.mutate({ existing: userCardByCardId.get(selectedCardId), cardId: selectedCardId, collectionId });
@@ -47,7 +53,14 @@ export default function CollectionPage() {
   }
 
   function uploadingCards() {
-    uploadCards.mutate({ urls: images }, { onSuccess: reset });
+    uploadCards.mutate(
+      { urls: images.slice(0, freeSlots), onUploaded: remove },
+      {
+        onError: (error) => {
+          if (error instanceof ApiError && error.status === 400) reset();
+        },
+      },
+    );
   }
 
   return (
@@ -66,7 +79,7 @@ export default function CollectionPage() {
       <ScrollView>
         {isAdmin && (
           <View>
-            <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={pick}>
+            <TouchableOpacity style={style.button} activeOpacity={0.8} disabled={!canPick} onPress={pick}>
               <Text>Select Img</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -75,7 +88,7 @@ export default function CollectionPage() {
               activeOpacity={0.8}
               onPress={uploadingCards}
             >
-              <Text>{uploadCards.isPending ? "Uploading..." : "Add Img"}</Text>
+              <Text>{uploadCards.isPending ? `Uploading... осталось ${images.length}` : `Add Img (${images.length})`}</Text>
             </TouchableOpacity>
           </View>
         )}

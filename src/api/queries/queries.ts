@@ -23,6 +23,13 @@ export function useCollection(manhwaId: string) {
   });
 }
 
+export function useCollectionById(collectionId: string) {
+  return useQuery({
+    queryKey: ["collection", collectionId],
+    queryFn: () => apiFetch<Collections>(`collections/${collectionId}`),
+  });
+}
+
 export function useCollectionCards(collectionId: string) {
   return useQuery({
     queryKey: ["collectionCards", collectionId],

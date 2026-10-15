@@ -17,20 +17,26 @@ export function useImagePicker({ multiple = false, selectionLimit = 0 }: Params 
   }, []);
 
   const pick = async () => {
+    // сколько ещё можно выбрать (0 в selectionLimit = без лимита)
+    const left = selectionLimit ? selectionLimit - images.length : 0;
+    if (selectionLimit && left <= 0) return;
+
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsMultipleSelection: multiple,
       allowsEditing: !multiple,
-      selectionLimit: multiple ? selectionLimit : 1,
+      selectionLimit: multiple ? left : 1,
       quality: 1,
     });
 
     if (result.canceled) return;
 
     const uris = result.assets.map((a) => a.uri);
-    setImages(multiple ? (prev) => [...prev, ...uris] : uris);
+    setImages(multiple ? (prev) => [...new Set([...prev, ...uris])].slice(0, selectionLimit || undefined) : uris);
   };
+
+  const remove = (uri: string) => setImages((prev) => prev.filter((i) => i !== uri));
 
   const reset = () => setImages([]);
 
-  return { images, image: images[0] ?? null, pick, reset };
+  return { images, image: images[0] ?? null, pick, remove, reset };
 }
