@@ -36,7 +36,7 @@ interface Collections {
   number: number;
   title: string;
   description: string;
-  cards: string;
+  cards: number;
   image: string;
 }
 

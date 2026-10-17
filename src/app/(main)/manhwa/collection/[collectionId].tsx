@@ -21,7 +21,7 @@ export default function CollectionPage() {
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const { data: collectionInfo } = useCollectionById(collectionId);
   const { data: collctionCards = [] } = useCollectionCards(collectionId);
-  const maxCards = Number(collectionInfo?.cards ?? 0);
+  const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - collctionCards.length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
   const { data: userCards = [] } = useUserCards(user?.id);
@@ -39,7 +39,7 @@ export default function CollectionPage() {
   // защита от двойного нажатия
   const isLock = addCard.isPending || removeCard.isPending;
 
-  const canPick = !!collectionInfo && freeSlots - images.length > 0;
+  const canPick = !uploadCards.isPending && !!collectionInfo && freeSlots - images.length > 0;
 
   function handleAdd() {
     if (!selectedCardId || isLock) return;
@@ -57,7 +57,7 @@ export default function CollectionPage() {
       { urls: images.slice(0, freeSlots), onUploaded: remove },
       {
         onError: (error) => {
-          if (error instanceof ApiError && error.status === 400) reset();
+          if (error instanceof ApiError && error.status === 409) reset();
         },
       },
     );
@@ -80,7 +80,7 @@ export default function CollectionPage() {
         {isAdmin && (
           <View>
             <TouchableOpacity style={style.button} activeOpacity={0.8} disabled={!canPick} onPress={pick}>
-              <Text>Select Img</Text>
+              <Text>{collectionInfo ? `Select Img (${images.length}/${freeSlots})` : "Select Img"}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={style.button}

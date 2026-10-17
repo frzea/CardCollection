@@ -2,7 +2,7 @@ import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { ColorValue, KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View } from "react-native";
 
 type Props<T extends FieldValues> = {
-  control: Control<T>;
+  control: Control<T, any, any>;
   name: Path<T>;
   placeholder?: string;
   style?: StyleProp<TextStyle>;

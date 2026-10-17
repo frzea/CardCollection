@@ -15,14 +15,16 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } fr
 import { z } from "zod";
 
 const schema = z.object({
-  title: z.string().min(4, "Имя должно быть не короче 4 символов"),
-  description: z.string().min(4, "не мение4х символов").max(30, "не более 30 символов"),
+  title: z.string().min(4, "The name must be longer than 4 characters."),
+  description: z.string().min(4, "At least 4 characters.").max(30, "No more than 30 characters."),
   cards: z
     .string()
-    .min(1, "минимум 1")
-    .refine((val) => Number(val) <= 100, "больше 100 нельзя"),
+    .trim()
+    .min(1, "Field is required")
+    .pipe(z.coerce.number<string>({ error: "Enter a number" }).int("Number must be int").min(1, "Min 1.").max(32, "Max 32.")),
 });
-type FormData = z.infer<typeof schema>;
+type FormInputData = z.input<typeof schema>;
+type FormOutputData = z.output<typeof schema>;
 
 export default function NewCollection() {
   const { theme, colorScheme } = useTheme();
@@ -36,13 +38,13 @@ export default function NewCollection() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<FormInputData, unknown, FormOutputData>({
     resolver: zodResolver(schema),
     mode: "onBlur",
     defaultValues: { title: "", description: "", cards: "" },
   });
 
-  const onSabmit = async (data: FormData) => {
+  const onSabmit = async (data: FormOutputData) => {
     let coverImageUrl = "";
 
     try {

@@ -15,18 +15,16 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } fr
 import { z } from "zod";
 
 const schema = z.object({
-  titleEn: z.string().min(4, "Имя должно быть не короче 4 символов"),
-  titleRom: z.string().min(4, "Имя должно быть не короче 4 символов"),
-  description: z.string().min(4, "не мение4х символов").max(30, "не более 30 символов"),
-  genres: z.string().min(4, " должно быть не короче 4 символов"),
-  averageScore: z
-    .string()
-    .min(1, "минимум 1")
-    .refine((val) => Number(val) <= 100, "больше 100 нельзя"),
-  episodes: z.string().min(1, "минимум 1"),
+  titleEn: z.string().min(4, "The name must be at least 4 characters long."),
+  titleRom: z.string().min(4, "The name must be at least 4 characters long."),
+  description: z.string().min(4, "At least 4 characters.").max(30, "No more than 30 characters."),
+  genres: z.string().min(4, " должно быть не короче 4 символов"), //z.array(z.string().min(4, " должно быть не короче 4 символов")).max(5),
+  averageScore: z.coerce.number({ error: "Not number." }).int().min(1, "From 1 to 100").max(100, "From 1 to 100"),
+  episodes: z.coerce.number({ error: "Not number." }).int().min(1, "From 1 to 10").max(10, "From 1 to 10"),
 });
 
-type FormData = z.infer<typeof schema>;
+type FormInputData = z.input<typeof schema>;
+type FormOutputData = z.output<typeof schema>;
 
 export default function NewManhwa() {
   const { theme, colorScheme } = useTheme();
@@ -39,13 +37,13 @@ export default function NewManhwa() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<FormInputData, unknown, FormOutputData>({
     resolver: zodResolver(schema),
     mode: "onBlur",
     defaultValues: { titleEn: "", titleRom: "", description: "", genres: "", averageScore: "", episodes: "" },
   });
 
-  const onSabmit = async (data: FormData) => {
+  const onSabmit = async (data: FormOutputData) => {
     let coverImageUrl = "";
 
     try {

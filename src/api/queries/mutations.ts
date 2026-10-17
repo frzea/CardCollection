@@ -45,7 +45,7 @@ export function useUploadCards(collectionId: string) {
       }
     },
     onError: (error) => {
-      if (error instanceof ApiError && error.status === 400) {
+      if (error instanceof ApiError && error.status === 409) {
         Alert.alert("Коллекция заполнена", "Оставшиеся картинки не будут загружены");
       } else {
         Alert.alert("Ошибка", "Не все карточки загрузились. Нажмите ещё раз, чтобы догрузить остальные");

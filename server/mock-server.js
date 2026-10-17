@@ -173,7 +173,7 @@ server.post("/cards", (req, res, next) => {
 
   const count = db.get("cards").filter({ collectionId: req.body.collectionId }).size().value();
   if (count >= Number(collection.cards)) {
-    return res.status(400).json({ error: "Коллекция уже заполнена" });
+    return res.status(409).json({ error: "Коллекция уже заполнена" });
   }
   next();
 });
