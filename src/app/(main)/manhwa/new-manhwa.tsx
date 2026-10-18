@@ -5,6 +5,7 @@ import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
+import { ManhwaFormInput, ManhwaFormOutput, manhwaSchema } from "@/schemas/manhwa";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router, Stack } from "expo-router";
@@ -12,19 +13,6 @@ import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { z } from "zod";
-
-const schema = z.object({
-  titleEn: z.string().min(4, "The name must be at least 4 characters long."),
-  titleRom: z.string().min(4, "The name must be at least 4 characters long."),
-  description: z.string().min(4, "At least 4 characters.").max(30, "No more than 30 characters."),
-  genres: z.string().min(4, " должно быть не короче 4 символов"), //z.array(z.string().min(4, " должно быть не короче 4 символов")).max(5),
-  averageScore: z.coerce.number({ error: "Not number." }).int().min(1, "From 1 to 100").max(100, "From 1 to 100"),
-  episodes: z.coerce.number({ error: "Not number." }).int().min(1, "From 1 to 10").max(10, "From 1 to 10"),
-});
-
-type FormInputData = z.input<typeof schema>;
-type FormOutputData = z.output<typeof schema>;
 
 export default function NewManhwa() {
   const { theme, colorScheme } = useTheme();
@@ -37,13 +25,13 @@ export default function NewManhwa() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormInputData, unknown, FormOutputData>({
-    resolver: zodResolver(schema),
+  } = useForm<ManhwaFormInput, unknown, ManhwaFormOutput>({
+    resolver: zodResolver(manhwaSchema),
     mode: "onBlur",
     defaultValues: { titleEn: "", titleRom: "", description: "", genres: "", averageScore: "", episodes: "" },
   });
 
-  const onSabmit = async (data: FormOutputData) => {
+  const onSabmit = async (data: ManhwaFormOutput) => {
     let coverImageUrl = "";
 
     try {
@@ -54,13 +42,13 @@ export default function NewManhwa() {
         title: { english: data.titleEn, romaji: data.titleRom },
         description: data.description,
         coverImage: { large: coverImageUrl },
-        genres: data.genres.split(",").map((g) => g.trim()),
-        averageScore: Number(data.averageScore),
-        episodes: Number(data.episodes),
+        genres: data.genres,
+        averageScore: data.averageScore,
+        episodes: data.episodes,
       });
 
       router.back();
-    } catch (e) {
+    } catch {
       setError("root", { message: "Ошибка загрузки манхвы!" });
     }
   };

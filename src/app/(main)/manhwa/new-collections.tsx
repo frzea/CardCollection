@@ -5,6 +5,7 @@ import { colors } from "@/design-system";
 import { createStyles } from "@/design-system/styles/new-manhwa";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
+import { CollectionFormInput, CollectionFormOutput, collectionSchema } from "@/schemas/collection";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router, Stack, useLocalSearchParams } from "expo-router";
@@ -12,19 +13,6 @@ import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { z } from "zod";
-
-const schema = z.object({
-  title: z.string().min(4, "The name must be longer than 4 characters."),
-  description: z.string().min(4, "At least 4 characters.").max(30, "No more than 30 characters."),
-  cards: z
-    .string()
-    .trim()
-    .min(1, "Field is required")
-    .pipe(z.coerce.number<string>({ error: "Enter a number" }).int("Number must be int").min(1, "Min 1.").max(32, "Max 32.")),
-});
-type FormInputData = z.input<typeof schema>;
-type FormOutputData = z.output<typeof schema>;
 
 export default function NewCollection() {
   const { theme, colorScheme } = useTheme();
@@ -38,13 +26,13 @@ export default function NewCollection() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormInputData, unknown, FormOutputData>({
-    resolver: zodResolver(schema),
+  } = useForm<CollectionFormInput, unknown, CollectionFormOutput>({
+    resolver: zodResolver(collectionSchema),
     mode: "onBlur",
     defaultValues: { title: "", description: "", cards: "" },
   });
 
-  const onSabmit = async (data: FormOutputData) => {
+  const onSabmit = async (data: CollectionFormOutput) => {
     let coverImageUrl = "";
 
     try {
@@ -61,7 +49,7 @@ export default function NewCollection() {
       });
 
       router.back();
-    } catch (e) {
+    } catch {
       setError("root", { message: "Ошибка загрузки колекции!" });
     }
   };
@@ -98,7 +86,14 @@ export default function NewCollection() {
 
           <View style={style.field}>
             <Text style={style.label}>Cards</Text>
-            <FormInput control={control} name="cards" placeholder="qty cards" style={style.input} placeholderTextColor={theme.iconColor} />
+            <FormInput
+              control={control}
+              name="cards"
+              placeholder="qty cards"
+              style={style.input}
+              placeholderTextColor={theme.iconColor}
+              keyboardType="numeric"
+            />
           </View>
 
           <View style={style.field}>

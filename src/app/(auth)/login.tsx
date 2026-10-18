@@ -1,18 +1,10 @@
 import { ApiError } from "@/api/api-error";
 import { FormInput } from "@/components/formInput";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthFormData, authSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
-import { z } from "zod";
-
-// Правила для полей: пустой логин или пароль не отправляем на сервер
-const schema = z.object({
-  login: z.string().min(1, "Введите логин"),
-  password: z.string().min(1, "Введите пароль"),
-});
-
-type FormData = z.infer<typeof schema>;
 
 export default function Login() {
   const { logIn } = useAuth();
@@ -21,12 +13,12 @@ export default function Login() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema),
     defaultValues: { login: "", password: "" },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: AuthFormData) => {
     try {
       await logIn(data);
       // После успешного входа сюда ничего писать не нужно: Stack.Protected сам покажет (main)
