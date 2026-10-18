@@ -3,14 +3,16 @@ import { useAddUserCard, useRemoveUserCard, useUploadCards } from "@/api/queries
 import { useCollectionById, useCollectionCards, useUserCards } from "@/api/queries/queries";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
+import { colors } from "@/design-system/index";
 import { createStyles } from "@/design-system/styles/collections";
 import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
+import { Cards } from "@/types/type";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
@@ -20,7 +22,7 @@ export default function CollectionPage() {
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const { data: collectionInfo } = useCollectionById(collectionId);
-  const { data: collctionCards = [] } = useCollectionCards(collectionId);
+  const { data: collctionCards = [], isLoading, error, refetch } = useCollectionCards(collectionId);
   const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - collctionCards.length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
@@ -63,6 +65,36 @@ export default function CollectionPage() {
     );
   }
 
+  const renderCards = ({ item }: { item: Cards }) => {
+    return (
+      <Card
+        id={item.id}
+        image={item.image}
+        numColumn={3}
+        owned={userCardByCardId.has(item.id)}
+        count={userCardByCardId.get(item.id)?.count ?? 0}
+        onPress={setSelectedCardId}
+      />
+    );
+  };
+
+  const adminPanel = (
+    <View>
+      <TouchableOpacity style={style.button} activeOpacity={0.8} disabled={!canPick} onPress={pick}>
+        <Text>{collectionInfo ? `Select Img (${images.length}/${freeSlots})` : "Select Img"}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={style.button} disabled={images.length === 0 || uploadCards.isPending} activeOpacity={0.8} onPress={uploadingCards}>
+        <Text>{uploadCards.isPending ? `Uploading... осталось ${images.length}` : `Add Img (${images.length})`}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const emptyData = (
+    <View>
+      <Text>There are no cards in the collection yet</Text>
+    </View>
+  );
+
   return (
     <>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
@@ -76,47 +108,41 @@ export default function CollectionPage() {
           headerTintColor: theme.text,
         }}
       />
-      <ScrollView>
-        {isAdmin && (
-          <View>
-            <TouchableOpacity style={style.button} activeOpacity={0.8} disabled={!canPick} onPress={pick}>
-              <Text>{collectionInfo ? `Select Img (${images.length}/${freeSlots})` : "Select Img"}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.button}
-              disabled={images.length === 0 || uploadCards.isPending}
-              activeOpacity={0.8}
-              onPress={uploadingCards}
-            >
-              <Text>{uploadCards.isPending ? `Uploading... осталось ${images.length}` : `Add Img (${images.length})`}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+      <CardModal
+        visible={selectedCardId !== null}
+        card={selectedCard}
+        count={selectedCount}
+        disabled={isLock}
+        onAdd={handleAdd}
+        onRemove={handleRemove}
+        onClose={() => setSelectedCardId(null)}
+      />
+      {isLoading && (
+        <View style={style.center}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      )}
+      {!isLoading && error && (
+        <View style={style.center}>
+          <Text style={style.errorText}>Error: {error.message}</Text>
+          <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
+            <Text style={style.retryText}>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      {!isLoading && !error && (
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
-          <View style={style.grid}>
-            {collctionCards.map((item) => (
-              <Card
-                key={item.id}
-                id={item.id}
-                image={item.image}
-                numColumn={3}
-                owned={userCardByCardId.has(item.id)}
-                count={userCardByCardId.get(item.id)?.count ?? 0}
-                onPress={setSelectedCardId}
-              />
-            ))}
-          </View>
-          <CardModal
-            visible={selectedCardId !== null}
-            card={selectedCard}
-            count={selectedCount}
-            disabled={isLock}
-            onAdd={handleAdd}
-            onRemove={handleRemove}
-            onClose={() => setSelectedCardId(null)}
+          <FlatList
+            data={collctionCards}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={renderCards}
+            numColumns={3}
+            ListHeaderComponent={isAdmin ? adminPanel : null}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={emptyData}
           />
         </SafeAreaView>
-      </ScrollView>
+      )}
     </>
   );
 }

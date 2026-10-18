@@ -1,4 +1,4 @@
-import { gaps, spacing } from "@/design-system/index";
+import { colors, fontWeight, gaps, radius, spacing } from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 
@@ -14,11 +14,6 @@ export const createStyles = (theme: Theme) =>
       paddingHorizontal: spacing.md,
       paddingTop: spacing.xl,
       gap: gaps.xm,
-    },
-    grid: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      marginHorizontal: 15,
     },
     modalBgContainer: {
       flex: 1,
@@ -41,5 +36,25 @@ export const createStyles = (theme: Theme) =>
       width: spacing.xl * 6,
       backgroundColor: theme.iconColor,
       alignSelf: "flex-end",
+    },
+    center: {
+      flex: spacing.one,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.background,
+    },
+    errorText: {
+      color: colors.warning,
+      marginBottom: spacing.md,
+    },
+    retryBtn: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.xl,
+      paddingVertical: spacing.md,
+      borderRadius: radius.xs,
+    },
+    retryText: {
+      color: colors.white,
+      fontWeight: fontWeight.semibold,
     },
   });
