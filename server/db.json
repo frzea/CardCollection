@@ -242,7 +242,7 @@
     {
       "id": "1",
       "manhwaId": "16498",
-      "collectionId": 1,
+      "releaseDate": "2020-01-01",
       "title": "Collection #1",
       "description": "",
       "cards": 18,
@@ -251,7 +251,7 @@
     {
       "id": "2",
       "manhwaId": "16498",
-      "collectionId": 2,
+      "releaseDate": "2020-02-01",
       "title": "Collection #2",
       "description": "",
       "cards": 18,
@@ -260,7 +260,7 @@
     {
       "id": "3",
       "manhwaId": "16498",
-      "collectionId": 3,
+      "releaseDate": "2020-03-01",
       "title": "Collection #3",
       "description": "",
       "cards": 6,
@@ -269,7 +269,7 @@
     {
       "id": "4",
       "manhwaId": "16498",
-      "collectionId": 4,
+      "releaseDate": "2020-04-01",
       "title": "Collection #4",
       "description": "",
       "cards": 8,
@@ -277,7 +277,7 @@
     },
     {
       "manhwaId": "HL1IpPL",
-      "number": 1,
+      "releaseDate": "2020-01-01",
       "title": "Padruga noch",
       "cards": 2,
       "description": "Nu da",
@@ -286,7 +286,7 @@
     },
     {
       "manhwaId": "HL1IpPL",
-      "number": 2,
+      "releaseDate": "2020-02-01",
       "title": "Ti pochek",
       "cards": 5,
       "description": "nuda",

@@ -2,7 +2,6 @@ import { resolveImageUrl } from "@/api/client";
 import { useCollection, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
-import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
@@ -13,12 +12,11 @@ import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: string }) {
-  const { user } = useAuth();
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
   const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
-  const { data: userCards = [], refetch: refetchUserCards } = useUserCards(user?.id);
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
 
   useFocusEffect(
     useCallback(() => {
@@ -55,6 +53,7 @@ export function CollectionsList({ id }: { id: string }) {
         )}
         <View style={style.info}>
           <Text style={style.title}>{item.title}</Text>
+          <Text style={style.title}>{item.releaseDate}</Text>
           <Text style={style.title}>
             Кол. карточек - {cardCount}/{item.cards}
           </Text>

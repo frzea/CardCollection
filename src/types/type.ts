@@ -33,7 +33,7 @@ interface Cards {
 interface Collections {
   id: string;
   manhwaId: string;
-  number: number;
+  releaseDate: string; // ГГГГ-ММ-ДД, по нему сортируются коллекции
   title: string;
   description: string;
   cards: number;

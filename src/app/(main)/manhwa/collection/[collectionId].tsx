@@ -16,7 +16,7 @@ import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CollectionPage() {
-  const { user, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
@@ -26,13 +26,13 @@ export default function CollectionPage() {
   const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - collctionCards.length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
-  const { data: userCards = [] } = useUserCards(user?.id);
-  const addCard = useAddUserCard(user?.id);
-  const removeCard = useRemoveUserCard(user?.id);
+  const { data: userCards = [] } = useUserCards();
+  const addCard = useAddUserCard();
+  const removeCard = useRemoveUserCard();
   const uploadCards = useUploadCards(collectionId);
 
   const userCardByCardId = useMemo(
-    () => new Map(userCards.filter((item) => item.collectionId == collectionId).map((item) => [item.cardId, item])),
+    () => new Map(userCards.filter((item) => item.collectionId === collectionId).map((item) => [item.cardId, item])),
     [userCards, collectionId],
   );
   const selectedCard = collctionCards.find((c) => c.id === selectedCardId) ?? null;

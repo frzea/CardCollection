@@ -19,7 +19,7 @@ export function useManhwa(manhwaId: string) {
 export function useCollection(manhwaId: string) {
   return useQuery({
     queryKey: ["collections", manhwaId],
-    queryFn: () => apiFetch<Collections[]>(`collections?manhwaId=${manhwaId}`),
+    queryFn: () => apiFetch<Collections[]>(`collections?manhwaId=${manhwaId}&_sort=releaseDate&_order=asc`),
   });
 }
 
@@ -37,13 +37,11 @@ export function useCollectionCards(collectionId: string) {
   });
 }
 
-export function useUserCards(userId: number | undefined) {
+export function useUserCards() {
   return useQuery({
-    queryKey: ["userCards", userId],
+    queryKey: ["userCards"],
     queryFn: async () => {
-      if (userId === undefined) return [];
-      return apiFetch<UserCard[]>(`userCards?userId=${userId}`);
+      return apiFetch<UserCard[]>(`userCards`);
     },
-    enabled: userId !== undefined,
   });
 }

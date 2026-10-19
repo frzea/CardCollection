@@ -29,7 +29,7 @@ export default function NewCollection() {
   } = useForm<CollectionFormInput, unknown, CollectionFormOutput>({
     resolver: zodResolver(collectionSchema),
     mode: "onBlur",
-    defaultValues: { title: "", description: "", cards: "" },
+    defaultValues: { title: "", description: "", cards: "", releaseDate: "" },
   });
 
   const onSabmit = async (data: CollectionFormOutput) => {
@@ -44,6 +44,7 @@ export default function NewCollection() {
         manhwaId: manhwaId,
         title: data.title,
         cards: data.cards,
+        releaseDate: data.releaseDate,
         description: data.description,
         image: coverImageUrl,
       });
@@ -93,6 +94,18 @@ export default function NewCollection() {
               style={style.input}
               placeholderTextColor={theme.iconColor}
               keyboardType="numeric"
+            />
+          </View>
+
+          <View style={style.field}>
+            <Text style={style.label}>Release date</Text>
+            <FormInput
+              control={control}
+              name="releaseDate"
+              placeholder="YYYY-MM-DD"
+              style={style.input}
+              placeholderTextColor={theme.iconColor}
+              keyboardType="numbers-and-punctuation"
             />
           </View>
 

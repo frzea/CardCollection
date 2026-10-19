@@ -7,24 +7,24 @@ import { Alert } from "react-native";
 
 type AddVars = { existing?: UserCard; cardId: string; collectionId: string };
 
-export function useAddUserCard(userId?: number) {
+export function useAddUserCard() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ existing, cardId, collectionId }: AddVars) =>
       existing
         ? apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count + 1 })
-        : apiPOST<UserCard>("userCards", { userId, collectionId, cardId, count: 1 }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards", userId] }),
+        : apiPOST<UserCard>("userCards", { collectionId, cardId, count: 1 }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards"] }),
     onError: () => Alert.alert("Ошибка", "Не удалось добавить карточку"),
   });
 }
 
-export function useRemoveUserCard(userId?: number) {
+export function useRemoveUserCard() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (existing: UserCard) =>
       existing.count <= 1 ? apiDELETE(`userCards/${existing.id}`) : apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count - 1 }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards", userId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards"] }),
     onError: () => Alert.alert("Ошибка", "Не удалось удалить карточку"),
   });
 }
@@ -59,7 +59,7 @@ export function useUploadCards(collectionId: string) {
 export function useAddCollection() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (collection: Omit<Collections, "id" | "number">) => apiPOST<Collections>("collections", collection),
+    mutationFn: (collection: Omit<Collections, "id">) => apiPOST<Collections>("collections", collection),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["collections"] }),
   });
 }

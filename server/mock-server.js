@@ -160,7 +160,10 @@ function nextNumber(table, filter) {
 
 server.post("/collections", (req, res, next) => {
   if (!req.body.manhwaId) return res.status(400).json({ error: "Нужен manhwaId" });
-  req.body.number = nextNumber("collections", { manhwaId: req.body.manhwaId });
+  // Порядок коллекций — по дате выхода, формат ГГГГ-ММ-ДД (сортируется как строка)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(req.body.releaseDate || "")) {
+    return res.status(400).json({ error: "Нужен releaseDate в формате ГГГГ-ММ-ДД" });
+  }
   next(); // дальше запись делает обычный json-server router
 });
 
@@ -175,6 +178,27 @@ server.post("/cards", (req, res, next) => {
   if (count >= Number(collection.cards)) {
     return res.status(409).json({ error: "Коллекция уже заполнена" });
   }
+  next();
+});
+
+server.get("/userCards", (req, res, next) => {
+  req.query.userId = String(req.user.id); // свои карточки, что бы ни прислал клиент
+  next();
+});
+
+server.post("/userCards", (req, res, next) => {
+  req.body.userId = req.user.id; // владелец — из токена, не из тела
+  next();
+});
+
+server.use("/userCards/:id", (req, res, next) => {
+  const row = db
+    .get("userCards")
+    .find({ id: Number(req.params.id) })
+    .value();
+  if (!row) return res.sendStatus(404);
+  if (row.userId !== req.user.id) return res.sendStatus(403); // чужая запись
+  delete req.body.userId; // нельзя «передать» карточку другому через PATCH
   next();
 });
 
