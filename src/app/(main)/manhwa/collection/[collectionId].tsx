@@ -14,6 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
 export default function CollectionPage() {
   const { isAdmin } = useAuth();

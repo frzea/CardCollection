@@ -7,6 +7,8 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
+
 export default function AnimeDetailScreen() {
   const { id, name } = useLocalSearchParams<{ id: string; name: string }>();
   const { theme, colorScheme } = useTheme();

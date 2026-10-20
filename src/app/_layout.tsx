@@ -1,9 +1,11 @@
+import { OfflineScreen } from "@/components/offline-screen/offline";
 import { useAuth } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemProvider";
 import { AuthProvider } from "@/providers/authProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { ActivityIndicator } from "react-native";
+export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,9 +17,10 @@ const queryClient = new QueryClient({
 });
 
 function RootNavigator() {
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, status } = useAuth();
 
-  if (loading) return <ActivityIndicator />; // или SplashScreen
+  if (status === "loading") return <ActivityIndicator />; // или SplashScreen
+  if (status === "offline") return <OfflineScreen />;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
