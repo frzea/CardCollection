@@ -6,8 +6,8 @@ import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
-import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useMemo } from "react";
+import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
@@ -16,14 +16,7 @@ export function CollectionsList({ id }: { id: string }) {
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
   const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
-  const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
-
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-      refetchUserCards();
-    }, [refetch, refetchUserCards]),
-  );
+  const { data: userCards = [] } = useUserCards();
 
   const ownedCount = useMemo(
     () => new Map(collectionData.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),
