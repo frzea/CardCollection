@@ -292,6 +292,15 @@
       "description": "nuda",
       "image": "/images/uploads/1790096537768-512167628.png",
       "id": "TZXRUc7"
+    },
+    {
+      "manhwaId": "101922",
+      "title": "test",
+      "cards": 5,
+      "releaseDate": "2026-10-24",
+      "description": "Test image",
+      "image": "",
+      "id": "2DkdckC"
     }
   ],
   "cards": [

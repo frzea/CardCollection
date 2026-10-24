@@ -1,10 +1,4 @@
-import {
-  colors,
-  fontSize,
-  fontWeight,
-  radius,
-  spacing,
-} from "@/design-system/index";
+import { colors, fontSize, fontWeight, radius, spacing } from "@/design-system/index";
 import type { Theme } from "@/design-system/theme/colors";
 import { StyleSheet } from "react-native";
 
@@ -52,6 +46,8 @@ export const createStyles = (theme: Theme) =>
       fontSize: fontSize.sall,
     },
     center: {
+      width: "100%",
+      height: "80%",
       flex: spacing.one,
       justifyContent: "center",
       alignItems: "center",

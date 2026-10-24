@@ -5,21 +5,34 @@ import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
+import { onlineManager } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: string }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
-  const { data: collectionData = [], isLoading, error, refetch } = useCollection(id);
+  const { data: collectionData, isPending, isPaused, error, refetch } = useCollection(id);
   const { data: userCards = [] } = useUserCards();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    if (onlineManager.isOnline()) {
+      Alert.alert("Нет сети", "Проверьте подключение к интернету");
+      return; // рефреш не делаем
+    }
+
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   const ownedCount = useMemo(
-    () => new Map(collectionData.map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),
+    () => new Map((collectionData ?? []).map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),
     [collectionData, userCards],
   );
 
@@ -55,32 +68,45 @@ export function CollectionsList({ id }: { id: string }) {
     );
   };
 
+  if (collectionData) {
+    return (
+      <FlatList
+        data={collectionData}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={renderSeasons}
+        contentContainerStyle={style.flatList}
+        decelerationRate={0}
+        ListHeaderComponent={<ManhwaTitle id={id} />}
+        showsVerticalScrollIndicator={false}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  }
+
+  if (isPending && isPaused) {
+    return (
+      <View style={style.center}>
+        <Feather name="wifi-off" size={48} color={theme.iconColor} />
+        <Text style={style.errorText}>No connection. Data will load automatically.</Text>
+      </View>
+    );
+  }
+
+  if (isPending) {
+    return (
+      <View style={style.center}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
+
   return (
-    <>
-      {isLoading && (
-        <View style={style.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      )}
-      {!isLoading && error && (
-        <View style={style.center}>
-          <Text style={style.errorText}>Error: {error.message}</Text>
-          <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-            <Text style={style.retryText}>Refresh</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      {!isLoading && !error && (
-        <FlatList
-          data={collectionData}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={renderSeasons}
-          contentContainerStyle={style.flatList}
-          decelerationRate={0}
-          ListHeaderComponent={<ManhwaTitle id={id} />}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </>
+    <View style={style.center}>
+      <Text style={style.errorText}>Error: {error.message}</Text>
+      <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
+        <Text style={style.retryText}>Refresh</Text>
+      </TouchableOpacity>
+    </View>
   );
 }

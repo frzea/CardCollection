@@ -9,10 +9,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards } from "@/types/type";
+import Feather from "@expo/vector-icons/Feather";
+import { onlineManager } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
@@ -23,20 +25,32 @@ export default function CollectionPage() {
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const { data: collectionInfo } = useCollectionById(collectionId);
-  const { data: collctionCards = [], isLoading, error, refetch } = useCollectionCards(collectionId);
+  const { data: collctionCards, isPending, isPaused, error, refetch } = useCollectionCards(collectionId);
   const maxCards = collectionInfo?.cards ?? 0;
-  const freeSlots = Math.max(maxCards - collctionCards.length, 0);
+  const freeSlots = Math.max(maxCards - (collctionCards ?? []).length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
   const { data: userCards = [] } = useUserCards();
   const addCard = useAddUserCard();
   const removeCard = useRemoveUserCard();
   const uploadCards = useUploadCards(collectionId);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    if (onlineManager.isOnline()) {
+      Alert.alert("Нет сети", "Проверьте подключение к интернету");
+      return; // рефреш не делаем
+    }
+
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   const userCardByCardId = useMemo(
     () => new Map(userCards.filter((item) => item.collectionId === collectionId).map((item) => [item.cardId, item])),
     [userCards, collectionId],
   );
-  const selectedCard = collctionCards.find((c) => c.id === selectedCardId) ?? null;
+  const selectedCard = (collctionCards ?? []).find((c) => c.id === selectedCardId) ?? null;
   const selectedCount = selectedCardId ? (userCardByCardId.get(selectedCardId)?.count ?? 0) : 0;
 
   // защита от двойного нажатия
@@ -96,7 +110,7 @@ export default function CollectionPage() {
     </View>
   );
 
-  return (
+  const header = (
     <>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Stack.Screen
@@ -109,29 +123,22 @@ export default function CollectionPage() {
           headerTintColor: theme.text,
         }}
       />
-      <CardModal
-        visible={selectedCardId !== null}
-        card={selectedCard}
-        count={selectedCount}
-        disabled={isLock}
-        onAdd={handleAdd}
-        onRemove={handleRemove}
-        onClose={() => setSelectedCardId(null)}
-      />
-      {isLoading && (
-        <View style={style.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      )}
-      {!isLoading && error && (
-        <View style={style.center}>
-          <Text style={style.errorText}>Error: {error.message}</Text>
-          <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-            <Text style={style.retryText}>Refresh</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      {!isLoading && !error && (
+    </>
+  );
+
+  if (collctionCards) {
+    return (
+      <>
+        {header}
+        <CardModal
+          visible={selectedCardId !== null}
+          card={selectedCard}
+          count={selectedCount}
+          disabled={isLock}
+          onAdd={handleAdd}
+          onRemove={handleRemove}
+          onClose={() => setSelectedCardId(null)}
+        />
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <FlatList
             data={collctionCards}
@@ -141,9 +148,46 @@ export default function CollectionPage() {
             ListHeaderComponent={isAdmin ? adminPanel : null}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={emptyData}
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
           />
         </SafeAreaView>
-      )}
+      </>
+    );
+  }
+
+  if (isPending && isPaused) {
+    return (
+      <>
+        {header}
+        <View style={style.center}>
+          <Feather name="wifi-off" size={48} color={theme.iconColor} />
+          <Text style={style.errorText}>No connection. Data will load automatically.</Text>
+        </View>
+      </>
+    );
+  }
+
+  if (isPending) {
+    return (
+      <>
+        {header}
+        <View style={style.center}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {header}
+      <View style={style.center}>
+        <Text style={style.errorText}>Error: {error.message}</Text>
+        <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
+          <Text style={style.retryText}>Refresh</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }

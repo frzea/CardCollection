@@ -3,9 +3,11 @@ import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
 import { useTheme } from "@/hooks/useTheme";
 import { Manhwa } from "@/types/type";
+import Feather from "@expo/vector-icons/Feather";
+import { onlineManager } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { useMemo } from "react";
-import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ActivityIndicator, Alert, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
@@ -14,11 +16,23 @@ export function CardTitleList({ query }: { query: string }) {
   const style = useMemo(() => createStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data = [], isLoading, error, refetch } = useManhwas();
+  const { data, isPending, isPaused, error, refetch } = useManhwas();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    if (onlineManager.isOnline()) {
+      Alert.alert("Нет сети", "Проверьте подключение к интернету");
+      return; // рефреш не делаем
+    }
+
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   const filterData = useMemo(
     () =>
-      data.filter((item) => {
+      (data ?? []).filter((item) => {
         const title = (item.title.english || item.title.romaji || "").toLocaleLowerCase();
         return title.includes(query.trim().toLocaleLowerCase());
       }),
@@ -54,39 +68,45 @@ export function CardTitleList({ query }: { query: string }) {
     </TouchableOpacity>
   );
 
-  if (isLoading || error)
+  if (data) {
     return (
-      <View
-        style={{
-          width: "100%",
-          height: "80%",
-        }}
-      >
-        {isLoading && (
-          <View style={style.center}>
-            <ActivityIndicator size="large" color={colors.primary} />
-          </View>
-        )}
-        {!isLoading && error && (
-          <View style={style.center}>
-            <Text style={style.errorText}>Error: {error.message}</Text>
-            <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-              <Text style={style.retryText}>Refresh</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+      <FlatList
+        data={filterData}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderCard}
+        numColumns={2}
+        columnWrapperStyle={style.row}
+        contentContainerStyle={[style.list, { paddingBottom: insets.bottom + 70 }]}
+        showsVerticalScrollIndicator={false}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  }
+
+  if (isPending && isPaused) {
+    return (
+      <View style={style.center}>
+        <Feather name="wifi-off" size={48} color={theme.iconColor} />
+        <Text style={style.errorText}>No connection. Data will load automatically.</Text>
       </View>
     );
+  }
+
+  if (isPending) {
+    return (
+      <View style={style.center}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
 
   return (
-    <FlatList
-      data={filterData}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderCard}
-      numColumns={2}
-      columnWrapperStyle={style.row}
-      contentContainerStyle={[style.list, { paddingBottom: insets.bottom + 70 }]}
-      showsVerticalScrollIndicator={false}
-    />
+    <View style={style.center}>
+      <Text style={style.errorText}>Error: {error.message}</Text>
+      <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
+        <Text style={style.retryText}>Refresh</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
