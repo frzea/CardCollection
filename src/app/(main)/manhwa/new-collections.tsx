@@ -8,11 +8,12 @@ import { useTheme } from "@/hooks/useTheme";
 import { CollectionFormInput, CollectionFormOutput, collectionSchema } from "@/schemas/collection";
 import Feather from "@expo/vector-icons/Feather";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Image } from "expo-image";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function NewCollection() {
   const { theme, colorScheme } = useTheme();
@@ -72,7 +73,7 @@ export default function NewCollection() {
         <ScrollView contentContainerStyle={style.content}>
           <TouchableOpacity onPress={pick}>
             {selectedImage ? (
-              <Image source={{ uri: selectedImage }} style={style.cover} resizeMode="cover" />
+              <Image source={{ uri: selectedImage }} style={style.cover} contentFit="cover" />
             ) : (
               <View style={[style.cover, style.coverPlaceholder]}>
                 <Feather name="image" size={48} color={theme.iconColor} />

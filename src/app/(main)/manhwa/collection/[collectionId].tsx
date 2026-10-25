@@ -7,14 +7,14 @@ import { colors } from "@/design-system/index";
 import { createStyles } from "@/design-system/styles/collections";
 import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
+import { useRefresh } from "@/hooks/useRefresh";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
-import { onlineManager } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
@@ -29,22 +29,11 @@ export default function CollectionPage() {
   const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - (collctionCards ?? []).length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
-  const { data: userCards = [] } = useUserCards();
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
   const addCard = useAddUserCard();
   const removeCard = useRemoveUserCard();
   const uploadCards = useUploadCards(collectionId);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const onRefresh = async () => {
-    if (onlineManager.isOnline()) {
-      Alert.alert("Нет сети", "Проверьте подключение к интернету");
-      return; // рефреш не делаем
-    }
-
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
+  const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards()]));
 
   const userCardByCardId = useMemo(
     () => new Map(userCards.filter((item) => item.collectionId === collectionId).map((item) => [item.cardId, item])),

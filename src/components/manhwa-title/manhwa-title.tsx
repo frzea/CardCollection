@@ -3,10 +3,11 @@ import { useManhwa } from "@/api/queries/queries";
 import { colors } from "@/design-system";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function ManhwaTitle({ id }: { id: string }) {
@@ -23,7 +24,7 @@ export function ManhwaTitle({ id }: { id: string }) {
   return (
     <>
       <View style={style.container}>
-        <Image source={{ uri: resolveImageUrl(data.coverImage.large) }} style={style.backgroundImage} resizeMode="cover" />
+        <Image source={{ uri: resolveImageUrl(data.coverImage.large) }} style={style.backgroundImage} contentFit="cover" transition={200} />
         <LinearGradient colors={["transparent", "rgba(0,0,0,0.9)"]} style={style.gradientOverlay} />
         <Text style={style.imageBgText}>{data?.title.english}</Text>
       </View>

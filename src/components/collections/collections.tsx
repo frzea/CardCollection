@@ -2,14 +2,14 @@ import { resolveImageUrl } from "@/api/client";
 import { useCollection, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { colors } from "@/design-system/index";
+import { useRefresh } from "@/hooks/useRefresh";
 import { useTheme } from "@/hooks/useTheme";
 import { Collections } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
-import { onlineManager } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useMemo, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useMemo } from "react";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ id }: { id: string }) {
@@ -17,19 +17,8 @@ export function CollectionsList({ id }: { id: string }) {
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
   const { data: collectionData, isPending, isPaused, error, refetch } = useCollection(id);
-  const { data: userCards = [] } = useUserCards();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const onRefresh = async () => {
-    if (onlineManager.isOnline()) {
-      Alert.alert("Нет сети", "Проверьте подключение к интернету");
-      return; // рефреш не делаем
-    }
-
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
+  const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
+  const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards()]));
 
   const ownedCount = useMemo(
     () => new Map((collectionData ?? []).map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),

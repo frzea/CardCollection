@@ -1,13 +1,14 @@
 import { resolveImageUrl } from "@/api/client";
 import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
+import { useRefresh } from "@/hooks/useRefresh";
 import { useTheme } from "@/hooks/useTheme";
 import { Manhwa } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
-import { onlineManager } from "@tanstack/react-query";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useMemo, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { useMemo } from "react";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
@@ -17,18 +18,7 @@ export function CardTitleList({ query }: { query: string }) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data, isPending, isPaused, error, refetch } = useManhwas();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const onRefresh = async () => {
-    if (onlineManager.isOnline()) {
-      Alert.alert("Нет сети", "Проверьте подключение к интернету");
-      return; // рефреш не делаем
-    }
-
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
+  const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const filterData = useMemo(
     () =>
@@ -53,7 +43,7 @@ export function CardTitleList({ query }: { query: string }) {
         })
       }
     >
-      <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} />
+      <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} transition={200} />
       <View style={style.info}>
         <Text style={style.title} numberOfLines={2}>
           {item.title.english || item.title.romaji}
