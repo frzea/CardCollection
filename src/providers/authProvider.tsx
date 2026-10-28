@@ -31,6 +31,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const checkAuth = useCallback(async () => {
     setStatus("loading");
     const token = await getToken();
+
     if (!token) {
       setStatus("unauthenticated");
       return;

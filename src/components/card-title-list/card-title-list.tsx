@@ -18,6 +18,8 @@ export function CardTitleList({ query }: { query: string }) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data, isPending, isPaused, error, refetch } = useManhwas();
+  const { fetchStatus, status } = useManhwas();
+  console.log("manhwas:", { status, fetchStatus, len: data?.length, query });
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const filterData = useMemo(

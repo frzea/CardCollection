@@ -12,7 +12,7 @@ export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-sc
 onlineManager.setEventListener((setOnline) =>
   NetInfo.addEventListener((state) => {
     // isInternetReachable === null на старте означает «ещё не проверено», считаем онлайн
-    setOnline(!!state.isConnected && state.isInternetReachable !== false);
+    setOnline(!!state.isConnected);
   }),
 );
 
