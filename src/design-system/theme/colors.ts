@@ -5,12 +5,13 @@ export const colors = {
 
   dark: {
     text: "#f2f3ed",
-    title: "#fff",
-    background: "#242329",
-    navBackground: "#3f3f42",
+    textSecondary: "#8E8E93",
+    title: "#FFFFFF", //"#fff",
+    background: "#0E0E0E", //"#242329",
+    navBackground: "#262626", //"#3f3f42",
     iconColor: "#bebaba",
     iconColorFocused: "#f01d16",
-    uiBackground: "#2f2b3d",
+    uiBackground: "#2A2A2A", //"#2f2b3d",
     shadowColor: "#ffffff",
     headBackground: "#242329",
     searchInput: {
@@ -20,6 +21,7 @@ export const colors = {
   },
   light: {
     text: "#131314",
+    textSecondary: "#8E8E93",
     title: "#201e2b",
     background: "#e0dfe8",
     navBackground: "#e8e7ef",
