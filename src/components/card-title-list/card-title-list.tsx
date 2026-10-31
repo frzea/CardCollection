@@ -2,7 +2,7 @@ import { resolveImageUrl } from "@/api/client";
 import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
 import { useRefresh } from "@/hooks/useRefresh";
-import { useTheme } from "@/hooks/useTheme";
+import { useStyles } from "@/hooks/useStyles";
 import { Manhwa } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
@@ -13,8 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
 export function CardTitleList({ query }: { query: string }) {
-  const { theme } = useTheme();
-  const style = useMemo(() => createStyles(theme), [theme]);
+  const style = useStyles(createStyles);
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data, isPending, isPaused, error, refetch } = useManhwas();
@@ -79,7 +78,7 @@ export function CardTitleList({ query }: { query: string }) {
   if (isPending && isPaused) {
     return (
       <View style={style.center}>
-        <Feather name="wifi-off" size={48} color={theme.iconColor} />
+        <Feather name="wifi-off" size={48} color={colors.iconColor} />
         <Text style={style.errorText}>No connection. Data will load automatically.</Text>
       </View>
     );

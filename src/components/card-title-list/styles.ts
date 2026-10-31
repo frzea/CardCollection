@@ -53,6 +53,9 @@ export const createStyles = (theme: Theme) =>
       alignItems: "center",
       backgroundColor: theme.background,
     },
+    iconColor: {
+      color: theme.iconColor,
+    },
     errorText: {
       color: colors.warning,
       marginBottom: spacing.md,

@@ -23,12 +23,21 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="index"
+          name="(catalog)"
           options={{
             headerTitle: "",
             headerShown: false,
-            title: "Search",
+            title: "Catalog",
             tabBarIcon: ({ color }) => <Feather name="search" size={24} color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="(mine)"
+          options={{
+            headerTitle: "",
+            headerShown: false,
+            title: "My collections",
+            tabBarIcon: ({ color }) => <Feather name="layers" size={24} color={color} />,
           }}
         />
         <Tabs.Screen

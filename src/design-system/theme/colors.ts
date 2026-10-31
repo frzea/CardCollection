@@ -2,6 +2,7 @@ export const colors = {
   primary: "#6c5ce7",
   warning: "#cc475a",
   white: "#fff",
+  iconColor: "#bebaba",
 
   dark: {
     text: "#f2f3ed",
