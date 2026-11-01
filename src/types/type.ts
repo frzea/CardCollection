@@ -43,6 +43,7 @@ interface Collections {
 interface UserCard {
   id: number;
   collectionId: string;
+  manhwaId: string;
   userId: number;
   cardId: string;
   count: number;

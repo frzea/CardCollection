@@ -9,8 +9,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
-export default function AnimeDetailScreen() {
-  const { id, name } = useLocalSearchParams<{ id: string; name: string }>();
+export default function ManhwaDetailScreen() {
+  const { id: manhwaId, name } = useLocalSearchParams<{ id: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
 
@@ -29,7 +29,7 @@ export default function AnimeDetailScreen() {
       />
       <SafeAreaView style={style.searcView} edges={["bottom"]}>
         <View style={style.content}>
-          <CollectionsList id={id} />
+          <CollectionsList manhwaId={manhwaId} />
         </View>
       </SafeAreaView>
     </>

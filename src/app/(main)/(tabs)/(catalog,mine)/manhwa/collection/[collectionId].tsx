@@ -20,7 +20,7 @@ export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-sc
 
 export default function CollectionPage() {
   const { isAdmin } = useAuth();
-  const { collectionId, name } = useLocalSearchParams<{ id: string; collectionId: string; name: string }>();
+  const { collectionId, name } = useLocalSearchParams<{ collectionId: string; name: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);

@@ -199,6 +199,18 @@ server.use("/userCards/:id", (req, res, next) => {
   if (!row) return res.sendStatus(404);
   if (row.userId !== req.user.id) return res.sendStatus(403); // чужая запись
   delete req.body.userId; // нельзя «передать» карточку другому через PATCH
+  delete req.body.manhwaId;
+  next();
+});
+
+server.post("/userCards", (req, res, next) => {
+  req.body.userId = req.user.id; // владелец — из токена, не из тела
+
+  // манхву определяет сервер по коллекции, а не берёт из тела
+  const collection = db.get("collections").find({ id: req.body.collectionId }).value();
+  if (!collection) return res.status(400).json({ error: "Коллекция не найдена" });
+  req.body.manhwaId = collection.manhwaId;
+
   next();
 });
 

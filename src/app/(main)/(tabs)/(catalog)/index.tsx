@@ -1,4 +1,4 @@
-import { CardTitleList } from "@/components/card-title-list/card-title-list";
+import { CardTitleList } from "@/components/manhwas-list/card-title-list";
 import { SearchInput } from "@/components/ui/search-input/search-input";
 import { createStyles } from "@/design-system/styles/search-page";
 import { useAuth } from "@/hooks/useAuth";

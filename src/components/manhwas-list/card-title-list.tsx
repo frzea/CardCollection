@@ -17,8 +17,6 @@ export function CardTitleList({ query }: { query: string }) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data, isPending, isPaused, error, refetch } = useManhwas();
-  const { fetchStatus, status } = useManhwas();
-  console.log("manhwas:", { status, fetchStatus, len: data?.length, query });
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const filterData = useMemo(
@@ -67,7 +65,7 @@ export function CardTitleList({ query }: { query: string }) {
         renderItem={renderCard}
         numColumns={2}
         columnWrapperStyle={style.row}
-        contentContainerStyle={[style.list, { paddingBottom: insets.bottom + 70 }]}
+        contentContainerStyle={[style.list, { paddingBottom: insets.bottom + 50 }]}
         showsVerticalScrollIndicator={false}
         refreshing={isRefreshing}
         onRefresh={onRefresh}

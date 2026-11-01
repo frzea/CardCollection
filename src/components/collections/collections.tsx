@@ -12,11 +12,11 @@ import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
-export function CollectionsList({ id }: { id: string }) {
+export function CollectionsList({ manhwaId }: { manhwaId: string }) {
   const { theme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const router = useRouter();
-  const { data: collectionData, isPending, isPaused, error, refetch } = useCollection(id);
+  const { data: collectionData, isPending, isPaused, error, refetch } = useCollection(manhwaId);
   const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
   const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards()]));
 
@@ -35,7 +35,7 @@ export function CollectionsList({ id }: { id: string }) {
         onPress={() =>
           router.push({
             pathname: "/manhwa/collection/[collectionId]",
-            params: { id: id, collectionId: item.id, name: item.title },
+            params: { collectionId: item.id, name: item.title },
           })
         }
       >
@@ -65,7 +65,7 @@ export function CollectionsList({ id }: { id: string }) {
         renderItem={renderSeasons}
         contentContainerStyle={style.flatList}
         decelerationRate={0}
-        ListHeaderComponent={<ManhwaTitle id={id} />}
+        ListHeaderComponent={<ManhwaTitle id={manhwaId} />}
         showsVerticalScrollIndicator={false}
         refreshing={isRefreshing}
         onRefresh={onRefresh}

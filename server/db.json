@@ -473,132 +473,38 @@
       "id": "GOsLxji"
     }
   ],
-  "userCollections": [
-    {
-      "id": "1",
-      "userId": 1,
-      "collectionId": "2"
-    }
-  ],
   "userCards": [
     {
-      "userId": 1,
+      "manhwaId": "16498",
       "collectionId": "1",
-      "cardId": "l76U4BhfQWo",
-      "count": 2,
+      "cardId": "XRUdB4yVUtA",
+      "count": 1,
+      "userId": 1,
       "id": 1
     },
     {
-      "userId": 1,
+      "manhwaId": "16498",
       "collectionId": "1",
-      "cardId": "_gSIKyg9uMk",
+      "cardId": "hrD0dnylHUI",
       "count": 1,
+      "userId": 1,
       "id": 2
     },
     {
+      "manhwaId": "HL1IpPL",
+      "collectionId": "ZN35K4E",
+      "cardId": "8rkaw8T",
+      "count": 1,
       "userId": 1,
-      "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 2,
       "id": 3
     },
     {
-      "userId": 1,
       "collectionId": "1",
-      "cardId": "ZwCnu7Pg3ko",
+      "cardId": "l76U4BhfQWo",
       "count": 1,
+      "userId": 1,
+      "manhwaId": "16498",
       "id": 4
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": "0QI0TJB90OQ",
-      "count": 1,
-      "id": 6
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": "WdJDyQhINLM",
-      "count": 3,
-      "id": 7
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": "_gSIKyg9uMk",
-      "count": 2,
-      "id": 8
-    },
-    {
-      "userId": 1,
-      "collectionId": "ZN35K4E",
-      "cardId": "X5YjFoN",
-      "count": 4,
-      "id": 9
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": "Do3Q_MZHJno",
-      "count": 3,
-      "id": 11
-    },
-    {
-      "userId": 2,
-      "collectionId": "1",
-      "cardId": "hL9B7AF09-8",
-      "count": 2,
-      "id": 12
-    },
-    {
-      "userId": 1,
-      "collectionId": "ZN35K4E",
-      "cardId": "8rkaw8T",
-      "count": 2,
-      "id": 14
-    },
-    {
-      "userId": 1,
-      "collectionId": "ZN35K4E",
-      "cardId": "GOsLxji",
-      "count": 10,
-      "id": 15
-    },
-    {
-      "userId": 2,
-      "collectionId": "ZN35K4E",
-      "cardId": "8rkaw8T",
-      "count": 2,
-      "id": 16
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": "OOUmmCQUIIQ",
-      "count": 1,
-      "id": 17
-    },
-    {
-      "userId": 2,
-      "collectionId": "ZN35K4E",
-      "cardId": "X5YjFoN",
-      "count": 1,
-      "id": 18
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": "hL9B7AF09-8",
-      "count": 2,
-      "id": 19
-    },
-    {
-      "userId": 1,
-      "collectionId": "1",
-      "cardId": "0QI0TJB90OQ",
-      "count": 1,
-      "id": 20
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
