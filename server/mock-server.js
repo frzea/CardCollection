@@ -186,11 +186,6 @@ server.get("/userCards", (req, res, next) => {
   next();
 });
 
-server.post("/userCards", (req, res, next) => {
-  req.body.userId = req.user.id; // владелец — из токена, не из тела
-  next();
-});
-
 server.use("/userCards/:id", (req, res, next) => {
   const row = db
     .get("userCards")
@@ -212,6 +207,30 @@ server.post("/userCards", (req, res, next) => {
   req.body.manhwaId = collection.manhwaId;
 
   next();
+});
+
+// Манхвы, в которых у юзера есть карточки, + прогресс сбора
+server.get("/me/manhwas", (req, res) => {
+  const userCards = db.get("userCards").filter({ userId: req.user.id }).value();
+
+  // одна строка userCards = одна уникальная карточка, count копий не важен
+  const owned = new Map();
+  for (const uc of userCards) owned.set(uc.manhwaId, (owned.get(uc.manhwaId) ?? 0) + 1);
+
+  const result = db
+    .get("manhwa")
+    .filter((m) => owned.has(m.id))
+    .value()
+    .map((m) => {
+      const total = db
+        .get("collections")
+        .filter({ manhwaId: m.id })
+        .sumBy((c) => Number(c.cards))
+        .value();
+      return { ...m, owned: owned.get(m.id), total };
+    });
+
+  res.json(result);
 });
 
 server.use(router);

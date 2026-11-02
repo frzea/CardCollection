@@ -23,6 +23,11 @@ interface Manhwa {
   genres: string[];
 }
 
+type MyManhwa = Manhwa & {
+  owned: number;
+  total: number;
+};
+
 interface Cards {
   id: string;
   collectionId: string;
@@ -65,5 +70,5 @@ type LoginResponse = {
   user: User;
 };
 
-export type { Cards, Collections, LoginResponse, Manhwa, User, UserAuth, UserCard, UserCollection };
+export type { Cards, Collections, LoginResponse, Manhwa, MyManhwa, User, UserAuth, UserCard, UserCollection };
 
