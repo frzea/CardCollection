@@ -14,7 +14,8 @@ export function useAddUserCard() {
       existing
         ? apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count + 1 })
         : apiPOST<UserCard>("userCards", { collectionId, cardId, count: 1 }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards", "myManhwas"] }),
+    onSuccess: () =>
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
     onError: () => Alert.alert("Ошибка", "Не удалось добавить карточку"),
   });
 }
@@ -24,7 +25,8 @@ export function useRemoveUserCard() {
   return useMutation({
     mutationFn: (existing: UserCard) =>
       existing.count <= 1 ? apiDELETE(`userCards/${existing.id}`) : apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count - 1 }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["userCards", "myManhwas"] }),
+    onSuccess: () =>
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
     onError: () => Alert.alert("Ошибка", "Не удалось удалить карточку"),
   });
 }
@@ -60,7 +62,8 @@ export function useAddCollection() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (collection: Omit<Collections, "id">) => apiPOST<Collections>("collections", collection),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["collections", "myManhwas"] }),
+    onSuccess: () =>
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
   });
 }
 

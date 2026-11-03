@@ -7,6 +7,7 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ProgressBar from "../ui/progress-bar/progress-bar";
 import { createStyles } from "./styles";
 
 export function MyManhwasList() {
@@ -35,12 +36,12 @@ export function MyManhwasList() {
         <Text style={style.title} numberOfLines={2}>
           {item.title.english || item.title.romaji}
         </Text>
-        <Text style={style.meta}>
-          {item.episodes ? `${item.episodes} эп.` : ""} ⭐ {item.averageScore ? (item.averageScore / 10).toFixed(1) : "N/A"}
+        <Text style={style.cardText}>{`${item.owned} / ${item.total} cards`}</Text>
+        <Text style={style.progressText} numberOfLines={2}>
+          {"Cards collected"}
         </Text>
-        <Text style={style.genres} numberOfLines={1}>
-          {item.genres.slice(0, 3).join(", ")}
-        </Text>
+        <ProgressBar step={item.owned} total={item.total} />
+        <Text style={style.progressText}>{`${Math.round((item.owned / item.total) * 100)}% completed`}</Text>
       </View>
     </TouchableOpacity>
   );

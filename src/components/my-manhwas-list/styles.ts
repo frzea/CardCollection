@@ -11,28 +11,33 @@ export const createStyles = (theme: Theme) =>
       borderRadius: radius.sm,
       marginBottom: spacing.xl,
       overflow: "hidden",
-      elevation: spacing.xs, //тень для android
       shadowColor: theme.shadowColor,
-      shadowOpacity: 0.3,
       shadowRadius: spacing.xs,
     },
     cover: {
-      width: "30%",
-      height: 220,
-      backgroundColor: "#222",
+      width: "25%",
+      height: 160,
+      borderRadius: radius.sm,
+      backgroundColor: "#3f3e3e",
     },
     info: {
-      padding: spacing.sm,
+      flex: 1,
+      paddingHorizontal: spacing.sm,
     },
     title: {
       color: theme.text,
-      fontSize: fontSize.md,
+      fontSize: fontSize.xl,
       fontWeight: fontWeight.semibold,
       marginBottom: spacing.xs,
     },
-    meta: {
+    cardText: {
+      color: colors.primary,
+      fontSize: fontSize.md,
+      marginBottom: 20,
+    },
+    progressText: {
       color: theme.text,
-      fontSize: fontSize.sall,
+      fontSize: fontSize.md,
       marginBottom: 2,
     },
     genres: {
