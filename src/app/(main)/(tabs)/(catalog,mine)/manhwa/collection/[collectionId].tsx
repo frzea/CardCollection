@@ -3,10 +3,12 @@ import { useAddUserCard, useRemoveUserCard, useUploadCards } from "@/api/queries
 import { useCollectionById, useCollectionCards, useUserCards } from "@/api/queries/queries";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
+import { OwnedToggle } from "@/components/ui/owned-toggle/owned-toggle";
 import { colors } from "@/design-system/index";
 import { createStyles } from "@/design-system/styles/collections";
 import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
+import { useIsMineTab } from "@/hooks/useIsMineTab";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards } from "@/types/type";
@@ -20,7 +22,10 @@ export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-sc
 
 export default function CollectionPage() {
   const { isAdmin } = useAuth();
-  const { collectionId, name } = useLocalSearchParams<{ collectionId: string; name: string }>();
+  const { collectionId, name, showAll: showAllParam } = useLocalSearchParams<{ collectionId: string; name: string; showAll?: string }>();
+  const isMine = useIsMineTab();
+  const [showAll, setShowAll] = useState(showAllParam === "true");
+  const ownedOnly = isMine && !showAll;
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -29,7 +34,7 @@ export default function CollectionPage() {
   const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - (collctionCards ?? []).length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
-  const { data: userCards = [], refetch: refetchUserCards } = useUserCards();
+  const { data: userCards = [], isPending: isUserCardsPending, refetch: refetchUserCards } = useUserCards();
   const addCard = useAddUserCard();
   const removeCard = useRemoveUserCard();
   const uploadCards = useUploadCards(collectionId);
@@ -93,9 +98,9 @@ export default function CollectionPage() {
     </View>
   );
 
-  const emptyData = (
+  const emptyData = isUserCardsPending ? null : (
     <View>
-      <Text>There are no cards in the collection yet</Text>
+      <Text style={style.errorText}>{ownedOnly ? "У тебя пока нет карточек из этой коллекции" : "There are no cards in the collection yet"}</Text>
     </View>
   );
 
@@ -116,6 +121,7 @@ export default function CollectionPage() {
   );
 
   if (collctionCards) {
+    const visibleCards = ownedOnly ? collctionCards.filter((card) => userCardByCardId.has(card.id)) : collctionCards;
     return (
       <>
         {header}
@@ -130,11 +136,17 @@ export default function CollectionPage() {
         />
         <SafeAreaView style={style.searcView} edges={["bottom"]}>
           <FlatList
-            data={collctionCards}
+            data={visibleCards}
             keyExtractor={(item) => String(item.id)}
             renderItem={renderCards}
             numColumns={3}
-            ListHeaderComponent={isAdmin ? adminPanel : null}
+            //ListHeaderComponent={isAdmin ? adminPanel : null}
+            ListHeaderComponent={
+              <>
+                {isMine && <OwnedToggle showAll={showAll} onToggle={() => setShowAll((prev) => !prev)} />}
+                {isAdmin && !isMine && adminPanel}
+              </>
+            }
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={emptyData}
             refreshing={isRefreshing}
