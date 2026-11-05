@@ -11,6 +11,13 @@ export const createStyles = (theme: Theme) =>
       borderRadius: 12,
       justifyContent: "flex-end",
     },
+    coverPlaceholder: {
+      borderWidth: 2,
+      borderStyle: "dashed",
+      borderColor: theme.iconColor,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     backgroundImage: {
       position: "absolute",
       width: "100%",

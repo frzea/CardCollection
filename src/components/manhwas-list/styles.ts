@@ -27,6 +27,14 @@ export const createStyles = (theme: Theme) =>
       height: 220,
       backgroundColor: "#222",
     },
+    coverPlaceholder: {
+      flex: 1,
+      borderWidth: 2,
+      borderStyle: "dashed",
+      borderColor: theme.iconColor,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     info: {
       padding: spacing.sm,
     },

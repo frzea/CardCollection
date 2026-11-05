@@ -20,6 +20,14 @@ export const createStyles = (theme: Theme) =>
       borderRadius: radius.sm,
       backgroundColor: "#3f3e3e",
     },
+    coverPlaceholder: {
+      width: "25%",
+      borderWidth: 2,
+      borderStyle: "dashed",
+      borderColor: theme.iconColor,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     info: {
       flex: 1,
       paddingHorizontal: spacing.sm,

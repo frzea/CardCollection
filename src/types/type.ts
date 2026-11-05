@@ -4,7 +4,7 @@ interface Title {
 }
 
 interface CoverImage {
-  large: string;
+  large: string | null;
 }
 
 interface User {

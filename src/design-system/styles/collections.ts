@@ -29,6 +29,12 @@ export const createStyles = (theme: Theme) =>
       backgroundColor: "#ffff",
       bottom: 0,
     },
+    adminAria: {
+      flex: 1,
+      flexDirection: "row",
+      padding: spacing.sm,
+      gap: gaps.xm,
+    },
     button: {
       justifyContent: "center",
       alignItems: "center",

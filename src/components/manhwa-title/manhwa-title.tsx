@@ -3,11 +3,12 @@ import { useManhwa } from "@/api/queries/queries";
 import { colors } from "@/design-system";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
+import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./styles";
 
 export function ManhwaTitle({ id }: { id: string }) {
@@ -24,9 +25,15 @@ export function ManhwaTitle({ id }: { id: string }) {
   return (
     <>
       <View style={style.container}>
-        <Image source={{ uri: resolveImageUrl(data.coverImage.large) }} style={style.backgroundImage} contentFit="cover" transition={200} />
+        {data.coverImage.large ? (
+          <Image source={{ uri: resolveImageUrl(data.coverImage.large) }} style={style.backgroundImage} contentFit="cover" transition={200} />
+        ) : (
+          <View style={[StyleSheet.absoluteFill, style.coverPlaceholder]}>
+            <Feather name="layers" size={32} color={theme.iconColor} />
+          </View>
+        )}
         <LinearGradient colors={["transparent", "rgba(0,0,0,0.9)"]} style={style.gradientOverlay} />
-        <Text style={style.imageBgText}>{data?.title.english}</Text>
+        <Text style={style.imageBgText}>{data.title.english || data.title.romaji}</Text>
       </View>
       <View style={style.siteBar}>
         <Text style={style.titleText}>Collections</Text>

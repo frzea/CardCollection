@@ -2,7 +2,9 @@ import { resolveImageUrl } from "@/api/client";
 import { useMyManhwa } from "@/api/queries/queries";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useStyles } from "@/hooks/useStyles";
+import { useTheme } from "@/hooks/useTheme";
 import { MyManhwa } from "@/types/type";
+import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
@@ -14,6 +16,7 @@ export function MyManhwasList() {
   const style = useStyles(createStyles);
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { theme } = useTheme();
   const { data, isPending, isPaused, error, refetch } = useMyManhwa();
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
@@ -31,7 +34,13 @@ export function MyManhwasList() {
         })
       }
     >
-      <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} transition={200} />
+      {item.coverImage.large ? (
+        <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} contentFit="cover" transition={200} />
+      ) : (
+        <View style={style.coverPlaceholder}>
+          <Feather name="layers" size={32} color={theme.iconColor} />
+        </View>
+      )}
       <View style={style.info}>
         <Text style={style.title} numberOfLines={2}>
           {item.title.english || item.title.romaji}

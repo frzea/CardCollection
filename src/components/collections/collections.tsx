@@ -74,7 +74,8 @@ export function CollectionsList({ manhwaId }: { manhwaId: string }) {
         decelerationRate={0}
         ListHeaderComponent={
           <>
-            <ManhwaTitle id={manhwaId} /> {isMine && <OwnedToggle showAll={showAll} onToggle={() => setShowAll((prev) => !prev)} />}{" "}
+            <ManhwaTitle id={manhwaId} />
+            {isMine && <OwnedToggle showAll={showAll} onToggle={() => setShowAll((prev) => !prev)} />}
           </>
         }
         ListEmptyComponent={

@@ -88,7 +88,7 @@ export default function CollectionPage() {
   };
 
   const adminPanel = (
-    <View>
+    <View style={style.adminAria}>
       <TouchableOpacity style={style.button} activeOpacity={0.8} disabled={!canPick} onPress={pick}>
         <Text>{collectionInfo ? `Select Img (${images.length}/${freeSlots})` : "Select Img"}</Text>
       </TouchableOpacity>
@@ -140,11 +140,10 @@ export default function CollectionPage() {
             keyExtractor={(item) => String(item.id)}
             renderItem={renderCards}
             numColumns={3}
-            //ListHeaderComponent={isAdmin ? adminPanel : null}
             ListHeaderComponent={
               <>
+                {isAdmin ? adminPanel : null}
                 {isMine && <OwnedToggle showAll={showAll} onToggle={() => setShowAll((prev) => !prev)} />}
-                {isAdmin && !isMine && adminPanel}
               </>
             }
             showsVerticalScrollIndicator={false}

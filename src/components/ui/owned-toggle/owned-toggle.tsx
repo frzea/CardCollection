@@ -11,7 +11,7 @@ export function OwnedToggle({ showAll, onToggle }: OwnedToggleProps) {
   const style = useStyles(createStyles);
   return (
     <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={onToggle}>
-      <Text style={style.text}>{showAll ? "Только мои" : "Показать недостающее"}</Text>
+      <Text style={style.text}>{showAll ? "My items" : "All items"}</Text>
     </TouchableOpacity>
   );
 }

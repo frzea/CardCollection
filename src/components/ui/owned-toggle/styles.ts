@@ -5,10 +5,11 @@ import { StyleSheet } from "react-native";
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
     button: {
-      alignSelf: "flex-end",
-      marginVertical: spacing.md,
+      alignSelf: "flex-start",
+      marginVertical: spacing.xs,
+      marginHorizontal: spacing.xs,
       paddingHorizontal: spacing.md,
-      paddingVertical: spacing.md,
+      paddingVertical: spacing.sm,
       borderRadius: radius.xs,
       backgroundColor: theme.navBackground,
     },

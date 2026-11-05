@@ -3,6 +3,7 @@ import { useManhwas } from "@/api/queries/queries";
 import { colors } from "@/design-system/index";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useStyles } from "@/hooks/useStyles";
+import { useTheme } from "@/hooks/useTheme";
 import { Manhwa } from "@/types/type";
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
@@ -13,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyles } from "./styles";
 
 export function CardTitleList({ query }: { query: string }) {
+  const { theme } = useTheme();
   const style = useStyles(createStyles);
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -42,7 +44,13 @@ export function CardTitleList({ query }: { query: string }) {
         })
       }
     >
-      <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} transition={200} />
+      {item.coverImage.large ? (
+        <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} contentFit="cover" transition={200} />
+      ) : (
+        <View style={style.coverPlaceholder}>
+          <Feather name="layers" size={32} color={theme.iconColor} />
+        </View>
+      )}
       <View style={style.info}>
         <Text style={style.title} numberOfLines={2}>
           {item.title.english || item.title.romaji}
