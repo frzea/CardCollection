@@ -2,7 +2,6 @@ import { resolveImageUrl } from "@/api/client";
 import { useCollection, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { OwnedToggle } from "@/components/ui/owned-toggle/owned-toggle";
-import { colors } from "@/design-system/index";
 import { useIsMineTab } from "@/hooks/useIsMineTab";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useStyles } from "@/hooks/useStyles";
@@ -12,7 +11,8 @@ import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { QueryState } from "../query-state/query-state";
 import { createStyles } from "./styles";
 
 export function CollectionsList({ manhwaId }: { manhwaId: string }) {
@@ -22,7 +22,7 @@ export function CollectionsList({ manhwaId }: { manhwaId: string }) {
   const isMine = useIsMineTab();
   const [showAll, setShowAll] = useState(false);
   const ownedOnly = isMine && !showAll;
-  const { data: collectionData, isPending, isPaused, error, refetch } = useCollection(manhwaId);
+  const { data: collectionData, isPaused, error, refetch } = useCollection(manhwaId);
   const { data: userCards = [], isPending: isUserCardsPending, refetch: refetchUserCards } = useUserCards();
   const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards()]));
 
@@ -90,29 +90,5 @@ export function CollectionsList({ manhwaId }: { manhwaId: string }) {
     );
   }
 
-  if (isPending && isPaused) {
-    return (
-      <View style={style.center}>
-        <Feather name="wifi-off" size={48} color={theme.iconColor} />
-        <Text style={style.errorText}>No connection. Data will load automatically.</Text>
-      </View>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <View style={style.center}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
-
-  return (
-    <View style={style.center}>
-      <Text style={style.errorText}>Error: {error.message}</Text>
-      <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-        <Text style={style.retryText}>Refresh</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  return <QueryState error={error} isPaused={isPaused} onRetry={refetch} />;
 }

@@ -63,7 +63,7 @@ export function useAddCollection() {
   return useMutation({
     mutationFn: (collection: Omit<Collections, "id">) => apiPOST<Collections>("collections", collection),
     onSuccess: () =>
-      Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["collections"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
   });
 }
 

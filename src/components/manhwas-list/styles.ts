@@ -53,29 +53,4 @@ export const createStyles = (theme: Theme) =>
       color: colors.primary,
       fontSize: fontSize.sall,
     },
-    center: {
-      width: "100%",
-      height: "80%",
-      flex: spacing.one,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: theme.background,
-    },
-    iconColor: {
-      color: theme.iconColor,
-    },
-    errorText: {
-      color: colors.warning,
-      marginBottom: spacing.md,
-    },
-    retryBtn: {
-      backgroundColor: colors.primary,
-      paddingHorizontal: spacing.xl,
-      paddingVertical: spacing.md,
-      borderRadius: radius.xs,
-    },
-    retryText: {
-      color: colors.white,
-      fontWeight: fontWeight.semibold,
-    },
   });

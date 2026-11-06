@@ -1,6 +1,5 @@
 import { resolveImageUrl } from "@/api/client";
 import { useManhwas } from "@/api/queries/queries";
-import { colors } from "@/design-system/index";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useStyles } from "@/hooks/useStyles";
 import { useTheme } from "@/hooks/useTheme";
@@ -9,8 +8,9 @@ import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { QueryState } from "../query-state/query-state";
 import { createStyles } from "./styles";
 
 export function CardTitleList({ query }: { query: string }) {
@@ -18,7 +18,7 @@ export function CardTitleList({ query }: { query: string }) {
   const style = useStyles(createStyles);
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { data, isPending, isPaused, error, refetch } = useManhwas();
+  const { data, isPaused, error, refetch } = useManhwas();
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const filterData = useMemo(
@@ -81,29 +81,5 @@ export function CardTitleList({ query }: { query: string }) {
     );
   }
 
-  if (isPending && isPaused) {
-    return (
-      <View style={style.center}>
-        <Feather name="wifi-off" size={48} color={colors.iconColor} />
-        <Text style={style.errorText}>No connection. Data will load automatically.</Text>
-      </View>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <View style={style.center}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
-
-  return (
-    <View style={style.center}>
-      <Text style={style.errorText}>Error: {error.message}</Text>
-      <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-        <Text style={style.retryText}>Refresh</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  return <QueryState error={error} isPaused={isPaused} onRetry={refetch} />;
 }

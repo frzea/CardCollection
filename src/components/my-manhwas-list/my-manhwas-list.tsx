@@ -1,5 +1,5 @@
 import { resolveImageUrl } from "@/api/client";
-import { useMyManhwa } from "@/api/queries/queries";
+import { useMyManhwas } from "@/api/queries/queries";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useStyles } from "@/hooks/useStyles";
 import { useTheme } from "@/hooks/useTheme";
@@ -9,6 +9,7 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { QueryState } from "../query-state/query-state";
 import ProgressBar from "../ui/progress-bar/progress-bar";
 import { createStyles } from "./styles";
 
@@ -17,7 +18,7 @@ export function MyManhwasList() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { theme } = useTheme();
-  const { data, isPending, isPaused, error, refetch } = useMyManhwa();
+  const { data, isPaused, error, refetch } = useMyManhwas();
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const renderCard = ({ item }: { item: MyManhwa }) => (
@@ -62,10 +63,13 @@ export function MyManhwasList() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCard}
         contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}
+        ListEmptyComponent={<Text style={style.title}>No saved collections.</Text>}
         showsVerticalScrollIndicator={false}
         refreshing={isRefreshing}
         onRefresh={onRefresh}
       />
     );
   }
+
+  return <QueryState error={error} isPaused={isPaused} onRetry={refetch} />;
 }

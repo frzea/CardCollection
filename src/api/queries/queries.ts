@@ -46,7 +46,7 @@ export function useUserCards() {
   });
 }
 
-export function useMyManhwa() {
+export function useMyManhwas() {
   return useQuery({
     queryKey: ["myManhwas"],
     queryFn: () => {

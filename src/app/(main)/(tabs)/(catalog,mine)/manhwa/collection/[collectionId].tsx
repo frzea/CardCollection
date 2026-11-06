@@ -3,8 +3,8 @@ import { useAddUserCard, useRemoveUserCard, useUploadCards } from "@/api/queries
 import { useCollectionById, useCollectionCards, useUserCards } from "@/api/queries/queries";
 import { CardModal } from "@/components/card-modal/card-modal";
 import { Card } from "@/components/card/card";
+import { QueryState } from "@/components/query-state/query-state";
 import { OwnedToggle } from "@/components/ui/owned-toggle/owned-toggle";
-import { colors } from "@/design-system/index";
 import { createStyles } from "@/design-system/styles/collections";
 import { useAuth } from "@/hooks/useAuth";
 import { useImagePicker } from "@/hooks/useImagePicker";
@@ -12,11 +12,10 @@ import { useIsMineTab } from "@/hooks/useIsMineTab";
 import { useRefresh } from "@/hooks/useRefresh";
 import { useTheme } from "@/hooks/useTheme";
 import { Cards } from "@/types/type";
-import Feather from "@expo/vector-icons/Feather";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
@@ -30,7 +29,7 @@ export default function CollectionPage() {
   const style = useMemo(() => createStyles(theme), [theme]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const { data: collectionInfo } = useCollectionById(collectionId);
-  const { data: collctionCards, isPending, isPaused, error, refetch } = useCollectionCards(collectionId);
+  const { data: collctionCards, isPaused, error, refetch } = useCollectionCards(collectionId);
   const maxCards = collectionInfo?.cards ?? 0;
   const freeSlots = Math.max(maxCards - (collctionCards ?? []).length, 0);
   const { images, pick, remove, reset } = useImagePicker({ multiple: true, selectionLimit: freeSlots });
@@ -156,38 +155,10 @@ export default function CollectionPage() {
     );
   }
 
-  if (isPending && isPaused) {
-    return (
-      <>
-        {header}
-        <View style={style.center}>
-          <Feather name="wifi-off" size={48} color={theme.iconColor} />
-          <Text style={style.errorText}>No connection. Data will load automatically.</Text>
-        </View>
-      </>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <>
-        {header}
-        <View style={style.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      </>
-    );
-  }
-
   return (
     <>
       {header}
-      <View style={style.center}>
-        <Text style={style.errorText}>Error: {error.message}</Text>
-        <TouchableOpacity onPress={() => refetch()} style={style.retryBtn}>
-          <Text style={style.retryText}>Refresh</Text>
-        </TouchableOpacity>
-      </View>
+      <QueryState error={error} isPaused={isPaused} onRetry={refetch} />
     </>
   );
 }
