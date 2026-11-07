@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { QueryState } from "../query-state/query-state";
 import { createStyles } from "./styles";
 
 export function ManhwaTitle({ id }: { id: string }) {
@@ -16,11 +17,35 @@ export function ManhwaTitle({ id }: { id: string }) {
   const { theme } = useTheme();
   const router = useRouter();
   const style = useMemo(() => createStyles(theme), [theme]);
-  const { data, error, isLoading } = useManhwa(id);
+  const { data, error, isLoading, isPaused, refetch } = useManhwa(id);
+
+  const siteBar = (
+    <View style={style.siteBar}>
+      <Text style={style.titleText}>Collections</Text>
+      {isAdmin && (
+        <TouchableOpacity
+          style={style.button}
+          activeOpacity={0.8}
+          onPress={() => router.push({ pathname: "/manhwa/new-collections", params: { id } })}
+        >
+          <Text>Create new</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
 
   if (isLoading) return <ActivityIndicator size="large" color={colors.primary} />;
 
-  if (error || !data) return null;
+  if (error || !data) {
+    return (
+      <>
+        <View style={style.container}>
+          <QueryState error={error} isPaused={isPaused} onRetry={refetch} />
+        </View>
+        {siteBar}
+      </>
+    );
+  }
 
   return (
     <>
@@ -35,18 +60,7 @@ export function ManhwaTitle({ id }: { id: string }) {
         <LinearGradient colors={["transparent", "rgba(0,0,0,0.9)"]} style={style.gradientOverlay} />
         <Text style={style.imageBgText}>{data.title.english || data.title.romaji}</Text>
       </View>
-      <View style={style.siteBar}>
-        <Text style={style.titleText}>Collections</Text>
-        {isAdmin && (
-          <TouchableOpacity
-            style={style.button}
-            activeOpacity={0.8}
-            onPress={() => router.push({ pathname: "/manhwa/new-collections", params: { id: id } })}
-          >
-            <Text>Create new</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      {siteBar}
     </>
   );
 }

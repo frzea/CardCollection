@@ -1,3 +1,4 @@
+import { useManhwa } from "@/api/queries/queries";
 import { CollectionsList } from "@/components/collections/collections";
 import { createStyles } from "@/design-system/styles/collections";
 import { useTheme } from "@/hooks/useTheme";
@@ -10,16 +11,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-screen";
 
 export default function ManhwaDetailScreen() {
-  const { id: manhwaId, name } = useLocalSearchParams<{ id: string; name: string }>();
+  const { id: manhwaId } = useLocalSearchParams<{ id: string }>();
   const { theme, colorScheme } = useTheme();
   const style = useMemo(() => createStyles(theme), [theme]);
+  const { data } = useManhwa(manhwaId);
 
   return (
     <>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Stack.Screen
         options={{
-          title: `Collection: ${name}`,
+          title: data?.title.english ?? "Manhwa.420",
           headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: theme.searchInput.background,

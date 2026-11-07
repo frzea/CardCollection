@@ -32,8 +32,8 @@ export default function NewManhwa() {
     defaultValues: { titleEn: "", titleRom: "", description: "", genres: "", averageScore: "", episodes: "" },
   });
 
-  const onSabmit = async (data: ManhwaFormOutput) => {
-    let coverImageUrl = "";
+  const onSubmit = async (data: ManhwaFormOutput) => {
+    let coverImageUrl = null;
 
     try {
       if (selectedImage) {
@@ -141,7 +141,7 @@ export default function NewManhwa() {
             style={[style.button, isSubmitting && style.buttonDisabled]}
             activeOpacity={0.8}
             disabled={isSubmitting}
-            onPress={handleSubmit(onSabmit, (errors) => console.log(errors))}
+            onPress={handleSubmit(onSubmit)}
           >
             {isSubmitting ? <ActivityIndicator color={colors.white} /> : <Text style={style.buttonText}>Create</Text>}
           </TouchableOpacity>

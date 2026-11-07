@@ -1,5 +1,5 @@
 import { resolveImageUrl } from "@/api/client";
-import { useCollection, useUserCards } from "@/api/queries/queries";
+import { useCollection, useManhwa, useUserCards } from "@/api/queries/queries";
 import { ManhwaTitle } from "@/components/manhwa-title/manhwa-title";
 import { OwnedToggle } from "@/components/ui/owned-toggle/owned-toggle";
 import { useIsMineTab } from "@/hooks/useIsMineTab";
@@ -22,9 +22,10 @@ export function CollectionsList({ manhwaId }: { manhwaId: string }) {
   const isMine = useIsMineTab();
   const [showAll, setShowAll] = useState(false);
   const ownedOnly = isMine && !showAll;
+  const { refetch: refetchManhwa } = useManhwa(manhwaId);
   const { data: collectionData, isPaused, error, refetch } = useCollection(manhwaId);
   const { data: userCards = [], isPending: isUserCardsPending, refetch: refetchUserCards } = useUserCards();
-  const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards()]));
+  const { isRefreshing, onRefresh } = useRefresh(() => Promise.all([refetch(), refetchUserCards(), refetchManhwa()]));
 
   const ownedCount = useMemo(
     () => new Map((collectionData ?? []).map((item) => [item.id, userCards.filter((uc) => uc.collectionId === item.id).length])),
@@ -41,7 +42,7 @@ export function CollectionsList({ manhwaId }: { manhwaId: string }) {
         onPress={() =>
           router.push({
             pathname: "/manhwa/collection/[collectionId]",
-            params: { collectionId: item.id, name: item.title, showAll: String(showAll) },
+            params: { collectionId: item.id, showAll: String(showAll) },
           })
         }
       >

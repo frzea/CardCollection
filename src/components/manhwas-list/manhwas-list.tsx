@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { QueryState } from "../query-state/query-state";
 import { createStyles } from "./styles";
 
-export function CardTitleList({ query }: { query: string }) {
+export function CatalogManhwas({ query }: { query: string }) {
   const { theme } = useTheme();
   const style = useStyles(createStyles);
   const insets = useSafeAreaInsets();
@@ -31,19 +31,7 @@ export function CardTitleList({ query }: { query: string }) {
   );
 
   const renderCard = ({ item }: { item: Manhwa }) => (
-    <TouchableOpacity
-      style={style.card}
-      activeOpacity={0.8}
-      onPress={() =>
-        router.push({
-          pathname: `/manhwa/[id]`,
-          params: {
-            id: item.id,
-            name: item.title.english || item.title.romaji,
-          },
-        })
-      }
-    >
+    <TouchableOpacity style={style.card} activeOpacity={0.8} onPress={() => router.push({ pathname: `/manhwa/[id]`, params: { id: item.id } })}>
       {item.coverImage.large ? (
         <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} contentFit="cover" transition={200} />
       ) : (

@@ -33,7 +33,7 @@ export function useCollectionById(collectionId: string) {
 export function useCollectionCards(collectionId: string) {
   return useQuery({
     queryKey: ["collectionCards", collectionId],
-    queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}`),
+    queryFn: () => apiFetch<Cards[]>(`cards?collectionId=${collectionId}&_sort=number&_order=asc`),
   });
 }
 

@@ -22,19 +22,7 @@ export function MyManhwasList() {
   const { isRefreshing, onRefresh } = useRefresh(refetch);
 
   const renderCard = ({ item }: { item: MyManhwa }) => (
-    <TouchableOpacity
-      style={style.card}
-      activeOpacity={0.8}
-      onPress={() =>
-        router.push({
-          pathname: `/manhwa/[id]`,
-          params: {
-            id: item.id,
-            name: item.title.english || item.title.romaji,
-          },
-        })
-      }
-    >
+    <TouchableOpacity style={style.card} activeOpacity={0.8} onPress={() => router.push({ pathname: `/manhwa/[id]`, params: { id: item.id } })}>
       {item.coverImage.large ? (
         <Image source={{ uri: resolveImageUrl(item.coverImage.large) }} style={style.cover} contentFit="cover" transition={200} />
       ) : (

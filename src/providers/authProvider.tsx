@@ -27,11 +27,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [status, setStatus] = useState<AuthStatus>("loading");
 
-  // При запуске: если токен сохранён, спрашиваем сервер, кто это
-  const checkAuth = useCallback(async () => {
-    setStatus("loading");
-    const token = await getToken();
-
+  const checkAuth = useCallback(async (token: string | null) => {
     if (!token) {
       setStatus("unauthenticated");
       return;
@@ -53,8 +49,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   }, []);
 
+  const retry = useCallback(async () => {
+    setStatus("loading");
+    await getToken().then(checkAuth);
+  }, [checkAuth]);
+
   useEffect(() => {
-    checkAuth();
+    getToken().then(checkAuth);
   }, [checkAuth]);
 
   // Если во время работы пришёл 401, выходим
@@ -88,5 +89,5 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const isLoggedIn = status === "authenticated";
   const isAdmin = user?.role === ADMIN_ROLE;
 
-  return <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, status, logIn, logOut, retry: checkAuth }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, status, logIn, logOut, retry }}>{children}</AuthContext.Provider>;
 }

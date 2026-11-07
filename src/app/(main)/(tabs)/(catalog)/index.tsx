@@ -1,4 +1,4 @@
-import { CardTitleList } from "@/components/manhwas-list/card-title-list";
+import { CatalogManhwas } from "@/components/manhwas-list/manhwas-list";
 import { SearchInput } from "@/components/ui/search-input/search-input";
 import { createStyles } from "@/design-system/styles/search-page";
 import { useAuth } from "@/hooks/useAuth";
@@ -26,7 +26,7 @@ export default function Catalog() {
               <Text>Create new</Text>
             </TouchableOpacity>
           )}
-          <CardTitleList query={query} />
+          <CatalogManhwas query={query} />
         </View>
       </SafeAreaView>
     </>

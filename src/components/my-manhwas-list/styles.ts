@@ -22,9 +22,11 @@ export const createStyles = (theme: Theme) =>
     },
     coverPlaceholder: {
       width: "25%",
+      height: 160,
       borderWidth: 2,
       borderStyle: "dashed",
       borderColor: theme.iconColor,
+      borderRadius: radius.sm,
       alignItems: "center",
       justifyContent: "center",
     },

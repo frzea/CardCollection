@@ -21,7 +21,7 @@ export { ErrorScreen as ErrorBoundary } from "@/components/error-screen/error-sc
 
 export default function CollectionPage() {
   const { isAdmin } = useAuth();
-  const { collectionId, name, showAll: showAllParam } = useLocalSearchParams<{ collectionId: string; name: string; showAll?: string }>();
+  const { collectionId, showAll: showAllParam } = useLocalSearchParams<{ collectionId: string; showAll?: string }>();
   const isMine = useIsMineTab();
   const [showAll, setShowAll] = useState(showAllParam === "true");
   const ownedOnly = isMine && !showAll;
@@ -108,7 +108,7 @@ export default function CollectionPage() {
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Stack.Screen
         options={{
-          title: `Collection: ${name}`,
+          title: collectionInfo?.title ?? "Collection.420",
           headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: theme.searchInput.background,

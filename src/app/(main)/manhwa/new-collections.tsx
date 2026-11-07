@@ -33,7 +33,7 @@ export default function NewCollection() {
     defaultValues: { title: "", description: "", cards: "", releaseDate: "" },
   });
 
-  const onSabmit = async (data: CollectionFormOutput) => {
+  const onSubmit = async (data: CollectionFormOutput) => {
     let coverImageUrl = "";
 
     try {
@@ -127,7 +127,7 @@ export default function NewCollection() {
             style={[style.button, isSubmitting && style.buttonDisabled]}
             activeOpacity={0.8}
             disabled={isSubmitting}
-            onPress={handleSubmit(onSabmit, (errors) => console.log(errors))}
+            onPress={handleSubmit(onSubmit)}
           >
             {isSubmitting ? <ActivityIndicator color={colors.white} /> : <Text style={style.buttonText}>Create</Text>}
           </TouchableOpacity>

@@ -54,21 +54,10 @@ interface UserCard {
   count: number;
 }
 
-interface UserCollection {
-  id: string;
-  userId: number;
-  collectionId: string;
-}
-
-type UserAuth = {
-  userId: number;
-  roleId: number;
-};
-
 type LoginResponse = {
   accessToken: string;
   user: User;
 };
 
-export type { Cards, Collections, LoginResponse, Manhwa, MyManhwa, User, UserAuth, UserCard, UserCollection };
+export type { Cards, Collections, LoginResponse, Manhwa, MyManhwa, User, UserCard };
 
