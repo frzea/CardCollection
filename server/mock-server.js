@@ -11,6 +11,9 @@ const db = router.db;
 const middlewares = jsonServer.defaults();
 const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_TTL = "7d"; // на этапе 2 (refresh) станет "15m"
+const ADMIN_ROLE = 1;
+const WRITE_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
+const PUBLIC_ROUTES = ["/auth/login", "/auth/register"];
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not set. Create server/.env");
@@ -74,7 +77,7 @@ server.use(jsonServer.bodyParser);
 
 // Middleware
 server.use((req, res, next) => {
-  if (req.method === "POST" && req.path === "/auth/login") return next();
+  if (req.method === "POST" && PUBLIC_ROUTES.includes(req.path)) return next();
 
   const token = getTokenFromRequest(req);
   const payload = token && verifyAccessToken(token);
@@ -83,6 +86,21 @@ server.use((req, res, next) => {
   }
 
   req.user = { id: payload.sub, role: payload.role };
+  next();
+});
+
+// Изменять каталог (манхвы, коллекции, карточки, картинки) может только админ.
+// Читать (GET) может любой залогиненный.
+server.use(["/manhwa", "/collections", "/cards", "/upload"], (req, res, next) => {
+  if (WRITE_METHODS.includes(req.method) && req.user.role !== ADMIN_ROLE) {
+    return res.status(403).json({ error: "Only for sa." });
+  }
+  next();
+});
+
+// Таблицу ролей клиент только читает (а скорее всего и это ему не нужно)
+server.use("/roles", (req, res, next) => {
+  if (req.method !== "GET") return res.sendStatus(403);
   next();
 });
 
@@ -114,6 +132,55 @@ server.post("/auth/login", async (req, res) => {
     }
 
     res.json({
+      accessToken: signAccessToken(user),
+      user: publicUser(user),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+server.post("/auth/register", async (req, res) => {
+  try {
+    const { login, name, password } = req.body;
+
+    if (typeof login !== "string" || typeof name !== "string" || typeof password !== "string") {
+      return res.status(400).json({ error: "Invalid field type" });
+    }
+
+    const cleanLogin = login.trim().toLowerCase();
+    const cleanName = name.trim();
+
+    if (!/^[a-z0-9_]{3,20}$/.test(cleanLogin)) {
+      return res.status(400).json({ error: "Login: 3–20 characters, Latin, numbers, _", field: "login" });
+    }
+
+    if (cleanName.length < 1 || cleanName.length > 50) {
+      return res.status(400).json({ error: "Name: 1 to 50 characters", field: "name" });
+    }
+
+    if (password.length < 6 || password.length > 72) {
+      return res.status(400).json({ error: "Password: 6 to 72 characters", field: "password" });
+    }
+
+    const exists = db.get("users").find({ login: cleanLogin }).value();
+    if (exists) {
+      return res.status(409).json({ error: "Password: 6 to 72 characters", field: "login" });
+    }
+
+    // id числом, как у остальных юзеров: с ним сравнивается userId в userCards
+    const ids = db.get("users").map("id").value();
+    const user = {
+      id: ids.length ? Math.max(...ids) + 1 : 1,
+      login: cleanLogin,
+      name: cleanName,
+      passwordHash: await bcrypt.hash(password, 10),
+      role: 2, // всегда обычный юзер, поле role из тела игнорируем
+    };
+    db.get("users").push(user).write(); // без write() юзер пропадёт после перезапуска
+
+    res.status(201).json({
       accessToken: signAccessToken(user),
       user: publicUser(user),
     });
