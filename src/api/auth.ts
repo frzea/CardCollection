@@ -2,6 +2,12 @@ import type { LoginResponse, User } from "@/types/type";
 import { apiFetch } from "./client";
 import { apiPOST } from "./events";
 
+// Создаем нового пользователя
+
+export function register(data: { login: string; name: string; password: string }) {
+  return apiPOST<LoginResponse>("/auth/register", data);
+}
+
 // Отправляет логин и пароль, возвращает токен и данные юзера
 export function login(data: { login: string; password: string }) {
   return apiPOST<LoginResponse>("/auth/login", data);

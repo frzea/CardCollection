@@ -3,6 +3,7 @@ import { FormInput } from "@/components/formInput";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthFormData, authSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "expo-router";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -43,6 +44,10 @@ export default function Login() {
       <Pressable style={[styles.button, isSubmitting && styles.buttonDisabled]} onPress={handleSubmit(onSubmit)} disabled={isSubmitting}>
         {isSubmitting ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Войти</Text>}
       </Pressable>
+
+      <Link href="/register" style={styles.link}>
+        Нет аккаунта? Зарегистрироваться
+      </Link>
     </View>
   );
 }
@@ -87,5 +92,11 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#fff",
     fontSize: 18,
+  },
+  link: {
+    color: "#378ADD", // тот же синий, что у кнопки
+    textAlign: "center",
+    fontSize: 15,
+    marginTop: 8,
   },
 });

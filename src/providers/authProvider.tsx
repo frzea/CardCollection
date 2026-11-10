@@ -1,5 +1,5 @@
 import { ApiError } from "@/api/api-error";
-import { getMe, login as loginRequest, logout as logoutRequest } from "@/api/auth";
+import { getMe, login as loginRequest, logout as logoutRequest, register as registerRequest } from "@/api/auth";
 import { setOnUnauthorized } from "@/api/axios-instance";
 import { getToken, removeToken, setToken } from "@/api/token-storage";
 import { User } from "@/types/type";
@@ -7,6 +7,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useCallback, useEffect, useState } from "react";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated" | "offline";
+
+type LoginResponse = {
+  login: string;
+  name: string;
+  password: string;
+};
 
 type AuthState = {
   user: User | null;
@@ -16,6 +22,7 @@ type AuthState = {
   logIn: (data: { login: string; password: string }) => Promise<void>;
   logOut: () => Promise<void>;
   retry: () => Promise<void>;
+  register: (data: LoginResponse) => Promise<void>;
 };
 
 const ADMIN_ROLE = 1;
@@ -67,6 +74,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
   }, [queryClient]);
 
+  const register = useCallback(async (data: LoginResponse) => {
+    const res = await registerRequest(data);
+    await setToken(res.accessToken);
+    setUser(res.user);
+    setStatus("authenticated");
+  }, []);
+
   const logIn = useCallback(async (data: { login: string; password: string }) => {
     const res = await loginRequest(data);
     await setToken(res.accessToken);
@@ -89,5 +103,5 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const isLoggedIn = status === "authenticated";
   const isAdmin = user?.role === ADMIN_ROLE;
 
-  return <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, status, logIn, logOut, retry }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAdmin, isLoggedIn, status, register, logIn, logOut, retry }}>{children}</AuthContext.Provider>;
 }

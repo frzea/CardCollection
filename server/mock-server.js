@@ -117,12 +117,12 @@ server.post("/upload", upload.single("file"), (req, res) => {
 server.post("/auth/login", async (req, res) => {
   try {
     const { login, password } = req.body;
-    if (!login || !password) {
+    if (typeof login !== "string" || typeof password !== "string") {
       return res.status(400).json({ error: "Нужны login и password" });
     }
 
-    const user = db.get("users").find({ login }).value();
-    if (!user) {
+    const user = db.get("users").find({ login: login.trim().toLowerCase() }).value();
+    if (!user || !user.passwordHash) {
       return res.status(401).json({ error: "Неверный логин или пароль" });
     }
 
@@ -166,7 +166,7 @@ server.post("/auth/register", async (req, res) => {
 
     const exists = db.get("users").find({ login: cleanLogin }).value();
     if (exists) {
-      return res.status(409).json({ error: "Password: 6 to 72 characters", field: "login" });
+      return res.status(409).json({ error: "Username is already taken", field: "login" });
     }
 
     // id числом, как у остальных юзеров: с ним сравнивается userId в userCards
