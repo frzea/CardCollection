@@ -1,19 +1,14 @@
 import { ApiError } from "@/api/api-error";
-import { apiDELETE, apiPATCH, apiPOST } from "@/api/events";
+import { apiDELETE, apiPOST } from "@/api/events";
 import { uploadImage } from "@/api/upload";
 import { Cards, Collections, Manhwa, UserCard } from "@/types/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Alert } from "react-native";
 
-type AddVars = { existing?: UserCard; cardId: string; collectionId: string };
-
 export function useAddUserCard() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ existing, cardId, collectionId }: AddVars) =>
-      existing
-        ? apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count + 1 })
-        : apiPOST<UserCard>("userCards", { collectionId, cardId, count: 1 }),
+    mutationFn: (cardId: string) => apiPOST<UserCard>(`me/cards/${cardId}`, {}),
     onSuccess: () =>
       Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
     onError: () => Alert.alert("Ошибка", "Не удалось добавить карточку"),
@@ -23,8 +18,7 @@ export function useAddUserCard() {
 export function useRemoveUserCard() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (existing: UserCard) =>
-      existing.count <= 1 ? apiDELETE(`userCards/${existing.id}`) : apiPATCH<UserCard>(`userCards/${existing.id}`, { count: existing.count - 1 }),
+    mutationFn: (cardId: string) => apiDELETE(`me/cards/${cardId}`),
     onSuccess: () =>
       Promise.all([queryClient.invalidateQueries({ queryKey: ["userCards"] }), queryClient.invalidateQueries({ queryKey: ["myManhwas"] })]),
     onError: () => Alert.alert("Ошибка", "Не удалось удалить карточку"),

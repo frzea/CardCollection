@@ -8,7 +8,7 @@ import { createContext, PropsWithChildren, useCallback, useEffect, useState } fr
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated" | "offline";
 
-type LoginResponse = {
+type RegisterData = {
   login: string;
   name: string;
   password: string;
@@ -22,7 +22,7 @@ type AuthState = {
   logIn: (data: { login: string; password: string }) => Promise<void>;
   logOut: () => Promise<void>;
   retry: () => Promise<void>;
-  register: (data: LoginResponse) => Promise<void>;
+  register: (data: RegisterData) => Promise<void>;
 };
 
 const ADMIN_ROLE = 1;
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
   }, [queryClient]);
 
-  const register = useCallback(async (data: LoginResponse) => {
+  const register = useCallback(async (data: RegisterData) => {
     const res = await registerRequest(data);
     await setToken(res.accessToken);
     setUser(res.user);

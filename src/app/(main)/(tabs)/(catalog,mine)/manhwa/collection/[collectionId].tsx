@@ -53,13 +53,12 @@ export default function CollectionPage() {
 
   function handleAdd() {
     if (!selectedCardId || isLock) return;
-    addCard.mutate({ existing: userCardByCardId.get(selectedCardId), cardId: selectedCardId, collectionId });
+    addCard.mutate(selectedCardId);
   }
 
   function handleRemove() {
     if (!selectedCardId || isLock) return;
-    const existing = userCardByCardId.get(selectedCardId);
-    if (existing) removeCard.mutate(existing);
+    if (userCardByCardId.has(selectedCardId)) removeCard.mutate(selectedCardId);
   }
 
   function uploadingCards() {

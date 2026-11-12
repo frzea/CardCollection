@@ -16,7 +16,7 @@ export default function Register() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { login: "", name: "", password: "" },
+    defaultValues: { login: "", name: "", password: "", passwordRepeat: "" },
   });
 
   const onSubmit = async ({ passwordRepeat, ...data }: RegisterFormData) => {
@@ -40,7 +40,7 @@ export default function Register() {
       <Text style={styles.title}>Registration</Text>
 
       <FormInput control={control} name="login" placeholder="Логин" style={styles.input} placeholderTextColor="#999" autoCapitalize="none" />
-      <FormInput control={control} name="name" placeholder="Имя" style={styles.input} placeholderTextColor="#999" autoCapitalize="none" />
+      <FormInput control={control} name="name" placeholder="Имя" style={styles.input} placeholderTextColor="#999" autoCapitalize="sentences" />
       <FormInput control={control} name="password" placeholder="Пароль" style={styles.input} placeholderTextColor="#999" secureTextEntry />
       <FormInput
         control={control}
@@ -57,7 +57,7 @@ export default function Register() {
         {isSubmitting ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Регистрация</Text>}
       </Pressable>
 
-      <Link href="/login" style={styles.link}>
+      <Link href="/login" replace style={styles.link}>
         Уже есть аккаунт? Войти
       </Link>
     </View>

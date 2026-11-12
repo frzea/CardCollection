@@ -253,6 +253,64 @@ server.get("/userCards", (req, res, next) => {
   next();
 });
 
+// Таблицу userCards напрямую можно только читать: менять — через /me/cards/:cardId
+server.use("/userCards", (req, res, next) => {
+  if (req.method !== "GET") return res.sendStatus(405);
+  next();
+});
+
+// +1 копия карточки. Клиент говорит только «какую карточку», остальное сервер считает сам
+server.post("/me/cards/:cardId", (req, res) => {
+  const card = db.get("cards").find({ id: req.params.cardId }).value();
+  if (!card) return res.status(404).json({ error: "Карточка не найдена" });
+
+  const collection = db.get("collections").find({ id: card.collectionId }).value();
+  if (!collection) return res.status(409).json({ error: "Коллекция карточки не найдена" });
+
+  const userCards = db.get("userCards");
+  // ищем по паре (юзер, карточка): так у одной карточки не бывает двух строк
+  const row = userCards.find({ userId: req.user.id, cardId: card.id }).value();
+
+  if (row) {
+    // +1 считает сервер от своего значения: два устройства не затрут друг друга
+    const updated = userCards
+      .find({ id: row.id })
+      .assign({ count: row.count + 1 })
+      .write();
+    return res.json(updated);
+  }
+
+  const ids = userCards.map("id").value();
+  const created = {
+    id: ids.length ? Math.max(...ids) + 1 : 1,
+    userId: req.user.id, // из токена
+    cardId: card.id,
+    collectionId: card.collectionId, // из карточки, а не из запроса
+    manhwaId: collection.manhwaId, // из коллекции
+    count: 1,
+  };
+  userCards.push(created).write();
+  res.status(201).json(created);
+});
+
+// −1 копия карточки. Последняя копия — удаляем строку
+server.delete("/me/cards/:cardId", (req, res) => {
+  const userCards = db.get("userCards");
+  const row = userCards.find({ userId: req.user.id, cardId: req.params.cardId }).value();
+  if (!row) return res.status(404).json({ error: "Этой карточки у тебя нет" });
+
+  if (row.count > 1) {
+    const updated = userCards
+      .find({ id: row.id })
+      .assign({ count: row.count - 1 })
+      .write();
+    return res.json(updated);
+  }
+
+  userCards.remove({ id: row.id }).write();
+  res.sendStatus(204);
+});
+
 server.use("/userCards/:id", (req, res, next) => {
   const row = db
     .get("userCards")
@@ -260,19 +318,6 @@ server.use("/userCards/:id", (req, res, next) => {
     .value();
   if (!row) return res.sendStatus(404);
   if (row.userId !== req.user.id) return res.sendStatus(403); // чужая запись
-  delete req.body.userId; // нельзя «передать» карточку другому через PATCH
-  delete req.body.manhwaId;
-  next();
-});
-
-server.post("/userCards", (req, res, next) => {
-  req.body.userId = req.user.id; // владелец — из токена, не из тела
-
-  // манхву определяет сервер по коллекции, а не берёт из тела
-  const collection = db.get("collections").find({ id: req.body.collectionId }).value();
-  if (!collection) return res.status(400).json({ error: "Коллекция не найдена" });
-  req.body.manhwaId = collection.manhwaId;
-
   next();
 });
 
@@ -298,6 +343,14 @@ server.get("/me/manhwas", (req, res) => {
     });
 
   res.json(result);
+});
+
+// json-server умеет больше, чем нужно приложению: вложенные маршруты и подгрузка связей обходят наши проверки
+server.use((req, res, next) => {
+  if ("_embed" in req.query || "_expand" in req.query) return res.sendStatus(400);
+  // приложению хватает /таблица и /таблица/:id — всё глубже запрещаем
+  if (req.path.split("/").filter(Boolean).length > 2) return res.sendStatus(404);
+  next();
 });
 
 server.use(router);

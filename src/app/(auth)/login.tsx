@@ -45,7 +45,7 @@ export default function Login() {
         {isSubmitting ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Войти</Text>}
       </Pressable>
 
-      <Link href="/register" style={styles.link}>
+      <Link href="/register" replace style={styles.link}>
         Нет аккаунта? Зарегистрироваться
       </Link>
     </View>

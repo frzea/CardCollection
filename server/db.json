@@ -479,108 +479,28 @@
   ],
   "userCards": [
     {
-      "manhwaId": "16498",
+      "id": 1,
+      "userId": 1,
+      "cardId": "0QI0TJB90OQ",
       "collectionId": "1",
+      "manhwaId": "16498",
+      "count": 2
+    },
+    {
+      "id": 2,
+      "userId": 1,
       "cardId": "XRUdB4yVUtA",
-      "count": 1,
-      "userId": 1,
-      "id": 1
-    },
-    {
+      "collectionId": "1",
       "manhwaId": "16498",
-      "collectionId": "1",
-      "cardId": "hrD0dnylHUI",
-      "count": 1,
-      "userId": 1,
-      "id": 2
+      "count": 1
     },
     {
-      "manhwaId": "HL1IpPL",
-      "collectionId": "ZN35K4E",
-      "cardId": "8rkaw8T",
-      "count": 1,
+      "id": 3,
       "userId": 1,
-      "id": 3
-    },
-    {
-      "collectionId": "1",
-      "cardId": "l76U4BhfQWo",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 4
-    },
-    {
-      "collectionId": "1",
       "cardId": "inwT8vmM3xg",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 5
-    },
-    {
       "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 1,
-      "userId": 1,
       "manhwaId": "16498",
-      "id": 6
-    },
-    {
-      "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 7
-    },
-    {
-      "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 8
-    },
-    {
-      "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 9
-    },
-    {
-      "collectionId": "1",
-      "cardId": "inwT8vmM3xg",
-      "count": 2,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 10
-    },
-    {
-      "collectionId": "1",
-      "cardId": "WdJDyQhINLM",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 11
-    },
-    {
-      "collectionId": "1",
-      "cardId": "NVcCKMKAW8k",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "16498",
-      "id": 12
-    },
-    {
-      "collectionId": "ZN35K4E",
-      "cardId": "GOsLxji",
-      "count": 1,
-      "userId": 1,
-      "manhwaId": "HL1IpPL",
-      "id": 13
+      "count": 1
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
