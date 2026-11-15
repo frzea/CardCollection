@@ -1,0 +1,21 @@
+info:
+  name: POST Cards
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{baseUrl}}/cards"
+  body:
+    type: json
+    data: '{"collectionId": "GJ-Lwvg", "image": "" }'
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

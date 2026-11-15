@@ -1,0 +1,28 @@
+info:
+  name: GET Cards
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: "{{baseUrl}}/cards?collectionId={{collectionId}}&_sort=number&_order=asc"
+  params:
+    - name: collectionId
+      value: "{{collectionId}}"
+      type: query
+    - name: _sort
+      value: number
+      type: query
+    - name: _order
+      value: asc
+      type: query
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

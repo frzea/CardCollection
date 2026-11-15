@@ -278,6 +278,7 @@ server.post("/me/cards/:cardId", (req, res) => {
       .assign({ count: row.count + 1 })
       .write();
     return res.json(updated);
+    // status 200
   }
 
   const ids = userCards.map("id").value();

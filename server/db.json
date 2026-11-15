@@ -240,6 +240,25 @@
       "averageScore": 95,
       "episodes": 2,
       "id": "HL1IpPL"
+    },
+    {
+      "id": "hJU8At2"
+    },
+    {
+      "title": {
+        "romaji": "Test",
+        "english": null
+      },
+      "description": "…",
+      "coverImage": {
+        "large": "/images/uploads/1794759894291-684912370.png"
+      },
+      "episodes": null,
+      "averageScore": null,
+      "genres": [
+        "Action"
+      ],
+      "id": "19cIBLe"
     }
   ],
   "collections": [
@@ -305,6 +324,19 @@
       "description": "Test image",
       "image": "",
       "id": "2DkdckC"
+    },
+    {
+      "manhwaId": "16498",
+      "releaseDate": "2026-11-15",
+      "id": "fDiBFOC"
+    },
+    {
+      "manhwaId": "16498",
+      "title": "TestPost",
+      "cards": 5,
+      "description": "nu vot",
+      "releaseDate": "2026-11-15",
+      "id": "GJ-Lwvg"
     }
   ],
   "cards": [
@@ -475,6 +507,12 @@
       "number": 3,
       "image": "/images/uploads/1790435525606-959235481.png",
       "id": "GOsLxji"
+    },
+    {
+      "collectionId": "GJ-Lwvg",
+      "image": "",
+      "number": 1,
+      "id": "cklKbl4"
     }
   ],
   "userCards": [

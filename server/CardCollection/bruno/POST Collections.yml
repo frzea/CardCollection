@@ -1,0 +1,23 @@
+info:
+  name: POST Collections
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{baseUrl}}/collections"
+  body:
+    type: json
+    data: |-
+      
+      {"manhwaId": "16498", "title":"TestPost","cards": 5, "description": "nu vot", "releaseDate": "2026-11-15"}
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,5 +1,5 @@
 info:
-  name: Login
+  name: POST Login
   type: http
   seq: 1
 
@@ -10,6 +10,11 @@ http:
     type: json
     data: '{"login": "guest", "password": "guest"}'
   auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setEnvVar("token", res.body.accessToken);
 
 settings:
   encodeUrl: true

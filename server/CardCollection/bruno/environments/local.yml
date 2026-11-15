@@ -1,0 +1,19 @@
+name: local
+variables:
+  - name: baseUrl
+    value: http://localhost:3001
+    description: ""
+  - name: imagePath
+    value: ""
+    description: ""
+  - name: manhwaId
+    value: "16498"
+    description: ""
+  - name: collectionId
+    value: GJ-Lwvg
+    description: ""
+  - name: cardId
+    value: cklKbl4
+    description: ""
+  - secret: true
+    name: token

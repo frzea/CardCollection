@@ -1,0 +1,18 @@
+info:
+  name: GET Roles
+  type: http
+  seq: 15
+
+http:
+  method: GET
+  url: "{{baseUrl}}/roles"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -54,12 +54,3 @@ export function useMyManhwas() {
     },
   });
 }
-
-export function useMyCollection() {
-  return useQuery({
-    queryKey: ["myCollections"],
-    queryFn: () => {
-      return apiFetch<MyManhwa[]>("me/collections");
-    },
-  });
-}

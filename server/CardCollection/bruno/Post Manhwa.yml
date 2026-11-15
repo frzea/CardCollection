@@ -1,14 +1,16 @@
 info:
-  name: Post Manhwa
+  name: POST Manhwa
   type: http
-  seq: 3
+  seq: 6
 
 http:
   method: POST
   url: "{{baseUrl}}/manhwa"
   body:
     type: json
-    data: "{}"
+    data: |-
+      { "title": { "romaji": "Test", "english": null }, "description": "…",
+        "coverImage": { "large": "{{imagePath}}" }, "episodes": null, "averageScore": null, "genres": ["Action"] }
   auth:
     type: bearer
     token: "{{token}}"

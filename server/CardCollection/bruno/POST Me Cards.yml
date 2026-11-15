@@ -1,0 +1,18 @@
+info:
+  name: POST Me Cards
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseUrl}}/me/cards/{{cardId}}"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

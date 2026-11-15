@@ -1,0 +1,31 @@
+info:
+  name: POST Upload
+  type: http
+  seq: 16
+
+http:
+  method: POST
+  url: "{{baseUrl}}/upload"
+  body:
+    type: multipart-form
+    data:
+      - name: file
+        type: file
+        value:
+          - C:\Users\dmitr\Desktop\Screenshot_1783181669.png
+        contentType: image/png
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setVar("imagePath", res.body.path);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
