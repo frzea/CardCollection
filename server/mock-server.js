@@ -1,5 +1,8 @@
-const path = require("path");
-const fs = require("fs");
+//const path = require("path");
+//const fs = require("fs");
+import { fs } from "node:fs";
+import { path } from "node:path";
+
 const jsonServer = require("json-server");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
