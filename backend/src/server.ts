@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import express from "express";
+import { z } from "zod";
 import { HttpError } from "./http-error.js";
-import { manhwaRouter } from "./router/manhwa.js";
+import { manhwaRouter } from "./routes/manhwa.js";
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 4000);
@@ -34,6 +35,11 @@ app.use((req, res) => {
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof HttpError) {
     res.status(err.status).json({ error: err.message });
+    return;
+  }
+
+  if (err instanceof z.ZodError) {
+    res.status(400).json({ error: err.issues[0].message });
     return;
   }
   console.error(err); // неожиданная ошибка — в лог, клиенту без подробностей
