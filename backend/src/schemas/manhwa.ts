@@ -6,9 +6,7 @@ const titleSchema = z.object({
   english: z.string().trim().min(4).nullable(),
 });
 
-const imageSchema = z.object({
-  large: z.string().nullable(),
-});
+const imageSchema = z.object({ large: z.string().nullable() });
 
 const manhwaBaseSchema = z.object({
   title: titleSchema,
@@ -20,17 +18,20 @@ const manhwaBaseSchema = z.object({
 });
 
 const createManhwaSchema = manhwaBaseSchema.extend({
-  title: titleSchema.extend({
-    english: titleSchema.shape.english.default(null),
-  }),
+  title: titleSchema.extend({ english: titleSchema.shape.english.default(null) }),
   coverImage: imageSchema.default({ large: null }),
   description: manhwaBaseSchema.shape.description.default(""),
   genres: manhwaBaseSchema.shape.genres.default([]),
 });
 
+const updateManhwaSchema = manhwaBaseSchema.partial();
+
 const listQuerySchema = z.object({
   search: z.string().trim().optional(),
 });
 
-export { createManhwaSchema, listQuerySchema, manhwaBaseSchema };
+export type CreateManhwaInput = z.infer<typeof createManhwaSchema>;
+export type UpdateManhwaInput = z.infer<typeof updateManhwaSchema>;
+
+export { createManhwaSchema, listQuerySchema, manhwaBaseSchema, updateManhwaSchema };
 
